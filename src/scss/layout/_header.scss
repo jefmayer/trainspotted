@@ -1,3 +1,36 @@
+header {
+  // border-bottom: .1rem dotted $dark;
+  padding: 2rem 0;
+  position: relative;
+  text-align: center;
+
+  &:before {
+    background: $background-color-light;
+    border-radius: 100%;
+    content: '';
+    height: 15rem;
+    left: 50%;
+    margin-left: -7.5rem;
+    position: absolute;
+    top: 5rem;
+    width: 15rem;
+    z-index: 1;
+  }
+}
+
 .app-logo {
-  display: none;
+  // display: none;
+  position: relative;
+  z-index: 2;
+}
+
+.app-title {
+  color: $dark;
+  font-family: $display-font;
+  font-size: 2.4rem;
+  padding: 1rem;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 2;
 }

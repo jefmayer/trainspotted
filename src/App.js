@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './img/logo.svg';
+import logo from './img/trainspotted-logo.svg';
 import './scss/App.scss';
 
 function App() {
@@ -7,9 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="app-logo" alt="logo" />
-        <div>
-          Trainspotted
-        </div>
+        <div className="app-title">Trainspotted</div>
       </header>
     </div>
   );

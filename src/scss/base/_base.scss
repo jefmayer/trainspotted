@@ -27,7 +27,7 @@ html {
 */
 
 body {
-  background: #fff;
+  background: $background-color;
   -moz-osx-font-smoothing: grayscale; /* stylelint-disable-line property-no-vendor-prefix */
   -webkit-font-smoothing: antialiased; /* stylelint-disable-line property-no-vendor-prefix */
   font-weight: normal;
