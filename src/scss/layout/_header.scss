@@ -5,7 +5,7 @@ header {
   text-align: center;
 
   &:before {
-    background: $background-color-light;
+    background: $highlight-color;
     border-radius: 100%;
     content: '';
     height: 15rem;
