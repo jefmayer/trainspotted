@@ -6,10 +6,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
+        <img src={logo} className="app-logo" alt="logo" />
+        <div>
           Trainspotted
-        </p>
+        </div>
       </header>
     </div>
   );

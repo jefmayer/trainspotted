@@ -66,3 +66,18 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### Customizations
+
+• Created .env with rule to get around babel version bs
+• Tied project to git/heroku
+• Added sass to project `npm install node-sass -S`
+• Manually converted css to scss files
+• Created scss, js, and img directories in src
+• Removed index.css and references to index.css in project
+• Ejected project and then followed steps in https://alligator.io/react/linting-react/ to add in linting
+• Copied over linting rules from Springs project
+• Installed `npm install eslint-config-airbnb` dependency
+• Edited serviceWorker.js to follow linting rules
+• Added `"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],` to linting rules
+
