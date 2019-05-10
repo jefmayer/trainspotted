@@ -49,8 +49,10 @@
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "semver": "6.0.0",
+    "stylelint": "^10.0.1",
     "style-loader": "0.23.1",
-    "stylelint-config-standard": "^18.3.0",
+    "stylelint-order": "^3.0.0",
+    "stylelint-scss": "^3.6.1",
     "terser-webpack-plugin": "1.2.3",
     "url-loader": "1.1.2",
     "webpack": "4.29.6",
@@ -121,8 +123,7 @@
     ],
     "watchPlugins": [
       "jest-watch-typeahead/filename",
-      "jest-watch-typeahead/testname",
-      "stylelint **/*.scss"
+      "jest-watch-typeahead/testname"
     ]
   },
   "babel": {
@@ -135,9 +136,6 @@
     "babel-loader": "^8.0.5",
     "eslint": "^5.16.0",
     "eslint-loader": "^2.1.2",
-    "eslint-plugin-react": "^7.12.4",
-    "stylelint": "^10.0.1",
-    "stylelint-order": "^3.0.0",
-    "stylelint-scss": "^3.6.1"
+    "eslint-plugin-react": "^7.12.4"
   }
 }
