@@ -16,7 +16,7 @@
 html {
   font-size: 10px; /* stylelint-disable-line unit-whitelist */
   height: 100%;
-  -webkit-text-size-adjust: 100%; /* stylelint-disable-line property-no-vendor-prefix */ // Prevent adjustments of font size after orientation changes in iOS.
+  -webkit-text-size-adjust: 100%; /* stylelint-disable-line property-no-vendor-prefix */
 }
 
 /* Sections
@@ -27,7 +27,7 @@ html {
 */
 
 body {
-  background: $background-color;
+  background: $background-color-light;
   -moz-osx-font-smoothing: grayscale; /* stylelint-disable-line property-no-vendor-prefix */
   -webkit-font-smoothing: antialiased; /* stylelint-disable-line property-no-vendor-prefix */
   font-weight: normal;
