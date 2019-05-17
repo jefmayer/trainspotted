@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 
 const Entry = ({ entry }) => (
   <div>
-    {entry.date}
+    {
+      entry.engines.map(engine => (
+        <div>
+          { engine.number }
+        </div>
+      ))
+    }
   </div>
 );
 

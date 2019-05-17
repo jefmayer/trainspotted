@@ -22,6 +22,7 @@ class Chart extends Component {
 
   render() {
     const { entries } = this.state;
+    const dates = [...new Set(entries.map(entry => entry.date))];
 
     return (
       <div className="container train-chart">
@@ -43,7 +44,19 @@ class Chart extends Component {
         </div>
         <div>
           {
-            entries.map(entry => <Entry key={entry._id} entry={entry} />) /* eslint-disable-line no-underscore-dangle */
+            dates.map(date => (
+              <div key={date}>
+                { date }
+                {
+                  entries.map((entry) => {
+                    if (entry.date === date) {
+                      return <Entry key={entry._id} entry={entry} />; /* eslint-disable-line no-underscore-dangle */
+                    }
+                    return '';
+                  })
+                }
+              </div>
+            ))
           }
         </div>
       </div>
