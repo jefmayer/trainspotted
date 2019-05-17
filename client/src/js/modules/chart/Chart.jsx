@@ -1,27 +1,27 @@
 /* eslint-disable react/prefer-stateless-function, no-console */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Entry from './Entry';
 
 class Chart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      entries: [],
+    };
+  }
+
+  componentDidMount() {
+    this.getEntries();
+  }
+
+  getEntries() {
+    fetch('/getRecords')
+      .then(res => res.json())
+      .then(entries => this.setState({ entries }));
+  }
+
   render() {
-    const {
-      data,
-    } = this.props;
-
-    const entires = [];
-    let lastDate = null;
-
-    data.forEach((entry) => {
-      if (entry.date !== lastDate) {
-        // Test
-      }
-      console.log(entry.date);
-      entires.push(
-        <Entry entry={entry} key={entry.id.$oid} />,
-      );
-      lastDate = entry.date;
-    });
+    const { entries } = this.state;
 
     return (
       <div className="container train-chart">
@@ -42,16 +42,14 @@ class Chart extends Component {
           </ul>
         </div>
         <div>
-          {data.map(entry => <Entry key={entry.id.$oid} entry={entry} />)}
+          {
+            entries.map(entry => <Entry key={entry._id} entry={entry} />) /* eslint-disable-line no-underscore-dangle */
+          }
         </div>
       </div>
     );
   }
 }
-
-Chart.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.object),
-};
 
 export default Chart;
 /* eslint-enable react/prefer-stateless-function, no-console */
