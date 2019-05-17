@@ -1,4 +1,4 @@
-/* eslint-disable react/prefer-stateless-function, no-console */
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import Entry from './Entry';
 
@@ -26,7 +26,7 @@ class Chart extends Component {
 
     return (
       <div className="container train-chart">
-        <div className="x-axis-header">
+        <div className="x-axis-header clearfix">
           <ul>
             <li>12 AM</li>
             <li>2 AM</li>
@@ -42,19 +42,23 @@ class Chart extends Component {
             <li>10 PM</li>
           </ul>
         </div>
-        <div>
+        <div className="time-table">
           {
             dates.map(date => (
-              <div key={date}>
-                { date }
-                {
-                  entries.map((entry) => {
-                    if (entry.date === date) {
-                      return <Entry key={entry._id} entry={entry} />; /* eslint-disable-line no-underscore-dangle */
-                    }
-                    return '';
-                  })
-                }
+              <div className="date-line" key={date}>
+                <div className="date-display">
+                  {date}
+                </div>
+                <div className="entries-for-date">
+                  {
+                    entries.map((entry) => {
+                      if (entry.date === date) {
+                        return <Entry key={entry._id} entry={entry} />; /* eslint-disable-line no-underscore-dangle */
+                      }
+                      return '';
+                    })
+                  }
+                </div>
               </div>
             ))
           }
@@ -65,4 +69,4 @@ class Chart extends Component {
 }
 
 export default Chart;
-/* eslint-enable react/prefer-stateless-function, no-console */
+/* eslint-enable no-console */

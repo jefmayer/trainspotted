@@ -1,14 +1,71 @@
+.train-chart {
+  position: relative;  
+}
+
 .x-axis-header {
 
   ul {
     margin-left: 8rem;
 
     li {
+      // border-bottom: .1rem solid $dark;
       float: left;
       font-family: $serif-font;
       font-size: .8rem;
       text-align: center;
       width: calc(100% / 12);
+
+      &::before {
+        border-left: .1rem dotted $dark;
+        content: '';
+        height: 100%;
+        margin-left: 1rem;
+        position: absolute;
+        top: 1.5rem;
+      }
     }
+  }
+}
+
+.time-table {
+  margin-top: 1rem;
+}
+
+.date-line {
+  padding: 1rem 0;
+  position: relative;
+}
+
+.date-line:nth-child(even) {
+  background: $background-color-50;
+}
+
+.date-display {
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.entries-for-date {
+  align-items: flex-start;
+  display: flex;
+  margin-left: 8rem;
+  position: relative;
+}
+
+.engine-manifest {
+  position: relative;
+  z-index: 2;
+
+  .engine-number {
+    border: .2rem solid $highlight-color;
+    border-radius: 1rem;
+    background: $background-color-light;
+    clear: both;
+    cursor: default;
+    float: left;
+    font-family: $san-serif-font;
+    margin-bottom: .2rem;
+    padding: .2rem 1rem;
   }
 }
