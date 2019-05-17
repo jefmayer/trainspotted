@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import Chart from './js/modules/chart/Chart';
 import logo from './img/trainspotted-logo.svg';
@@ -50,6 +51,28 @@ const data = [
   },
 ];
 
+function getData() {
+  console.log('getData');
+  // let requesting = true;
+  const request = new XMLHttpRequest();
+  request.open('GET', '/getRecords', true);
+
+  request.onload = () => {
+    if (request.status >= 200 && request.status < 400) {
+      // requesting = false;
+      // console.log(JSON.parse(request.responseText));
+      console.log(request.status);
+      console.log(request.responseText);
+    } else {
+      console.log(request.responseText);
+      console.warn('App.js, getData : error');
+    }
+  };
+  request.send();
+}
+
+getData();
+
 function App() {
   return (
     <div className="App">
@@ -63,3 +86,4 @@ function App() {
 }
 
 export default App;
+/* eslint-enable no-console */

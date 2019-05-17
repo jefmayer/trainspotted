@@ -1,0 +1,14 @@
+.x-axis-header {
+
+  ul {
+    margin-left: 8rem;
+
+    li {
+      float: left;
+      font-family: $serif-font;
+      font-size: .8rem;
+      text-align: center;
+      width: calc(100% / 12);
+    }
+  }
+}

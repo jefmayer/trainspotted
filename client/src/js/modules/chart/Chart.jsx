@@ -24,7 +24,7 @@ class Chart extends Component {
     });
 
     return (
-      <div className="train-chart">
+      <div className="container train-chart">
         <div className="x-axis-header">
           <ul>
             <li>12 AM</li>
@@ -41,7 +41,9 @@ class Chart extends Component {
             <li>10 PM</li>
           </ul>
         </div>
-        <div>{data.map(entry => <Entry key={entry.id.$oid} entry={entry} />)}</div>
+        <div>
+          {data.map(entry => <Entry key={entry.id.$oid} entry={entry} />)}
+        </div>
       </div>
     );
   }
