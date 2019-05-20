@@ -13,7 +13,7 @@
       font-family: $serif-font;
       font-size: .8rem;
       text-align: center;
-      width: calc(100% / 12);
+      width: calc(100% / 13);
 
       &::before {
         border-left: .1rem dotted $dark;
@@ -49,12 +49,14 @@
 .entries-for-date {
   align-items: flex-start;
   display: flex;
-  margin-left: 8rem;
+  margin-left: calc(8rem + 100% / 26);
   position: relative;
 }
 
 .engine-manifest {
-  position: relative;
+  left: 0;
+  position: absolute;
+  top: 0;
   z-index: 2;
 
   .engine-number {

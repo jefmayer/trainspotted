@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
-import Entry from './Entry';
+import EntriesForDate from './EntriesForDate';
 
 class Chart extends Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class Chart extends Component {
   }
 
   getEntries() {
-    fetch('/getRecords')
+    fetch('/getEntries')
       .then(res => res.json())
       .then(entries => this.setState({ entries }));
   }
@@ -25,7 +25,7 @@ class Chart extends Component {
     const dates = [...new Set(entries.map(entry => entry.date))];
 
     return (
-      <div className="container train-chart">
+      <div className="train-chart">
         <div className="x-axis-header clearfix">
           <ul>
             <li>12 AM</li>
@@ -40,6 +40,7 @@ class Chart extends Component {
             <li>6 PM</li>
             <li>8 PM</li>
             <li>10 PM</li>
+            <li>12 AM</li>
           </ul>
         </div>
         <div className="time-table">
@@ -49,16 +50,7 @@ class Chart extends Component {
                 <div className="date-display">
                   {date}
                 </div>
-                <div className="entries-for-date">
-                  {
-                    entries.map((entry) => {
-                      if (entry.date === date) {
-                        return <Entry key={entry._id} entry={entry} />; /* eslint-disable-line no-underscore-dangle */
-                      }
-                      return '';
-                    })
-                  }
-                </div>
+                <EntriesForDate date={date} entries={entries} />
               </div>
             ))
           }

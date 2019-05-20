@@ -24,11 +24,11 @@ express()
   .use(bodyParser.urlencoded({ extended: false }))
   .use(bodyParser.json())
   .get('/', (req, res) => res.render('client/build/index.html'))
-  .get('/getRecords', function(req, res) {
+  .get('/getEntries', function(req, res) {
     co(function * () {
       const db = yield MongoClient.connect(url)
       console.log('Connected successfully to server')
-      res.end(JSON.stringify(yield find(db, 'trains')))
+      res.end(JSON.stringify(yield find(db, 'entries')))
       db.close()
     }).catch(err => console.log(err))
   })
@@ -46,7 +46,7 @@ express()
         notes: req.body.notes
       }
       console.log(doc)
-      console.log(dbo.collection('trains').updateOne(
+      console.log(dbo.collection('entries').updateOne(
         { date: req.body.date },
         { $set: doc },
         { upsert: true }

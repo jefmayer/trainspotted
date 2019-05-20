@@ -24,12 +24,8 @@ class Entry extends Component {
     const pct = ((arr[0] * 3600 + parseInt(arr[1], 10) * 60) / 864).toFixed(2);
     console.log(pct);
     // Set all items to same position from the edge
-    const offLeft = this.divRef.current.offsetLeft;
-    if (offLeft > 0) {
-      this.divRef.current.setAttribute('style', `margin-left:calc(${pct}% - ${(offLeft + 3)}px);`);
-    } else {
-      this.divRef.current.setAttribute('style', `margin-left:${pct}%;`);
-    }
+    // const offLeft = this.divRef.current.offsetLeft;
+    this.divRef.current.setAttribute('style', `margin-left:${pct}%;`);
   }
 
   render() {
