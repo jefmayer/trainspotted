@@ -40,7 +40,6 @@ class Chart extends Component {
             <li>6 PM</li>
             <li>8 PM</li>
             <li>10 PM</li>
-            <li>12 AM</li>
           </ul>
         </div>
         <div className="time-table">
@@ -48,7 +47,7 @@ class Chart extends Component {
             dates.map(date => (
               <div className="date-line" key={date}>
                 <div className="date-display">
-                  {date}
+                  {date.split('/')[1]}
                 </div>
                 <EntriesForDate date={date} entries={entries} />
               </div>

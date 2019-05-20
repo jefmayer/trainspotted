@@ -27,8 +27,17 @@ express()
   .get('/getEntries', function(req, res) {
     co(function * () {
       const db = yield MongoClient.connect(url)
+      const entries = yield find(db, 'entries')
+      const lines= yield find(db, 'trainlines')
+      entries.map((entry) => {
+        entry.engines.map((engine) => {
+          const matchedLine = lines.find(line => line.name === engine.line)
+          engine.color = matchedLine.color
+        })
+      })
       console.log('Connected successfully to server')
-      res.end(JSON.stringify(yield find(db, 'entries')))
+      // res.end(JSON.stringify(yield find(db, 'entries')))
+      res.end(JSON.stringify(entries))
       db.close()
     }).catch(err => console.log(err))
   })
@@ -58,7 +67,7 @@ express()
   .post('/login', function(req, res) {
     co(function * () {
       const db = yield MongoClient.connect(url)
-      var arr = yield find(db, 'users');
+      const arr = yield find(db, 'users')
       for (var i = 0; i <arr.length; i++) {
         if (arr[i].username === req.body.username && arr[i].password === req.body.password) {
           res.end(JSON.stringify([{"success": "success"}]))

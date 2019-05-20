@@ -11,7 +11,6 @@ class EntriesForDate extends Component {
   }
 
   componentDidMount() {
-    console.log(this.divRef);
     this.divRef.current.setAttribute('style', `height:${this.entryHeight}px;`);
   }
 
