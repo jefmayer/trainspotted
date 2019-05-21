@@ -28,26 +28,27 @@ class Chart extends Component {
       <div className="train-chart">
         <div className="x-axis-header clearfix">
           <ul>
-            <li>12 AM</li>
-            <li>2 AM</li>
-            <li>4 AM</li>
-            <li>6 AM</li>
-            <li>8 AM</li>
-            <li>10 AM</li>
-            <li>12 PM</li>
-            <li>2 PM</li>
-            <li>4 PM</li>
-            <li>6 PM</li>
-            <li>8 PM</li>
-            <li>10 PM</li>
+            <li><span>12 AM</span></li>
+            <li><span>2 AM</span></li>
+            <li><span>4 AM</span></li>
+            <li><span>6 AM</span></li>
+            <li><span>8 AM</span></li>
+            <li><span>10 AM</span></li>
+            <li><span>12 PM</span></li>
+            <li><span>2 PM</span></li>
+            <li><span>4 PM</span></li>
+            <li><span>6 PM</span></li>
+            <li><span>8 PM</span></li>
+            <li><span>10 PM</span></li>
           </ul>
         </div>
         <div className="time-table">
+          <div className="month-bar" />
           {
             dates.map(date => (
               <div className="date-line" key={date}>
                 <div className="date-display">
-                  {date.split('/')[1]}
+                  <span>{date.split('/')[1]}</span>
                 </div>
                 <EntriesForDate date={date} entries={entries} />
               </div>

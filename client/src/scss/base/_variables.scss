@@ -1,11 +1,16 @@
 $display-font: 'Archivo Black', Helvetica, Arial, Roboto, sans-serif;
-$serif-font: 'Frank Ruhl Libre', Helvetica, Arial, Roboto, sans-serif;
 $san-serif-font: 'Work Sans', Helvetica, Arial, Roboto, sans-serif;
 
-$background-color: #d1d1c5;
-$background-color-light: #e5e5d9;
-$background-color-50: rgba(255,255,255,.15);
-$highlight-color: #e9d37d;
-// $highlight-color: #ff5e38;
-$dark: #282826;
-$white: #fff;
+$background-color: rgb(209,209,197);
+$background-color-light: rgb(229,229,217);
+$highlight-color: rgb(233,211,125);
+$highlight-color-25: rgba(233,211,125,.25);
+$dark: rgb(40,40,38);
+$dark-15: rgba(40,40,38,.15);
+$dark-25: rgba(40,40,38,.25);
+$dark-50: rgba(40,40,38,.5);
+$white: rgb(255,255,255);
+$white-15: rgba(255,255,255,.15);
+$white-50: rgba(255,255,255,.50);
+
+$base-shadow: 0 .1rem .2rem 0 $dark-15;
