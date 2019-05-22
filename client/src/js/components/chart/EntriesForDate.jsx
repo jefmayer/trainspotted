@@ -24,7 +24,7 @@ class EntriesForDate extends Component {
           entries.map((entry) => {
             if (entry.date === date) {
               if (this.entryHeight < 20 * entry.engines.length) {
-                this.entryHeight = 20 * entry.engines.length;
+                this.entryHeight = 20 * (entry.engines.length + 1);
               }
               return <Entry key={entry._id} entry={entry} />; /* eslint-disable-line no-underscore-dangle */
             }

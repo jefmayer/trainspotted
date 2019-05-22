@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable prefer-destructuring, no-console */
 import React, { Component } from 'react';
 import EntriesForDate from './EntriesForDate';
 
@@ -7,11 +7,20 @@ class Chart extends Component {
     super(props);
     this.state = {
       entries: [],
+      activeDataSet: {},
     };
   }
 
   componentDidMount() {
     this.getEntries();
+  }
+
+  onEntryClick(data) {
+    this.setState({
+      activeDataSet: data,
+    });
+    const { activeDataSet } = this.state;
+    console.log(activeDataSet);
   }
 
   getEntries() {
@@ -21,8 +30,22 @@ class Chart extends Component {
   }
 
   render() {
-    const { entries } = this.state;
+    const { entries, activeDataSet } = this.state;
     const dates = [...new Set(entries.map(entry => entry.date))];
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
 
     return (
       <div className="train-chart">
@@ -47,10 +70,17 @@ class Chart extends Component {
           {
             dates.map(date => (
               <div className="date-line" key={date}>
+                <div className="month-display">
+                  <span>{`${months[date.split('/')[0] - 1]} ${date.split('/')[2]}`}</span>
+                </div>
                 <div className="date-display">
                   <span>{date.split('/')[1]}</span>
                 </div>
-                <EntriesForDate date={date} entries={entries} />
+                <EntriesForDate
+                  date={date}
+                  entries={entries}
+                  onClick={activeDataSet}
+                />
               </div>
             ))
           }
@@ -61,4 +91,4 @@ class Chart extends Component {
 }
 
 export default Chart;
-/* eslint-enable no-console */
+/* eslint-enable prefer-destructuring, no-console */

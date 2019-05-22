@@ -54,6 +54,13 @@
   &:hover::before {
     background: $white-50 !important;
   }
+
+  &:hover {
+
+    .date-display::after {
+      transform: rotate(45deg) scale(1.15);
+    }
+  }
 }
 
 .date-line:nth-child(even) {
@@ -71,14 +78,19 @@
   top: 2.3rem;
   width: 1.5rem;
   z-index: 10;
+}
 
-  .month-display {
-    color: $white;
-    font-family: $san-serif-font;
-    font-size: 1rem;
-    font-weight: 600;
-    transform: rotate(90deg);
-  }
+.month-display {
+  color: $dark;
+  font-family: $san-serif-font;
+  font-size: .8rem;
+  font-weight: 700;
+  left: -1.5rem;
+  position: absolute;
+  text-transform: uppercase;
+  top: -.5rem;
+  transform: rotate(-90deg) translate(-50%,0);
+  z-index: 10;
 }
 
 .date-display {  
@@ -108,7 +120,8 @@
     right: -2.2rem;
     position: absolute;
     top: -2.2rem;
-    transform: rotate(45deg);
+    transform: rotate(45deg) scale(1);
+    transition: transform .1s linear;
     width: 4.4rem;
   }
 
@@ -140,25 +153,32 @@
   cursor: pointer;
   left: 0;
   position: absolute;
+  transform: translateY(0);
   top: 0;
+  transition: transform .15s linear;
   z-index: 2;
 
-  &::before {
-    background: $white;
-    border-radius: .2rem;
-    box-shadow: $base-shadow;
-    content: '';
-    height: calc(100% + 2.4rem);
-    left: -1rem;
-    opacity: 0;
-    position: absolute;
-    top: -.4rem;
-    transition: opacity .1s linear;
-    width: calc(100% + 2rem);;
+  &:hover {
+    transform: translateY(-5px);
   }
 
-  &:hover::before {
-    opacity: 1;
+  &::after {
+    background: $dark;
+    border-radius: 1rem;
+    clear: both;
+    color: $white;
+    content: '...';
+    float: left;
+    font-family: $san-serif-font;
+    font-weight: 500;
+    padding: .2rem .8rem .3rem;
+    text-align: center;
+    transform: scale(0,0);
+    transition: all .15s ease-in-out .1s;
+  }
+
+  &:hover::after {
+    transform: scale(1,1);
   }
 
   .engine-number {
