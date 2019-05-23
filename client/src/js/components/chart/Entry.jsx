@@ -1,6 +1,9 @@
 /* eslint-disable prefer-destructuring, no-console */
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { showDetail } from '../../actions';
 
 class Entry extends Component {
   constructor(props) {
@@ -25,10 +28,10 @@ class Entry extends Component {
   }
 
   render() {
-    const { entry } = this.props;
+    const { entry, dispatch } = this.props;
 
     function onEntryClick() {
-      console.log('onEntryClick');
+      dispatch(showDetail(entry._id)); /* eslint-disable-line no-underscore-dangle */
     }
 
     return (
@@ -55,7 +58,17 @@ Entry.propTypes = {
     time: PropTypes.string.isRequired,
     engines: PropTypes.arrayOf(PropTypes.object),
   }),
+  dispatch: PropTypes.func.isRequired,
 };
 
-export default Entry;
+const mapDispatchToProps = dispatch => { /* eslint-disable-line arrow-parens, arrow-body-style */
+  return bindActionCreators(
+    {
+      showDetail,
+    },
+    dispatch,
+  );
+};
+
+export default connect(mapDispatchToProps)(Entry);
 /* eslint-enable prefer-destructuring, no-console */

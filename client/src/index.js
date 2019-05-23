@@ -8,14 +8,6 @@ import { createLogger } from 'redux-logger';
 import reducer from './js/reducers';
 import App from './js/containers/App';
 
-/* const initialState = {
-  entires: [],
-  entryDetailId: '',
-};
-// const store = createStore(rootReducer, initialState); */
-// console.log(store.getState());
-
-
 const middleware = [thunk];
 if (process.env.NODE_ENV !== 'production') {
   middleware.push(createLogger());
@@ -25,6 +17,8 @@ const store = createStore(
   reducer,
   applyMiddleware(...middleware),
 );
+
+console.log(store.getState());
 
 ReactDOM.render(
   <Provider store={store}>

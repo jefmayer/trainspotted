@@ -3,10 +3,12 @@ import { combineReducers } from 'redux';
 import {
   REQUEST_ENTRIES,
   RECEIVE_ENTRIES,
+  SHOW_DETAIL,
+  HIDE_DETAIL,
 } from '../actions';
 
 
-const entryDataReducer = (state = {
+const entryData = (state = {
   isFetching: false,
   items: [],
 }, action) => {
@@ -21,7 +23,28 @@ const entryDataReducer = (state = {
         ...state,
         isFetching: false,
         items: action.data,
-        lastUpdated: action.receivedAt,
+      };
+    default:
+      return state;
+  }
+};
+
+const entryDetail = (state = {
+  isOpen: false,
+  id: '',
+}, action) => {
+  switch (action.type) {
+    case SHOW_DETAIL:
+      return {
+        ...state,
+        isOpen: true,
+        id: action.data,
+      };
+    case HIDE_DETAIL:
+      return {
+        ...state,
+        isOpen: false,
+        id: action.data,
       };
     default:
       return state;
@@ -29,7 +52,8 @@ const entryDataReducer = (state = {
 };
 
 const rootReducer = combineReducers({
-  entryDataReducer,
+  entryData,
+  entryDetail,
 });
 
 export default rootReducer;

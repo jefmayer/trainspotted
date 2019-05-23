@@ -15,34 +15,45 @@ class App extends Component {
   }
 
   render() {
-    const { entries } = this.props;
+    const { entries, isOpen, detailId } = this.props;
     return (
       <div className="App">
         <header className="app-header">
           <img src={logo} className="app-logo" alt="logo" />
           <div className="app-title">Trainspotted</div>
         </header>
-        <Chart entries={entries} />
-        <Detail />
+        <Chart
+          entries={entries}
+        />
+        {isOpen
+          && <Detail />
+        }
+        <div>{detailId}</div>
       </div>
     );
   }
 }
 
 App.propTypes = {
+  detailId: PropTypes.string,
+  isOpen: PropTypes.bool,
   entries: PropTypes.arrayOf(PropTypes.object),
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const { entryDataReducer } = state;
+  const { entryData, entryDetail } = state;
   const {
     items: entries,
-  } = entryDataReducer || {
-    items: [],
-  };
+  } = entryData;
+  const {
+    id: detailId, /* eslint-disable-line no-unused-vars */
+    isOpen, /* eslint-disable-line no-unused-vars */
+  } = entryDetail;
   return {
     entries,
+    detailId,
+    isOpen,
   };
 };
 
