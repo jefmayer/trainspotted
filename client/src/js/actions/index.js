@@ -1,48 +1,21 @@
 /* eslint-disable no-console */
-export const REQUEST_POSTS = 'REQUEST_ENTRIES';
-export const RECEIVE_POSTS = 'RECEIVE_ENTRIES';
-export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT';
+export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
+export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
 
-export const invalidateSubreddit = subreddit => ({
-  type: INVALIDATE_SUBREDDIT,
-  subreddit,
+export const requestEntries = () => ({
+  type: REQUEST_ENTRIES,
 });
 
-export const requestPosts = subreddit => ({
-  type: REQUEST_POSTS,
-  subreddit,
-});
-
-export const receivePosts = (subreddit, json) => ({
-  type: RECEIVE_POSTS,
-  subreddit,
-  posts: json,
+export const receiveEntries = json => ({
+  type: RECEIVE_ENTRIES,
+  data: json,
   receivedAt: Date.now(),
 });
 
-export const fetchPosts = subreddit => dispatch => { /* eslint-disable-line arrow-parens */
-  dispatch(requestPosts(subreddit));
+export const fetchEntries = () => dispatch => { /* eslint-disable-line arrow-parens */
+  dispatch(requestEntries());
   return fetch('/getEntries')
     .then(response => response.json())
-    .then(json => dispatch(receivePosts(subreddit, json)));
+    .then(json => dispatch(receiveEntries(json)));
 };
-
-const shouldFetchPosts = (state, subreddit) => {
-  const posts = state.postsBySubreddit[subreddit];
-  if (!posts) {
-    return true;
-  }
-  if (posts.isFetching) {
-    return false;
-  }
-  return posts.didInvalidate;
-};
-
-export const fetchPostsIfNeeded = subreddit => (dispatch, getState) => {
-  if (shouldFetchPosts(getState(), subreddit)) {
-    return dispatch(fetchPosts(subreddit));
-  }
-  return '';
-};
-
 /* eslint-enable no-console */

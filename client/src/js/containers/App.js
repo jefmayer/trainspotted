@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPostsIfNeeded } from '../actions';
+import { fetchEntries } from '../actions';
 import Chart from '../components/chart/Chart';
 import Detail from '../components/detail/Detail';
 import logo from '../../img/trainspotted-logo.svg';
@@ -11,18 +11,18 @@ import '../../scss/App.scss';
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchPostsIfNeeded());
+    dispatch(fetchEntries());
   }
 
   render() {
-    const { posts } = this.props;
+    const { entries } = this.props;
     return (
       <div className="App">
         <header className="app-header">
           <img src={logo} className="app-logo" alt="logo" />
           <div className="app-title">Trainspotted</div>
         </header>
-        <Chart entries={posts} />
+        <Chart entries={entries} />
         <Detail />
       </div>
     );
@@ -30,19 +30,19 @@ class App extends Component {
 }
 
 App.propTypes = {
-  posts: PropTypes.arrayOf(PropTypes.object),
+  entries: PropTypes.arrayOf(PropTypes.object),
   dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
-  const { postsBySubreddit } = state;
+  const { entryDataReducer } = state;
   const {
-    items: posts,
-  } = postsBySubreddit || { /* eslint-disable-line dot-notation */
+    items: entries,
+  } = entryDataReducer || {
     items: [],
   };
   return {
-    posts,
+    entries,
   };
 };
 

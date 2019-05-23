@@ -1,35 +1,26 @@
 /* eslint-disable no-console */
 import { combineReducers } from 'redux';
 import {
-  INVALIDATE_SUBREDDIT,
-  REQUEST_POSTS,
-  RECEIVE_POSTS,
+  REQUEST_ENTRIES,
+  RECEIVE_ENTRIES,
 } from '../actions';
 
 
-const posts = (state = {
+const entryDataReducer = (state = {
   isFetching: false,
-  didInvalidate: false,
   items: [],
 }, action) => {
   switch (action.type) {
-    case INVALIDATE_SUBREDDIT:
-      return {
-        ...state,
-        didInvalidate: true,
-      };
-    case REQUEST_POSTS:
+    case REQUEST_ENTRIES:
       return {
         ...state,
         isFetching: true,
-        didInvalidate: false,
       };
-    case RECEIVE_POSTS:
+    case RECEIVE_ENTRIES:
       return {
         ...state,
         isFetching: false,
-        didInvalidate: false,
-        items: action.posts,
+        items: action.data,
         lastUpdated: action.receivedAt,
       };
     default:
@@ -37,23 +28,8 @@ const posts = (state = {
   }
 };
 
-const postsBySubreddit = (state = {
-  isFetching: false,
-  didInvalidate: false,
-  items: [],
-}, action) => {
-  switch (action.type) {
-    case INVALIDATE_SUBREDDIT:
-    case RECEIVE_POSTS:
-    case REQUEST_POSTS:
-      return posts(state, action);
-    default:
-      return state;
-  }
-};
-
 const rootReducer = combineReducers({
-  postsBySubreddit,
+  entryDataReducer,
 });
 
 export default rootReducer;
