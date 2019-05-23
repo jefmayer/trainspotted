@@ -1,36 +1,27 @@
-/* eslint-disable prefer-destructuring, no-console */
+/* eslint-disable no-console */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import EntriesForDate from './EntriesForDate';
 
 class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      entries: [],
       activeDataSet: {},
     };
   }
 
-  componentDidMount() {
-    this.getEntries();
-  }
-
-  onEntryClick(data) {
+  /* onEntryClick(data) {
     this.setState({
       activeDataSet: data,
     });
     const { activeDataSet } = this.state;
     console.log(activeDataSet);
-  }
-
-  getEntries() {
-    fetch('/getEntries')
-      .then(res => res.json())
-      .then(entries => this.setState({ entries }));
-  }
+  } */
 
   render() {
-    const { entries, activeDataSet } = this.state;
+    const { entries } = this.props;
+    const { activeDataSet } = this.state;
     const dates = [...new Set(entries.map(entry => entry.date))];
     const months = [
       'January',
@@ -90,5 +81,9 @@ class Chart extends Component {
   }
 }
 
+Chart.propTypes = {
+  entries: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
+
 export default Chart;
-/* eslint-enable prefer-destructuring, no-console */
+/* eslint-enable no-console */

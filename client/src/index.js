@@ -13,6 +13,8 @@ import App from './js/containers/App';
   entryDetailId: '',
 };
 // const store = createStore(rootReducer, initialState); */
+// console.log(store.getState());
+
 
 const middleware = [thunk];
 if (process.env.NODE_ENV !== 'production') {
@@ -23,8 +25,6 @@ const store = createStore(
   reducer,
   applyMiddleware(...middleware),
 );
-
-console.log(store.getState());
 
 ReactDOM.render(
   <Provider store={store}>

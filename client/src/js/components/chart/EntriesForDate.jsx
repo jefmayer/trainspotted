@@ -38,7 +38,7 @@ class EntriesForDate extends Component {
 
 EntriesForDate.propTypes = {
   date: PropTypes.string.isRequired,
-  entries: PropTypes.arrayOf(PropTypes.object),
+  entries: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default EntriesForDate;

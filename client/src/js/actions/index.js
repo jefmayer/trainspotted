@@ -1,12 +1,7 @@
-export const REQUEST_POSTS = 'REQUEST_POSTS';
-export const RECEIVE_POSTS = 'RECEIVE_POSTS';
-export const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT';
+/* eslint-disable no-console */
+export const REQUEST_POSTS = 'REQUEST_ENTRIES';
+export const RECEIVE_POSTS = 'RECEIVE_ENTRIES';
 export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT';
-
-export const selectSubreddit = subreddit => ({
-  type: SELECT_SUBREDDIT,
-  subreddit,
-});
 
 export const invalidateSubreddit = subreddit => ({
   type: INVALIDATE_SUBREDDIT,
@@ -21,12 +16,11 @@ export const requestPosts = subreddit => ({
 export const receivePosts = (subreddit, json) => ({
   type: RECEIVE_POSTS,
   subreddit,
-  // posts: json.data.children.map(child => child.data),
-  posts: json.children,
+  posts: json,
   receivedAt: Date.now(),
 });
 
-const fetchPosts = subreddit => dispatch => { /* eslint-disable-line arrow-parens */
+export const fetchPosts = subreddit => dispatch => { /* eslint-disable-line arrow-parens */
   dispatch(requestPosts(subreddit));
   return fetch('/getEntries')
     .then(response => response.json())
@@ -50,3 +44,5 @@ export const fetchPostsIfNeeded = subreddit => (dispatch, getState) => {
   }
   return '';
 };
+
+/* eslint-enable no-console */

@@ -10,8 +10,8 @@ import '../../scss/App.scss';
 
 class App extends Component {
   componentDidMount() {
-    const { dispatch, selectedSubreddit } = this.props;
-    dispatch(fetchPostsIfNeeded(selectedSubreddit));
+    const { dispatch } = this.props;
+    dispatch(fetchPostsIfNeeded());
   }
 
   render() {
@@ -21,34 +21,29 @@ class App extends Component {
         <header className="app-header">
           <img src={logo} className="app-logo" alt="logo" />
           <div className="app-title">Trainspotted</div>
-          <div>{posts}</div>
         </header>
-        <Chart />
+        <Chart entries={posts} />
         <Detail />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  const { selectedSubreddit, postsBySubreddit } = state;
-  const {
-    items: posts,
-  } = postsBySubreddit[selectedSubreddit] || {
-    isFetching: true,
-    items: [],
-  };
-
-  return {
-    selectedSubreddit,
-    posts,
-  };
-};
-
 App.propTypes = {
-  selectedSubreddit: PropTypes.string.isRequired,
   posts: PropTypes.arrayOf(PropTypes.object),
   dispatch: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  const { postsBySubreddit } = state;
+  const {
+    items: posts,
+  } = postsBySubreddit || { /* eslint-disable-line dot-notation */
+    items: [],
+  };
+  return {
+    posts,
+  };
 };
 
 export default connect(mapStateToProps)(App);
