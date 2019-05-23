@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchEntries } from '../actions';
+import { fetchEntries, hideDetail } from '../actions';
 import Chart from '../components/chart/Chart';
 import Detail from '../components/detail/Detail';
 import logo from '../../img/trainspotted-logo.svg';
@@ -15,7 +15,12 @@ class App extends Component {
   }
 
   render() {
-    const { entries, isOpen, detailId } = this.props;
+    const { entries, isOpen, detailId, dispatch } = this.props;
+
+    function onDetailClose() {
+      dispatch(hideDetail());
+    }
+
     return (
       <div className="App">
         <header className="app-header">
@@ -26,9 +31,8 @@ class App extends Component {
           entries={entries}
         />
         {isOpen
-          && <Detail />
+          && <Detail onDetailClose={onDetailClose} id={detailId} />
         }
-        <div>{detailId}</div>
       </div>
     );
   }

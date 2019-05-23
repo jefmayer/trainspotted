@@ -1,20 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Detail = ({ closeDetailHandler, detail }) => (
-  <div>
-    <button type="button" onClick={closeDetailHandler}>Close</button>
+const Detail = ({ onDetailClose, id }) => (
+  <div className="detail-panel">
+    <button type="button" onClick={onDetailClose}>Close</button>
     <div>Detail Content...</div>
-    <div>{ detail }</div>
+    <div>{id}</div>
   </div>
 );
 
 Detail.propTypes = {
-  closeDetailHandler: PropTypes.func,
-  detail: PropTypes.shape({
-    active: PropTypes.bool,
-    data: PropTypes.shape(PropTypes.object),
-  }),
+  onDetailClose: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Detail;
