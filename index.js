@@ -29,11 +29,12 @@ express()
       const db = yield MongoClient.connect(url)
       const entries = yield find(db, 'entries')
       const lines= yield find(db, 'trainlines')
-      entries.map((entry) => {
+      entries.map((entry, index) => {
         entry.engines.map((engine) => {
           const matchedLine = lines.find(line => line.name === engine.line)
           engine.color = matchedLine.color
         })
+        entry.number = index;
       })
       console.log('Connected successfully to server')
       // res.end(JSON.stringify(yield find(db, 'entries')))

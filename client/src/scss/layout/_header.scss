@@ -24,8 +24,8 @@ header {
 }
 
 .app-title {
+  @include display-type;
   color: $dark;
-  font-family: $display-font;
   font-size: 2.4rem;
   opacity: .9;
   padding: 1rem;

@@ -3,14 +3,16 @@ $san-serif-font: 'Work Sans', Helvetica, Arial, Roboto, sans-serif;
 
 $background-color: rgb(209,209,197);
 $background-color-light: rgb(229,229,217);
+$background-color-lighter: rgb(242,242,232);
 $highlight-color: rgb(233,211,125);
 $highlight-color-25: rgba(233,211,125,.25);
 $dark: rgb(40,40,38);
 $dark-15: rgba(40,40,38,.15);
 $dark-25: rgba(40,40,38,.25);
 $dark-50: rgba(40,40,38,.5);
+$dark-75: rgba(40,40,38,.75);
 $white: rgb(255,255,255);
 $white-15: rgba(255,255,255,.15);
 $white-50: rgba(255,255,255,.50);
 
-$base-shadow: 0 .1rem .2rem 0 $dark-15;
+$base-shadow: 0 .1rem .1rem 0 $dark-15;

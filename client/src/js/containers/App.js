@@ -21,6 +21,11 @@ class App extends Component {
       dispatch(hideDetail());
     }
 
+    function getEntryById(id) {
+      console.log(id);
+      return entries.find(entry => entry._id === id); /* eslint-disable-line no-underscore-dangle */
+    }
+
     return (
       <div className="App">
         <header className="app-header">
@@ -31,7 +36,12 @@ class App extends Component {
           entries={entries}
         />
         {isOpen
-          && <Detail onDetailClose={onDetailClose} id={detailId} />
+          && (
+            <Detail
+              onDetailClose={onDetailClose}
+              data={getEntryById(detailId)}
+            />
+          )
         }
       </div>
     );

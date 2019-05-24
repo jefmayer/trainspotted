@@ -80,4 +80,5 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 - Installed `npm install eslint-config-airbnb` dependency
 - Edited serviceWorker.js to follow linting rules
 - Added `"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],` to linting rules
+- Added `parser` and `parser` options to `.eslintrc`
 
