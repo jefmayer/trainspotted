@@ -2,24 +2,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import EntriesForDate from './EntriesForDate';
+import months from '../../utils/Months';
 
 
 const Chart = ({ entries }) => {
   const dates = [...new Set(entries.map(entry => entry.date))];
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
 
   return (
     <div className="train-chart">

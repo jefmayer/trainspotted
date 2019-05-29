@@ -48,6 +48,7 @@ class Entry extends Component {
             );
           })
         }
+        <span className="engine-details-button">...</span>
       </button>
     );
   }

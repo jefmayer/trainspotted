@@ -1,17 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.3d3874f0.chunk.css",
-    "main.js": "/static/js/main.5026ba24.chunk.js",
-    "main.js.map": "/static/js/main.5026ba24.chunk.js.map",
+    "main.css": "/static/css/main.03c63a5b.chunk.css",
+    "main.js": "/static/js/main.0b2bad06.chunk.js",
+    "main.js.map": "/static/js/main.0b2bad06.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
     "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-    "static/js/2.8d31260b.chunk.js": "/static/js/2.8d31260b.chunk.js",
-    "static/js/2.8d31260b.chunk.js.map": "/static/js/2.8d31260b.chunk.js.map",
+    "static/js/2.0b9d0b51.chunk.js": "/static/js/2.0b9d0b51.chunk.js",
+    "static/js/2.0b9d0b51.chunk.js.map": "/static/js/2.0b9d0b51.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.9ff8a0def037ee2f59567a72bbcf7042.js": "/precache-manifest.9ff8a0def037ee2f59567a72bbcf7042.js",
+    "precache-manifest.b2742d2fddadcafeb3de28657b175a4a.js": "/precache-manifest.b2742d2fddadcafeb3de28657b175a4a.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.3d3874f0.chunk.css.map": "/static/css/main.3d3874f0.chunk.css.map",
-    "static/media/App.scss": "/static/media/icon-close.9475c8d3.svg",
+    "static/css/main.03c63a5b.chunk.css.map": "/static/css/main.03c63a5b.chunk.css.map",
     "static/media/trainspotted-logo.svg": "/static/media/trainspotted-logo.f965f559.svg"
   }
 }

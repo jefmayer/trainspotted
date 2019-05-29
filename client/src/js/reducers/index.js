@@ -5,6 +5,8 @@ import {
   RECEIVE_ENTRIES,
   SHOW_DETAIL,
   HIDE_DETAIL,
+  SHOW_MENU,
+  HIDE_MENU,
 } from '../actions';
 
 
@@ -51,9 +53,36 @@ const entryDetail = (state = {
   }
 };
 
+const menu = (state = {
+  isOpen: false,
+  isLoggedIn: false,
+  items: [
+    'About Project',
+    'Add Entry',
+    'Add Trainline',
+    'Login',
+  ],
+}, action) => {
+  switch (action.type) {
+    case SHOW_MENU:
+      return {
+        ...state,
+        isOpen: true,
+      };
+    case HIDE_MENU:
+      return {
+        ...state,
+        isOpen: false,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   entryData,
   entryDetail,
+  menu,
 });
 
 export default rootReducer;

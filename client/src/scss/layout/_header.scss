@@ -1,7 +1,15 @@
 header {
-  padding: 2rem 0;
+  align-content: center;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 4rem;
+  position: relative;
+}
+
+.logo-wrapper {
   position: relative;
   text-align: center;
+  width: 20rem;
 
   &::before {
     background: $highlight-color;
@@ -17,20 +25,20 @@ header {
   }
 }
 
-.app-logo {
+.logo-graphic {
   opacity: .9;
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
-.app-title {
+.logo-type {
   @include display-type;
   color: $dark;
+  cursor: default;
   font-size: 2.4rem;
   opacity: .9;
-  padding: 1rem;
+  padding: 1rem 0;
   position: relative;
-  text-align: center;
   text-transform: uppercase;
   z-index: 2;
 }

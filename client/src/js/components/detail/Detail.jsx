@@ -1,28 +1,26 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import months from '../../utils/Months';
 
 class Detail extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loadedClass: '',
+    };
+  }
+
   componentDidMount() {
-    console.log('Detail.jsx, componentDidMount');
+    const timer = setTimeout(() => {
+      this.setState({ loadedClass: 'detail-loaded' });
+      clearInterval(timer);
+    }, 250);
   }
 
   render() {
     const { onDetailClose, data } = this.props;
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
+    const { loadedClass } = this.state;
 
     function formatDate(date) {
       const arr = date.split('/');
@@ -39,7 +37,7 @@ class Detail extends Component {
     }
 
     return (
-      <div className="detail-overlay">
+      <div className={`detail-overlay ${loadedClass}`} role="none" onClick={onDetailClose}>
         <div className="detail-panel">
           <div className="detail-header">
             <div className="detail-header-inner">
@@ -47,7 +45,7 @@ class Detail extends Component {
                 Entry No.&nbsp;
                 {data.number}
               </span>
-              <button className="close-button" type="button" onClick={onDetailClose}>Close</button>
+              <button className="close-button" type="button" onClick={onDetailClose} />
             </div>
           </div>
           <div className="detail-body">
@@ -63,7 +61,7 @@ class Detail extends Component {
                     <th>Line</th>
                     <th>No.</th>
                     <th>Pos.</th>
-                    <th>History</th>
+                    <th>Sightings</th>
                   </tr>
                 </thead>
                 <tbody>

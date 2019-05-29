@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchEntries, hideDetail } from '../actions';
+import { fetchEntries, hideDetail, hideMenu, showMenu } from '../actions';
 import Chart from '../components/chart/Chart';
 import Detail from '../components/detail/Detail';
+import Menu from '../components/menu/Menu';
 import logo from '../../img/trainspotted-logo.svg';
 import '../../scss/App.scss';
 
@@ -15,10 +16,19 @@ class App extends Component {
   }
 
   render() {
-    const { entries, isOpen, detailId, dispatch } = this.props;
+    const { detailId, dispatch, entries, isDetailOpen, isMenuOpen } = this.props;
 
     function onDetailClose() {
       dispatch(hideDetail());
+    }
+
+    function onMenuClick() {
+      console.log(`onMenuClick: ${isMenuOpen}`);
+      if (!isMenuOpen) {
+        dispatch(showMenu());
+      } else {
+        dispatch(hideMenu());
+      }
     }
 
     function getEntryById(id) {
@@ -29,13 +39,19 @@ class App extends Component {
     return (
       <div className="App">
         <header className="app-header">
-          <img src={logo} className="app-logo" alt="logo" />
-          <div className="app-title">Trainspotted</div>
+          <div className="logo-wrapper">
+            <img src={logo} className="logo-graphic" alt="Trainspotted Logo" />
+            <div className="logo-type">Trainspotted</div>
+          </div>
+          <Menu
+            menuDisplayClass={isMenuOpen ? 'open' : 'closed'}
+            onMenuClick={onMenuClick}
+          />
         </header>
         <Chart
           entries={entries}
         />
-        {isOpen
+        {isDetailOpen
           && (
             <Detail
               onDetailClose={onDetailClose}
@@ -50,24 +66,29 @@ class App extends Component {
 
 App.propTypes = {
   detailId: PropTypes.string,
-  isOpen: PropTypes.bool,
-  entries: PropTypes.arrayOf(PropTypes.object),
   dispatch: PropTypes.func.isRequired,
+  entries: PropTypes.arrayOf(PropTypes.object),
+  isDetailOpen: PropTypes.bool,
+  isMenuOpen: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
-  const { entryData, entryDetail } = state;
+  const { entryData, entryDetail, menu } = state;
   const {
     items: entries,
   } = entryData;
   const {
-    id: detailId, /* eslint-disable-line no-unused-vars */
-    isOpen, /* eslint-disable-line no-unused-vars */
+    id: detailId,
+    isOpen: isDetailOpen,
   } = entryDetail;
+  const {
+    isOpen: isMenuOpen, /* eslint-disable-line no-unused-vars */
+  } = menu;
   return {
-    entries,
     detailId,
-    isOpen,
+    entries,
+    isDetailOpen,
+    isMenuOpen,
   };
 };
 
