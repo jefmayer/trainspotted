@@ -16,14 +16,13 @@ class App extends Component {
   }
 
   render() {
-    const { detailId, dispatch, entries, isDetailOpen, isMenuOpen } = this.props;
+    const { detailId, dispatch, entries, isDetailOpen, isMenuOpen, navItems } = this.props;
 
     function onDetailClose() {
       dispatch(hideDetail());
     }
 
     function onMenuClick() {
-      console.log(`onMenuClick: ${isMenuOpen}`);
       if (!isMenuOpen) {
         dispatch(showMenu());
       } else {
@@ -45,6 +44,7 @@ class App extends Component {
           </div>
           <Menu
             menuDisplayClass={isMenuOpen ? 'open' : 'closed'}
+            navItems={navItems}
             onMenuClick={onMenuClick}
           />
         </header>
@@ -70,6 +70,7 @@ App.propTypes = {
   entries: PropTypes.arrayOf(PropTypes.object),
   isDetailOpen: PropTypes.bool,
   isMenuOpen: PropTypes.bool,
+  navItems: PropTypes.arrayOf(PropTypes.string),
 };
 
 const mapStateToProps = (state) => {
@@ -82,13 +83,15 @@ const mapStateToProps = (state) => {
     isOpen: isDetailOpen,
   } = entryDetail;
   const {
-    isOpen: isMenuOpen, /* eslint-disable-line no-unused-vars */
+    isOpen: isMenuOpen,
+    items: navItems, /* eslint-disable-line no-unused-vars */
   } = menu;
   return {
     detailId,
     entries,
     isDetailOpen,
     isMenuOpen,
+    navItems,
   };
 };
 

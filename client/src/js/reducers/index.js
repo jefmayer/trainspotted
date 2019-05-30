@@ -57,9 +57,8 @@ const menu = (state = {
   isOpen: false,
   isLoggedIn: false,
   items: [
-    'About Project',
-    'Add Entry',
-    'Add Trainline',
+    'About the Project',
+    'Contact',
     'Login',
   ],
 }, action) => {

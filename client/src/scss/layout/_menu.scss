@@ -1,10 +1,14 @@
 .menu-container {
   height: 100%;
-  position: fixed;
+  position: absolute;
   right: 0;
   top: 0;
-  transition: transform 0.15s linear;
+  transition: transform .15s linear;
   z-index: 9998;
+
+  &.menu-fixed {
+    position: fixed;
+  }
 
   .menu-button {
     -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
@@ -18,7 +22,7 @@
     position: relative;
     top: 10rem;
     transform: translateX(-1.6rem);
-    transition: all 0.15s linear;
+    transition: transform .15s linear, border .15s linear, background .25s ease-in-out;
     z-index: 2;
     width: 3.2rem;
   
@@ -28,7 +32,8 @@
       left: 0;
       position: absolute;
       top: .6rem;
-      transition: transform 0.15s linear;
+      transform: translateX(0); 
+      transition: transform .15s linear;
       width: 100%;
     }
   
@@ -39,7 +44,7 @@
       height: .1rem;
       margin: .4rem auto;
       transform-origin: center;
-      transition: all 0.15s ease-in-out;
+      transition: all .15s ease-in-out;
       width: 1.2rem;
     }
   
@@ -64,7 +69,7 @@
     &:active {
   
       .menu-icon {
-        transform: scale(0.9, 0.9); 
+        transform: scale(.9, .9); 
       }
     }
   }
@@ -77,6 +82,30 @@
   position: absolute;
   top: 0;
   width: 40rem;
+  will-change: transform;
+
+  .menu-nav-inner {
+    margin-left: 4rem;
+    margin-top: 4rem;
+  }
+
+  .menu-nav-item {
+    @include display-type;
+    -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    background: transparent;
+    border: 0;
+    color: $background-color-light;
+    cursor: pointer;
+    display: block;
+    font-size: 2rem;
+    outline: none;
+    transition: color .15s linear;
+
+    &:hover {
+      color: $highlight-color;
+    }
+  }
 }
 
 .open {
@@ -93,7 +122,7 @@
     }
 
     .menu-bar:nth-child(1) {
-      transform: translate(-.5rem, .5rem) rotate(45deg);
+      transform: translate(-.3rem, .5rem) rotate(45deg);
       width: 1.6rem;
     }
 
@@ -102,8 +131,22 @@
     }
 
     .menu-bar:nth-child(3) {
-      transform: translate(-.5rem, -.5rem) rotate(-45deg);
+      transform: translate(-.3rem, -.5rem) rotate(-45deg);
       width: 1.6rem;
+    }
+
+    &:hover {
+      background: $background-color-light;
+  
+      .menu-bar:nth-child(1) {
+        transform: translate(.3rem, .2rem) rotate(45deg);
+        width: .8rem;
+      }
+
+      .menu-bar:nth-child(3) {
+        transform: translate(.3rem, -.2rem) rotate(-45deg);
+        width: .8rem;
+      }
     }
   }
 }

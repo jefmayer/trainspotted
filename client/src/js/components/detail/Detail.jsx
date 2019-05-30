@@ -37,7 +37,8 @@ class Detail extends Component {
     }
 
     return (
-      <div className={`detail-overlay ${loadedClass}`} role="none" onClick={onDetailClose}>
+      <div className={`detail-overlay ${loadedClass}`}>
+        <div className="detail-bg" role="none" onClick={onDetailClose} />
         <div className="detail-panel">
           <div className="detail-header">
             <div className="detail-header-inner">
