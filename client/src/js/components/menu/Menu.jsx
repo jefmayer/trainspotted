@@ -4,20 +4,16 @@ import PropTypes from 'prop-types';
 
 const Menu = ({ menuDisplayClass, onMenuClick }) => (
   <div className={`menu-container ${menuDisplayClass}`}>
-    <div className="menu-button" role="none" onClick={onMenuClick}>
-      <span className="menu-button-inner">
-        <span className="menu-icon">
-          <span className="menu-bar" />
-          <span className="menu-bar" />
-          <span className="menu-bar" />
-        </span>
-        <span className="close-icon">
-          <span className="menu-bar" />
-          <span className="menu-bar" />
-        </span>
+    <button className="menu-button" onClick={onMenuClick} type="button">
+      <span className="menu-icon">
+        <span className="menu-bar" />
+        <span className="menu-bar" />
+        <span className="menu-bar" />
       </span>
+    </button>
+    <div className="menu-nav">
+      <div>A Nav Item</div>
     </div>
-    <div className="menu-nav" />
   </div>
 );
 
