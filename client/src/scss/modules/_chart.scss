@@ -168,7 +168,7 @@
   }
 
   .engine-number {
-    @include san-serif-light;
+    @include san-serif-regular;
     border-radius: 1rem;
     background: $background-color-light;
     clear: both;
@@ -181,7 +181,7 @@
   }
 
   .engine-details-button {
-    @include san-serif-light;
+    @include san-serif-regular;
     background: $dark;
     border-radius: 1rem;
     clear: both;

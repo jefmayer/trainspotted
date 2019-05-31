@@ -5,6 +5,8 @@ export const SHOW_DETAIL = 'SHOW_DETAIL';
 export const HIDE_DETAIL = 'HIDE_DETAIL';
 export const SHOW_MENU = 'SHOW_MENU';
 export const HIDE_MENU = 'HIDE_MENU';
+export const LOG_IN = 'LOG_IN';
+export const LOG_OUT = 'LOG_OUT';
 
 export const requestEntries = () => ({
   type: REQUEST_ENTRIES,
@@ -37,5 +39,17 @@ export const showMenu = () => ({
 
 export const hideMenu = () => ({
   type: HIDE_MENU,
+});
+
+export const login = (user, password) => ({
+  type: LOG_IN,
+  data: {
+    user,
+    password,
+  },
+});
+
+export const logout = () => ({
+  type: LOG_OUT,
 });
 /* eslint-enable no-console */

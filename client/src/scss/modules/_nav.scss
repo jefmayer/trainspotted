@@ -1,0 +1,51 @@
+.menu-nav {
+  background: $dark;
+  height: 100%;
+  left: 3.2rem;
+  position: absolute;
+  top: 0;
+  width: 40rem;
+  will-change: transform;
+
+  .menu-nav-inner {
+    margin: 4rem;
+  }
+
+  .menu-nav-item {
+    @include display-type;
+    color: $background-color-light;
+    display: block;
+    font-size: 2rem;
+    padding: .4rem 0;
+  }
+
+  button {
+    -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    outline: none;
+    transition: color 0.25s ease-in-out;
+
+    &:hover {
+      color: $highlight-color;
+    }
+  }
+
+  p {
+    @include san-serif-body;
+    color: $background-color;
+    font-size: 1.3rem;
+    line-height: 1.5em;
+    margin-bottom: 1em;
+  }
+}
+
+.login-form {
+  margin-top: .5rem;
+  
+  .form-input {
+    max-width: 25rem;
+  }
+}

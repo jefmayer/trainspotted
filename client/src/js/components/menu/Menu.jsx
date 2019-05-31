@@ -1,6 +1,12 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import About from './About';
+import AddEntry from './AddEntry';
+import AddLine from './AddLine';
+import Contact from './Contact';
+import Login from './Login';
 
 class Menu extends Component {
   constructor(props) {
@@ -21,7 +27,7 @@ class Menu extends Component {
   }
 
   render() {
-    const { menuDisplayClass, navItems, onMenuClick } = this.props;
+    const { isLoggedIn, menuDisplayClass, onMenuClick } = this.props;
     return (
       <div className={`menu-container ${menuDisplayClass}`} ref={this.divRef}>
         <button className="menu-button" onClick={onMenuClick} type="button">
@@ -33,11 +39,17 @@ class Menu extends Component {
         </button>
         <div className="menu-nav">
           <div className="menu-nav-inner">
-            {
-              navItems.map(nav => (
-                <button className="menu-nav-item" key={nav} type="button">{nav}</button>
-              ))
+            <About />
+            <Contact />
+            {isLoggedIn
+              && (
+                <div>
+                  <AddEntry />
+                  <AddLine />
+                </div>
+              )
             }
+            <Login />
           </div>
         </div>
       </div>
@@ -46,10 +58,20 @@ class Menu extends Component {
 }
 
 Menu.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
   menuDisplayClass: PropTypes.string.isRequired,
   onMenuClick: PropTypes.func.isRequired,
-  navItems: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default Menu;
+const mapStateToProps = (state) => {
+  const { userStatus } = state;
+  const {
+    isLoggedIn,
+  } = userStatus;
+  return {
+    isLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(Menu);
 /* eslint-enable no-console */

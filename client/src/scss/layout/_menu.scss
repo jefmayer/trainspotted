@@ -52,15 +52,18 @@
       background: $highlight-color;
   
       .menu-bar:nth-child(1) {
+        background: $dark;
         transform: translate(-.3rem, .2rem) rotate(-45deg);
         width: .8rem;
       }
   
       .menu-bar:nth-child(2) {
+        background: $dark;
         transform: scale(1, 1);
       }
   
       .menu-bar:nth-child(3) {
+        background: $dark;
         transform: translate(-.3rem, -.2rem) rotate(45deg);
         width: .8rem;
       }
@@ -71,39 +74,6 @@
       .menu-icon {
         transform: scale(.9, .9); 
       }
-    }
-  }
-}
-
-.menu-nav {
-  background: $dark;
-  height: 100%;
-  left: 3.2rem;
-  position: absolute;
-  top: 0;
-  width: 40rem;
-  will-change: transform;
-
-  .menu-nav-inner {
-    margin-left: 4rem;
-    margin-top: 4rem;
-  }
-
-  .menu-nav-item {
-    @include display-type;
-    -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
-    -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
-    background: transparent;
-    border: 0;
-    color: $background-color-light;
-    cursor: pointer;
-    display: block;
-    font-size: 2rem;
-    outline: none;
-    transition: color .15s linear;
-
-    &:hover {
-      color: $highlight-color;
     }
   }
 }

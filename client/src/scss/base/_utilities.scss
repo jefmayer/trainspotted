@@ -1,5 +1,29 @@
-.clearfix:after {
-  content:'';
-  display:table;
-  clear:both;
+.clearfix {
+  zoom: 1;
+
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  &::before {
+    content: '';
+    display: table;
+  }
+}
+
+@mixin clearfix {
+  zoom: 1;
+
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+  &::before {
+    content: '';
+    display: table;
+  }
 }

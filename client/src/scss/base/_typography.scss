@@ -4,12 +4,6 @@
   font-weight: 400;
 }
 
-@mixin san-serif-light {
-  font-family: $san-serif-font;
-  font-style: normal;
-  font-weight: 300;
-}
-
 @mixin san-serif-regular {
   font-family: $san-serif-font;
   font-style: normal;
@@ -20,4 +14,16 @@
   font-family: $san-serif-font;
   font-style: normal;
   font-weight: 700;
+}
+
+@mixin san-serif-bold {
+  font-family: $san-serif-font;
+  font-style: normal;
+  font-weight: 700;
+}
+
+@mixin san-serif-body {
+  font-family: $body-font;
+  font-style: normal;
+  font-weight: 400;
 }

@@ -7,6 +7,8 @@ import {
   HIDE_DETAIL,
   SHOW_MENU,
   HIDE_MENU,
+  LOG_IN,
+  LOG_OUT,
 } from '../actions';
 
 
@@ -55,12 +57,6 @@ const entryDetail = (state = {
 
 const menu = (state = {
   isOpen: false,
-  isLoggedIn: false,
-  items: [
-    'About the Project',
-    'Contact',
-    'Login',
-  ],
 }, action) => {
   switch (action.type) {
     case SHOW_MENU:
@@ -78,10 +74,30 @@ const menu = (state = {
   }
 };
 
+const userStatus = (state = {
+  isLoggedIn: false,
+}, action) => {
+  switch (action.type) {
+    case LOG_IN:
+      return {
+        ...state,
+        isLoggedIn: true,
+      };
+    case LOG_OUT:
+      return {
+        ...state,
+        isLoggedIn: false,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   entryData,
   entryDetail,
   menu,
+  userStatus,
 });
 
 export default rootReducer;
