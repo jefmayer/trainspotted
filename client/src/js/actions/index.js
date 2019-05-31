@@ -41,13 +41,27 @@ export const hideMenu = () => ({
   type: HIDE_MENU,
 });
 
-export const login = (user, password) => ({
+export const loginAttempt = json => ({
   type: LOG_IN,
-  data: {
-    user,
-    password,
-  },
+  data: json,
 });
+
+export const login = ({ user, password }) => dispatch => { /* eslint-disable-line arrow-parens */
+  dispatch(requestEntries());
+  return fetch('/login', {
+    method: 'POST',
+    headers: new Headers({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      user,
+      password,
+    }),
+  })
+    .then(response => response.json())
+    .then(json => dispatch(loginAttempt(json)));
+};
 
 export const logout = () => ({
   type: LOG_OUT,

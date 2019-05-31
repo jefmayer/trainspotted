@@ -76,12 +76,24 @@ const menu = (state = {
 
 const userStatus = (state = {
   isLoggedIn: false,
+  isLoginError: false,
+  response: [{ success: 'error' }],
 }, action) => {
   switch (action.type) {
     case LOG_IN:
+      if (action.data[0].success === 'success') {
+        return {
+          ...state,
+          isLoggedIn: true,
+          isLoginError: false,
+          response: action.data,
+        };
+      }
       return {
         ...state,
-        isLoggedIn: true,
+        isLoggedIn: false,
+        isLoginError: true,
+        response: action.data,
       };
     case LOG_OUT:
       return {

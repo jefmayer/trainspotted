@@ -70,7 +70,7 @@ express()
       const db = yield MongoClient.connect(url)
       const arr = yield find(db, 'users')
       for (var i = 0; i <arr.length; i++) {
-        if (arr[i].username === req.body.username && arr[i].password === req.body.password) {
+        if (arr[i].user === req.body.user && arr[i].password === req.body.password) {
           res.end(JSON.stringify([{"success": "success"}]))
           return
         }

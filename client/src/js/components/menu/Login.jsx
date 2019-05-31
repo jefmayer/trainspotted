@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { login } from '../../actions';
+import { login, logout } from '../../actions';
 
 class Login extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class Login extends Component {
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   handleUserChange(event) {
@@ -28,15 +29,19 @@ class Login extends Component {
   handleSubmit(event) {
     const { dispatch } = this.props;
     const { user, password } = this.state;
-    console.log('handleSubmit');
     event.preventDefault();
     dispatch(login({ user, password })); /* eslint-disable-line no-underscore-dangle */
   }
 
-  render() {
-    const { isLoggedIn } = this.props;
-    const { user, password } = this.state;
+  logout() {
+    const { dispatch } = this.props;
+    dispatch(logout());
+  }
 
+  render() {
+    const { isLoggedIn, isLoginError } = this.props;
+    const { user, password } = this.state;
+    console.log(`Is there a login error: ${isLoginError}`);
     return (
       !isLoggedIn
         ? (
@@ -45,34 +50,37 @@ class Login extends Component {
             <form className="login-form app-form" onSubmit={this.handleSubmit}>
               <label className="form-label" htmlFor="user">
                 <span>Name</span>
-                <input className="form-input" id="user" name="user" value={user} onChange={this.handleUserChange} />
+                <input className="form-input" id="user" name="user" type="text" value={user} onChange={this.handleUserChange} />
               </label>
               <label className="form-label" htmlFor="password">
                 <span>Password</span>
-                <input className="form-input" id="password" name="password" value={password} onChange={this.handlePasswordChange} />
+                <input className="form-input" id="password" name="password" type="password" value={password} onChange={this.handlePasswordChange} />
               </label>
               <input className="submit-button" type="submit" value="Login" />
             </form>
           </div>
         ) : (
-          <button className="menu-nav-item" type="button">Logout</button>
+          <button className="menu-nav-item" type="button" onClick={this.logout}>Logout</button>
         )
     );
   }
 }
 
 Login.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
   dispatch: PropTypes.func,
+  isLoggedIn: PropTypes.bool.isRequired,
+  isLoginError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   const { userStatus } = state;
   const {
     isLoggedIn,
+    isLoginError,
   } = userStatus;
   return {
     isLoggedIn,
+    isLoginError,
   };
 };
 
