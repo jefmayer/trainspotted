@@ -27,4 +27,12 @@
       text-transform: uppercase;
     }
   }
+
+  .form-error {
+    @include san-serif-body;
+    color: $error;
+    font-size: 1.3rem;
+    margin-top: 1rem;
+  }
+
 }

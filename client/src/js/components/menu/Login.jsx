@@ -10,11 +10,13 @@ class Login extends Component {
     this.state = {
       user: '',
       password: '',
+      formDisplayClass: 'hidden',
     };
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.logout = this.logout.bind(this);
+    this.displayLoginForm = this.displayLoginForm.bind(this);
   }
 
   handleUserChange(event) {
@@ -33,21 +35,30 @@ class Login extends Component {
     dispatch(login({ user, password })); /* eslint-disable-line no-underscore-dangle */
   }
 
+  displayLoginForm() {
+    this.setState({ formDisplayClass: '' });
+  }
+
   logout() {
     const { dispatch } = this.props;
+    this.setState({ formDisplayClass: 'hidden' });
+    // Clear inputs
     dispatch(logout());
   }
 
   render() {
     const { isLoggedIn, isLoginError } = this.props;
-    const { user, password } = this.state;
-    console.log(`Is there a login error: ${isLoginError}`);
+    const { user, password, formDisplayClass } = this.state;
+    let errorDisplayClass = 'hidden';
+    if (isLoginError) {
+      errorDisplayClass = '';
+    }
     return (
       !isLoggedIn
         ? (
           <div>
-            <div className="menu-nav-item">Login</div>
-            <form className="login-form app-form" onSubmit={this.handleSubmit}>
+            <button className="menu-nav-item" onClick={this.displayLoginForm} type="button">Login</button>
+            <form className={`login-form app-form ${formDisplayClass}`} onSubmit={this.handleSubmit}>
               <label className="form-label" htmlFor="user">
                 <span>Name</span>
                 <input className="form-input" id="user" name="user" type="text" value={user} onChange={this.handleUserChange} />
@@ -57,6 +68,7 @@ class Login extends Component {
                 <input className="form-input" id="password" name="password" type="password" value={password} onChange={this.handlePasswordChange} />
               </label>
               <input className="submit-button" type="submit" value="Login" />
+              <div className={`form-error ${errorDisplayClass}`}>There was an error signing in. Please recheck.</div>
             </form>
           </div>
         ) : (

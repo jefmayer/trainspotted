@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import months from '../../utils/Months';
+import { formatDate, formatTime } from '../../utils/Formatting';
 
 class Detail extends Component {
   constructor(props) {
@@ -22,20 +23,6 @@ class Detail extends Component {
     const { onDetailClose, data } = this.props;
     const { loadedClass } = this.state;
 
-    function formatDate(date) {
-      const arr = date.split('/');
-      return `${months[arr[0] - 1]} ${arr[1]}, ${arr[2]}`;
-    }
-
-    function formatTime(time) {
-      const arr = time.split(':');
-      let ampm = 'a.m.';
-      if (time.indexOf('PM') !== -1) {
-        ampm = 'p.m.';
-      }
-      return `${arr[0]}:${arr[1]} ${ampm}`;
-    }
-
     return (
       <div className={`detail-overlay ${loadedClass}`}>
         <div className="detail-bg" role="none" onClick={onDetailClose} />
@@ -52,7 +39,7 @@ class Detail extends Component {
           <div className="detail-body">
             <div className="detail-body-inner">
               <div className="detail-headline">
-                {`${data.engines.length} engine train observed on ${formatDate(data.date)} at ${formatTime(data.time)} heading ${data.direction}.`}
+                {`${data.engines.length} engine train observed on ${formatDate(data.date, months)} at ${formatTime(data.time)} heading ${data.direction}.`}
               </div>
               <div className="detail-subhead">Engines</div>
               <table className="detail-table" cellPadding="0" cellSpacing="0">
