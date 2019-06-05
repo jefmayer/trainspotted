@@ -37,7 +37,6 @@ class Menu extends Component {
   render() {
     const { activeMenuItem } = this.state;
     const { isLoggedIn, menuDisplayClass, onMenuClick } = this.props;
-    console.log(`activeMenuItem: ${activeMenuItem}`);
     return (
       <div className={`menu-container ${menuDisplayClass}`} ref={this.divRef}>
         <button className="menu-button" onClick={onMenuClick} type="button">
@@ -56,15 +55,18 @@ class Menu extends Component {
                 <div>
                   <AddEntry
                     setActiveMenuItem={this.setActiveMenuItem}
+                    isActive={activeMenuItem === 'add-entry'}
                   />
                   <AddLine
                     setActiveMenuItem={this.setActiveMenuItem}
+                    isActive={activeMenuItem === 'add-line'}
                   />
                 </div>
               )
             }
             <Login
               setActiveMenuItem={this.setActiveMenuItem}
+              isActive={activeMenuItem === 'login'}
             />
           </div>
         </div>

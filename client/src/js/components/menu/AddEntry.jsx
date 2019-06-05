@@ -10,7 +10,6 @@ class AddEntry extends Component {
       date: '',
       direction: '',
       engines: [...Array(1)],
-      formDisplayClass: 'hidden',
       time: '',
     };
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -64,7 +63,6 @@ class AddEntry extends Component {
   displayForm() {
     const { setActiveMenuItem } = this.props;
     setActiveMenuItem('add-entry');
-    this.setState({ formDisplayClass: '' });
   }
 
   addEngine() {
@@ -75,12 +73,14 @@ class AddEntry extends Component {
   }
 
   render() {
-    const { date, direction, engines, formDisplayClass, time } = this.state;
+    const { isActive } = this.props;
+    const { date, direction, engines, time } = this.state;
     const errorDisplayClass = 'hidden';
+    console.log(isActive);
     return (
       <div>
         <button className="menu-nav-item menu-nav-button" onClick={this.displayForm} type="button">Add an Entry</button>
-        <form className={`login-form app-form ${formDisplayClass}`} onSubmit={this.handleSubmit}>
+        <form className={`login-form app-form ${isActive ? '' : 'hidden'}`} onSubmit={this.handleSubmit}>
           <label className="form-label form-label-date" htmlFor="date">
             <span>Date</span>
             <input className="form-input" id="date" name="date" type="date" value={date} onChange={this.handleDateChange} />
@@ -120,6 +120,7 @@ class AddEntry extends Component {
 }
 
 AddEntry.propTypes = {
+  isActive: PropTypes.bool.isRequired,
   setActiveMenuItem: PropTypes.func.isRequired,
 };
 

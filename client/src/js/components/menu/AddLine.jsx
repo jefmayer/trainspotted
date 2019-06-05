@@ -8,7 +8,6 @@ class AddLine extends Component {
     super(props);
     this.state = {
       lineName: '',
-      formDisplayClass: 'hidden',
     };
     this.handleLineNameChange = this.handleLineNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,16 +27,16 @@ class AddLine extends Component {
   displayForm() {
     const { setActiveMenuItem } = this.props;
     setActiveMenuItem('add-line');
-    this.setState({ formDisplayClass: '' });
   }
 
   render() {
-    const { formDisplayClass, lineName } = this.state;
+    const { isActive } = this.props;
+    const { lineName } = this.state;
     const errorDisplayClass = 'hidden';
     return (
       <div>
         <button className="menu-nav-item menu-nav-button" onClick={this.displayForm} type="button">Add a Train Line</button>
-        <form className={`login-form app-form ${formDisplayClass}`} onSubmit={this.handleSubmit}>
+        <form className={`login-form app-form ${isActive ? '' : 'hidden'}`} onSubmit={this.handleSubmit}>
           <label className="form-label form-label-line-name" htmlFor="lineName">
             <span>Name</span>
             <input className="form-input" id="lineName" name="lineName" type="text" value={lineName} onChange={this.handleLineNameChange} />
@@ -50,6 +49,7 @@ class AddLine extends Component {
 }
 
 AddLine.propTypes = {
+  isActive: PropTypes.bool.isRequired,
   setActiveMenuItem: PropTypes.func.isRequired,
 };
 

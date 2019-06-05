@@ -10,7 +10,6 @@ class Login extends Component {
     this.state = {
       user: '',
       password: '',
-      formDisplayClass: 'hidden',
     };
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -38,19 +37,18 @@ class Login extends Component {
   displayForm() {
     const { setActiveMenuItem } = this.props;
     setActiveMenuItem('login');
-    this.setState({ formDisplayClass: '' });
   }
 
   logout() {
-    const { dispatch } = this.props;
-    this.setState({ formDisplayClass: 'hidden' });
+    const { dispatch, setActiveMenuItem } = this.props;
+    setActiveMenuItem('');
     // Clear inputs
     dispatch(logout());
   }
 
   render() {
-    const { isLoggedIn, isLoginError } = this.props;
-    const { user, password, formDisplayClass } = this.state;
+    const { isActive, isLoggedIn, isLoginError } = this.props;
+    const { user, password } = this.state;
     let errorDisplayClass = 'hidden';
     if (isLoginError) {
       errorDisplayClass = '';
@@ -60,7 +58,7 @@ class Login extends Component {
         ? (
           <div>
             <button className="menu-nav-item menu-nav-button" onClick={this.displayForm} type="button">Login</button>
-            <form className={`login-form app-form ${formDisplayClass}`} onSubmit={this.handleSubmit}>
+            <form className={`login-form app-form ${isActive ? '' : 'hidden'}`} onSubmit={this.handleSubmit}>
               <label className="form-label" htmlFor="user">
                 <span>Name</span>
                 <input className="form-input" id="user" name="user" type="text" value={user} onChange={this.handleUserChange} />
@@ -82,6 +80,7 @@ class Login extends Component {
 
 Login.propTypes = {
   dispatch: PropTypes.func,
+  isActive: PropTypes.bool.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
   isLoginError: PropTypes.bool.isRequired,
   setActiveMenuItem: PropTypes.func.isRequired,
