@@ -4,7 +4,7 @@
   left: 3.2rem;
   position: absolute;
   top: 0;
-  width: 40rem;
+  width: 36rem;
   will-change: transform;
 
   .menu-nav-inner {
@@ -19,7 +19,7 @@
     padding: .4rem 0;
   }
 
-  button {
+  .menu-nav-button {
     -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
     -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
     background: transparent;
@@ -40,12 +40,151 @@
     line-height: 1.5em;
     margin-bottom: 1em;
   }
+
+  .inline-link,
+  .inline-link:visited,
+  .inline-link:active,
+  .inline-link:hover {
+    color: $white;
+  }
+}
+
+.app-form {
+  margin-bottom: 2rem;
 }
 
 .login-form {
   margin-top: .5rem;
   
-  .form-input {
-    max-width: 25rem;
+  .form-label-time,
+  .form-label-direction {
+    max-width: 12rem;
+  }
+
+  .form-label-line {
+    margin-right: 2rem;
+  }
+
+  .form-label-number {
+    margin-right: 2rem;
+    max-width: 6.5rem;
+  }
+
+  .form-label-position {
+    max-width: 9.5rem;
+  }
+
+  .form-label-time {
+    margin-right: 2rem;
+  }
+
+  .add-engine-row {
+    position: relative;
+
+    label {
+      position: relative;
+      z-index: 1;
+    }
+
+    &::after {
+      background: $white-15;
+      content: '';
+      height: 100%;
+      left: -4rem;
+      position: absolute;
+      top: -.5rem;
+      width: calc(100% + 8rem);
+    }
+  }
+
+  .add-engine-row:nth-child(odd)::after {
+    background: $white-5;
+  }
+
+  .add-engine-button {
+    margin-bottom: 1.5rem;
+    margin-top: -1rem;
+  }
+
+  .add-button {
+    position:relative;
+
+    &::after {
+      background: $highlight-color;
+      content: '';
+      height: .1rem;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transform: translate(1rem, 1.5rem);
+      transform-origin: center;
+      transition: all 0.15s ease-in-out;
+      width: 1.3rem;
+    }
+
+    &::before {
+      background: $highlight-color;
+      content: '';
+      height: 1.3rem;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transform: translate(1.6rem, .9rem);
+      transform-origin: center;
+      transition: all 0.15s ease-in-out;
+      width: .1rem;
+    }
+
+    &:hover::after {
+      background: $dark;
+      transform: rotate(35deg) translate(2rem, .8rem);
+      width: .7rem;
+    }
+
+    &:hover::before {
+      background: $dark;
+      transform: rotate(35deg) translate(2.2rem, -.5rem);
+    }
+  }
+
+  .cancel-button {
+    position:relative;
+
+    &::after {
+      background: $highlight-color;
+      content: '';
+      height: .1rem;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transform: rotate(45deg) translate(1.7rem, .4rem);
+      transform-origin: center;
+      transition: all 0.15s ease-in-out;
+      width: 1.3rem;
+    }
+
+    &::before {
+      background: $highlight-color;
+      content: '';
+      height: 1.3rem;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transform: rotate(45deg) translate(1.7rem, -.4rem);
+      transform-origin: center;
+      transition: all 0.15s ease-in-out;
+      width: .1rem;
+    }
+
+    &:hover::after {
+      background: $dark;
+      transform: rotate(35deg) translate(1.8rem, .9rem);
+      width: .7rem;
+    }
+
+    &:hover::before {
+      background: $dark;
+      transform: rotate(35deg) translate(2rem, -.4rem);
+    }
   }
 }

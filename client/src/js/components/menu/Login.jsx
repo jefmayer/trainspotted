@@ -16,7 +16,7 @@ class Login extends Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.logout = this.logout.bind(this);
-    this.displayLoginForm = this.displayLoginForm.bind(this);
+    this.displayForm = this.displayForm.bind(this);
   }
 
   handleUserChange(event) {
@@ -35,7 +35,9 @@ class Login extends Component {
     dispatch(login({ user, password })); /* eslint-disable-line no-underscore-dangle */
   }
 
-  displayLoginForm() {
+  displayForm() {
+    const { setActiveMenuItem } = this.props;
+    setActiveMenuItem('login');
     this.setState({ formDisplayClass: '' });
   }
 
@@ -57,7 +59,7 @@ class Login extends Component {
       !isLoggedIn
         ? (
           <div>
-            <button className="menu-nav-item" onClick={this.displayLoginForm} type="button">Login</button>
+            <button className="menu-nav-item menu-nav-button" onClick={this.displayForm} type="button">Login</button>
             <form className={`login-form app-form ${formDisplayClass}`} onSubmit={this.handleSubmit}>
               <label className="form-label" htmlFor="user">
                 <span>Name</span>
@@ -72,7 +74,7 @@ class Login extends Component {
             </form>
           </div>
         ) : (
-          <button className="menu-nav-item" type="button" onClick={this.logout}>Logout</button>
+          <button className="menu-nav-item menu-nav-button" type="button" onClick={this.logout}>Logout</button>
         )
     );
   }
@@ -82,6 +84,7 @@ Login.propTypes = {
   dispatch: PropTypes.func,
   isLoggedIn: PropTypes.bool.isRequired,
   isLoginError: PropTypes.bool.isRequired,
+  setActiveMenuItem: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {

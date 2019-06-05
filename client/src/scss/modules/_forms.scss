@@ -8,6 +8,7 @@
     color: $dark;
     display: block;
     font-size: 1.3rem;
+    height: 3.9rem;
     padding: 1rem .5rem;
     width: 100%;
   }
@@ -16,6 +17,7 @@
     @include clearfix;
     display: block;
     margin-bottom: 1.5rem;
+    position: relative;
     width: 100%;
 
     span {
@@ -28,11 +30,47 @@
     }
   }
 
+  .form-select {
+    @include san-serif-body;
+    -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    background: linear-gradient(to bottom, $background-color-lighter 0%, $background-color 100%);
+    border: none;
+    border-radius: .3rem;
+    box-shadow: 0 0 .2rem 0 $black-50;
+    color: $dark;
+    display: block;
+    font-size: 1.3rem;
+    padding: 1.3rem .5rem 1.2rem;
+    width: 100%;
+  }
+
+  .form-select-label::after {
+    color: $dark;
+    content: '\25BE';
+    font-size: 2rem;
+    right: .7rem;
+    pointer-events: none;
+    position: absolute;
+    top: 2.2rem;
+    z-index: 1;
+  }
+
   .form-error {
     @include san-serif-body;
     color: $error;
     font-size: 1.3rem;
     margin-top: 1rem;
+  }
+
+  .form-action-buttons {
+    margin-top: .5rem;
+    display: flex;
+
+    input,
+    button {
+      margin-right: 1rem;
+    }
   }
 
 }

@@ -11,7 +11,11 @@ import Login from './Login';
 class Menu extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      activeMenuItem: '',
+    };
     this.divRef = React.createRef();
+    this.setActiveMenuItem = this.setActiveMenuItem.bind(this);
   }
 
   componentDidUpdate() {
@@ -26,8 +30,14 @@ class Menu extends Component {
     }
   }
 
+  setActiveMenuItem(name) {
+    this.setState({ activeMenuItem: name });
+  }
+
   render() {
+    const { activeMenuItem } = this.state;
     const { isLoggedIn, menuDisplayClass, onMenuClick } = this.props;
+    console.log(`activeMenuItem: ${activeMenuItem}`);
     return (
       <div className={`menu-container ${menuDisplayClass}`} ref={this.divRef}>
         <button className="menu-button" onClick={onMenuClick} type="button">
@@ -44,12 +54,18 @@ class Menu extends Component {
             {isLoggedIn
               && (
                 <div>
-                  <AddEntry />
-                  <AddLine />
+                  <AddEntry
+                    setActiveMenuItem={this.setActiveMenuItem}
+                  />
+                  <AddLine
+                    setActiveMenuItem={this.setActiveMenuItem}
+                  />
                 </div>
               )
             }
-            <Login />
+            <Login
+              setActiveMenuItem={this.setActiveMenuItem}
+            />
           </div>
         </div>
       </div>

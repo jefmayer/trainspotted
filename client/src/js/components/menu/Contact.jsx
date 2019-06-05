@@ -7,7 +7,7 @@ const Contact = () => (
     <p>
       jef.a.mayer(at)gmail.com
       <br />
-      jefmayer.com
+      <a className="inline-link" href="https://jefmayer.com">jefmayer.com</a>
     </p>
   </div>
 );
