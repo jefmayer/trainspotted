@@ -63,20 +63,21 @@
   }
 
   .form-label-line {
-    margin-right: 2rem;
+    margin-right: 1.5rem;
+    max-width: 9rem;
   }
 
   .form-label-number {
-    margin-right: 2rem;
+    margin-right: 1.5rem;
     max-width: 6.5rem;
   }
 
   .form-label-position {
-    max-width: 9.5rem;
+    max-width: 7rem;
   }
 
   .form-label-time {
-    margin-right: 2rem;
+    margin-right: 1.5rem;
   }
 
   .add-engine-row {
@@ -148,8 +149,8 @@
     }
   }
 
-  .cancel-button {
-    position:relative;
+  .cancel-button,
+  .remove-button {
 
     &::after {
       background: $highlight-color;
@@ -179,13 +180,34 @@
 
     &:hover::after {
       background: $dark;
-      transform: rotate(35deg) translate(1.8rem, .9rem);
-      width: .7rem;
+      // transform: rotate(35deg) translate(1.8rem, .9rem);
     }
 
     &:hover::before {
       background: $dark;
-      transform: rotate(35deg) translate(2rem, -.4rem);
+      // transform: rotate(35deg) translate(2rem, -.4rem);
+    }
+  }
+
+  .cancel-button {
+    position:relative;
+  }
+
+  .remove-button {
+    border-color: transparent;
+    height: 2.5rem;
+    position: absolute;
+    right: -.8rem;
+    top: 2rem;
+    width: 2.5rem;
+    z-index: 1;
+
+    &::after {
+      transform: rotate(45deg) translate(1rem, .4rem);
+    }
+
+    &::before {
+      transform: rotate(45deg) translate(1rem, -.4rem);
     }
   }
 }

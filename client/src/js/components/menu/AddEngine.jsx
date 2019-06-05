@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class AddEngine extends Component {
   constructor(props) {
@@ -12,21 +13,30 @@ class AddEngine extends Component {
     this.handleLineChange = this.handleLineChange.bind(this);
     this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handlePositionChange = this.handlePositionChange.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
+  }
+
+  componentDidUpdate() {
+    const { id, updateEngines } = this.props;
+    const { line, number, position } = this.state;
+    updateEngines(id, { line, number, position });
   }
 
   handleLineChange(event) {
-    console.log(event);
     this.setState({ line: event.target.value });
   }
 
   handleNumberChange(event) {
-    console.log(event);
     this.setState({ number: event.target.value });
   }
 
   handlePositionChange(event) {
-    console.log(event);
     this.setState({ position: event.target.value });
+  }
+
+  handleRemove() {
+    const { id, removeEngine } = this.props;
+    removeEngine(id);
   }
 
   render() {
@@ -37,7 +47,7 @@ class AddEngine extends Component {
           <span>Line</span>
           <select className="form-select" id="line" name="line" value={line} onChange={this.handleLineChange}>
             <option>Select</option>
-            <option>Canadian Pacific</option>
+            <option>CP</option>
           </select>
         </label>
         <label className="form-label form-label-number" htmlFor="number">
@@ -53,10 +63,17 @@ class AddEngine extends Component {
             <option>End</option>
           </select>
         </label>
+        <button className="remove-button" type="button" onClick={this.handleRemove} />
       </div>
     );
   }
 }
+
+AddEngine.propTypes = {
+  id: PropTypes.string.isRequired,
+  removeEngine: PropTypes.func.isRequired,
+  updateEngines: PropTypes.func.isRequired,
+};
 
 export default AddEngine;
 /* eslint-enable no-console */

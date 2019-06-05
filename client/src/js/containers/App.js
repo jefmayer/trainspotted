@@ -31,7 +31,6 @@ class App extends Component {
     }
 
     function getEntryById(id) {
-      console.log(id);
       return entries.find(entry => entry._id === id); /* eslint-disable-line no-underscore-dangle */
     }
 

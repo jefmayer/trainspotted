@@ -21,7 +21,8 @@
   }
 }
 
-.cancel-button {
+.cancel-button,
+.remove-button {
   -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
   -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
   background: transparent;

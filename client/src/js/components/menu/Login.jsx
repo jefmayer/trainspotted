@@ -19,7 +19,6 @@ class Login extends Component {
   }
 
   handleUserChange(event) {
-    console.log(event);
     this.setState({ user: event.target.value });
   }
 

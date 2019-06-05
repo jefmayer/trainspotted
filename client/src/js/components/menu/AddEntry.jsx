@@ -9,7 +9,15 @@ class AddEntry extends Component {
     this.state = {
       date: '',
       direction: '',
-      engines: [...Array(1)],
+      idIter: 0,
+      engines: [{
+        id: 'engine-no-0',
+        data: {
+          line: '',
+          number: '',
+          position: '',
+        },
+      }],
       time: '',
     };
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -18,6 +26,8 @@ class AddEntry extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.displayForm = this.displayForm.bind(this);
     this.addEngine = this.addEngine.bind(this);
+    this.removeEngine = this.removeEngine.bind(this);
+    this.updateEngines = this.updateEngines.bind(this);
   }
 
   componentDidMount() {
@@ -66,17 +76,42 @@ class AddEntry extends Component {
   }
 
   addEngine() {
-    const { engines } = this.state;
-    engines.push([...Array(1)]);
-    console.log(engines.length);
+    const { engines, idIter } = this.state;
+    const id = idIter + 1;
+    engines.push({
+      id: `engine-no-${id}`,
+      data: {
+        line: '',
+        number: '',
+        position: '',
+      },
+    });
+    this.setState({ idIter: id });
     this.setState({ engines });
+  }
+
+  removeEngine(id) {
+    console.log('removeEngine');
+    const { engines } = this.state;
+    const index = engines.findIndex(engine => engine.id === id);
+    engines.splice(index, 1);
+    this.setState({ engines });
+    // console.log(engines);
+  }
+
+  updateEngines(id, data) {
+    const { engines } = this.state;
+    const item = engines.find(engine => engine.id === id);
+    if (item !== null) {
+      item.data = data;
+    }
+    // console.log(engines);
   }
 
   render() {
     const { isActive } = this.props;
     const { date, direction, engines, time } = this.state;
     const errorDisplayClass = 'hidden';
-    console.log(isActive);
     return (
       <div>
         <button className="menu-nav-item menu-nav-button" onClick={this.displayForm} type="button">Add an Entry</button>
@@ -99,20 +134,21 @@ class AddEntry extends Component {
             </label>
           </div>
           {
-            engines.map((engine, index) => {
-              const key = `engine-no-${index}`;
-              console.log(engine);
-              return (
-                <AddEngine key={key} />
-              );
-            })
+            engines.map(engine => (
+              <AddEngine
+                id={engine.id}
+                key={engine.id}
+                removeEngine={this.removeEngine}
+                updateEngines={this.updateEngines}
+              />
+            ))
           }
           <button className="text-button add-engine-button" type="button" onClick={this.addEngine}>Add Another Engine</button>
           <div className="form-action-buttons">
             <button className="submit-button add-button" type="submit">Add Entry</button>
             <button className="cancel-button" type="button" />
           </div>
-          <div className={`form-error ${errorDisplayClass}`}>There was an error signing in. Please recheck.</div>
+          <div className={`form-error ${errorDisplayClass}`}>There was an error adding the entry. Please try again.</div>
         </form>
       </div>
     );
