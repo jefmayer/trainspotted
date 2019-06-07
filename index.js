@@ -19,6 +19,27 @@ var find = function (db, col) {
   })
 }
 
+var sortedEntries = function(entries, lines) {
+  entries.map((entry, index) => {
+    entry.engines.map((engine) => {
+      const matchedLine = lines.find(line => line.name === engine.line)
+      engine.color = matchedLine.color
+    })
+    entry.number = index;
+  })
+  return entries.sort(function(a, b) {
+    var dateA = new Date(a.date);
+    var dateB = new Date(b.date);
+    if (dateA < dateB) {
+      return 1;
+    }
+    if (dateA > dateB) {
+      return -1;
+    }
+    return 0;
+  });
+}
+
 express()
   .use(express.static(path.join(__dirname, 'client/build')))
   .use(bodyParser.urlencoded({ extended: false }))
@@ -27,18 +48,11 @@ express()
   .get('/getEntries', function(req, res) {
     co(function * () {
       const db = yield MongoClient.connect(url)
-      const entries = yield find(db, 'entries')
-      const lines= yield find(db, 'trainlines')
-      entries.map((entry, index) => {
-        entry.engines.map((engine) => {
-          const matchedLine = lines.find(line => line.name === engine.line)
-          engine.color = matchedLine.color
-        })
-        entry.number = index;
-      })
-      // res.end(JSON.stringify(yield find(db, 'entries')))
-      // Chronological order... #TODO
-      res.end(JSON.stringify(entries.reverse()))
+      const entries = sortedEntries(
+        yield find(db, 'entries'),
+        yield find(db, 'trainlines')
+      );
+      res.end(JSON.stringify(entries))
       db.close()
     }).catch(err => console.log(err))
   })
@@ -47,6 +61,17 @@ express()
       const db = yield MongoClient.connect(url)
       const lines= yield find(db, 'trainlines')
       // Alphabetical order... #TODO
+      lines.sort(function(a, b) {
+        var nameA = a.name.toUpperCase();
+        var nameB = b.name.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
       res.end(JSON.stringify(lines))
       db.close()
     }).catch(err => console.log(err))
@@ -63,12 +88,15 @@ express()
         time: req.body.time
       }
       console.log(dbo.collection('entries').updateOne(
-        { date: req.body.date },
+        { id: req.body.id },
         { $set: doc },
         { upsert: true }
       ))
-      const entries = yield find(db, 'entries')
-      res.end(JSON.stringify(entries.reverse()))
+      const entries = sortedEntries(
+        yield find(db, 'entries'),
+        yield find(db, 'trainlines')
+      );
+      res.end(JSON.stringify(entries))
       db.close();
     }).catch(err => console.log(err))
   })

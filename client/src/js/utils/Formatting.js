@@ -24,6 +24,8 @@ export function formatTimeForDB(time) {
   if (hours > 12) {
     hours -= 12;
     amPm = 'PM';
+  } else if (hours === 12) {
+    amPm = 'PM';
   } else if (hours === 0) {
     hours = 12;
   }

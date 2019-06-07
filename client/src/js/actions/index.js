@@ -92,7 +92,7 @@ export const login = ({ user, password }) => dispatch => { /* eslint-disable-lin
     .then(json => dispatch(loginAttempt(json)));
 };
 
-export const addEntry = ({ date, direction, engines, time }) => dispatch => { /* eslint-disable-line arrow-parens */
+export const addEntry = ({ date, direction, engines, id, time }) => dispatch => { /* eslint-disable-line arrow-parens */
   dispatch(submitEntry());
   return fetch('/addEntry', {
     method: 'POST',
@@ -105,6 +105,7 @@ export const addEntry = ({ date, direction, engines, time }) => dispatch => { /*
       time,
       direction,
       engines,
+      id,
     }),
   })
     .then(response => response.json())

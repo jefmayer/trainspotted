@@ -13,13 +13,13 @@ class AddEntry extends Component {
       date: '',
       direction: 'north',
       idIter: 0,
+      isEntryValid: true,
       engines: [{
         id: 'engine-no-0',
-        data: {
-          line: '',
-          number: '',
-          location: '',
-        },
+        line: '',
+        number: '',
+        location: '',
+        isValid: false,
       }],
       time: '',
     };
@@ -70,21 +70,30 @@ class AddEntry extends Component {
   handleSubmit(event) {
     const { dispatch } = this.props;
     const { date, direction, engines, time } = this.state;
+    let isValid = true;
     event.preventDefault();
-    dispatch(addEntry({
-      date: formatDateForDB(date),
-      direction,
-      engines: engines.map((engine, index) => (
-        {
-          line: engine.data.line,
-          number: engine.data.number,
-          order: index + 1,
-          location: engine.data.location,
-        }
-      )),
-      id: createEntryId(date, time),
-      time: formatTimeForDB(time),
-    }));
+    engines.forEach((engine) => {
+      if (!engine.isValid) {
+        isValid = false;
+      }
+    });
+    if (isValid) {
+      dispatch(addEntry({
+        date: formatDateForDB(date),
+        direction,
+        engines: engines.map((engine, index) => (
+          {
+            line: engine.line,
+            number: engine.number,
+            order: index + 1,
+            location: engine.location,
+          }
+        )),
+        id: createEntryId(date, time),
+        time: formatTimeForDB(time),
+      }));
+    }
+    this.setState({ isEntryValid: isValid });
   }
 
   displayForm() {
@@ -97,38 +106,40 @@ class AddEntry extends Component {
     const id = idIter + 1;
     engines.push({
       id: `engine-no-${id}`,
-      data: {
-        line: '',
-        number: '',
-        location: '',
-      },
+      line: '',
+      number: '',
+      location: '',
+      isValid: false,
     });
     this.setState({ idIter: id });
     this.setState({ engines });
   }
 
   removeEngine(id) {
-    console.log('removeEngine');
     const { engines } = this.state;
     const index = engines.findIndex(engine => engine.id === id);
     engines.splice(index, 1);
     this.setState({ engines });
-    // console.log(engines);
   }
 
-  updateEngines(id, data) {
+  updateEngines(id, isValid, line, location, number) {
     const { engines } = this.state;
     const item = engines.find(engine => engine.id === id);
     if (item !== null) {
-      item.data = data;
+      item.line = line;
+      item.location = location;
+      item.number = number;
+      item.isValid = isValid;
     }
-    // console.log(engines);
   }
 
   render() {
     const { isActive, trainLineList } = this.props;
-    const { date, direction, engines, time } = this.state;
-    const errorDisplayClass = 'hidden';
+    const { date, direction, engines, isEntryValid, time } = this.state;
+    let errorDisplayClass = 'hidden';
+    if (!isEntryValid) {
+      errorDisplayClass = '';
+    }
     return (
       <div>
         <button className="menu-nav-item menu-nav-button" onClick={this.displayForm} type="button">Add an Entry</button>

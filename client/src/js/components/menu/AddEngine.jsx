@@ -13,13 +13,14 @@ class AddEngine extends Component {
     this.handleLineChange = this.handleLineChange.bind(this);
     this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handleLocationChange = this.handleLocationChange.bind(this);
+    this.isEngineValid = this.isEngineValid.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
   }
 
   componentDidUpdate() {
     const { id, updateEngines } = this.props;
     const { line, location, number } = this.state;
-    updateEngines(id, { line, location, number });
+    updateEngines(id, this.isEngineValid(), line, location, number);
   }
 
   handleLineChange(event) {
@@ -37,6 +38,14 @@ class AddEngine extends Component {
   handleRemove() {
     const { id, removeEngine } = this.props;
     removeEngine(id);
+  }
+
+  isEngineValid() {
+    const { line, location, number } = this.state;
+    if (line === '' || location === '' || number === '') {
+      return false;
+    }
+    return true;
   }
 
   render() {
