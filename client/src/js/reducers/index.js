@@ -3,6 +3,10 @@ import { combineReducers } from 'redux';
 import {
   REQUEST_ENTRIES,
   RECEIVE_ENTRIES,
+  REQUEST_TRAIN_LINES,
+  RECEIVE_TRAIN_LINES,
+  SUBMIT_ENTRY,
+  ENTRY_ADDED,
   SHOW_DETAIL,
   HIDE_DETAIL,
   SHOW_MENU,
@@ -18,11 +22,13 @@ const entryData = (state = {
 }, action) => {
   switch (action.type) {
     case REQUEST_ENTRIES:
+    case SUBMIT_ENTRY:
       return {
         ...state,
         isFetching: true,
       };
     case RECEIVE_ENTRIES:
+    case ENTRY_ADDED:
       return {
         ...state,
         isFetching: false,
@@ -105,10 +111,32 @@ const userStatus = (state = {
   }
 };
 
+const trainLines = (state = {
+  isFetching: false,
+  items: [],
+}, action) => {
+  switch (action.type) {
+    case REQUEST_TRAIN_LINES:
+      return {
+        ...state,
+        isFetching: true,
+      };
+    case RECEIVE_TRAIN_LINES:
+      return {
+        ...state,
+        isFetching: false,
+        items: action.data,
+      };
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   entryData,
   entryDetail,
   menu,
+  trainLines,
   userStatus,
 });
 

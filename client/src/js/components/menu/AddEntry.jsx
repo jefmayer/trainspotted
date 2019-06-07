@@ -1,21 +1,24 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import AddEngine from './AddEngine';
+import { addEntry } from '../../actions';
+import { createEntryId, formatDateForDB, formatTimeForDB } from '../../utils/Formatting';
 
 class AddEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
       date: '',
-      direction: '',
+      direction: 'north',
       idIter: 0,
       engines: [{
         id: 'engine-no-0',
         data: {
           line: '',
           number: '',
-          position: '',
+          location: '',
         },
       }],
       time: '',
@@ -65,9 +68,23 @@ class AddEntry extends Component {
   }
 
   handleSubmit(event) {
-    const { date, direction, time } = this.state;
-    console.log(`${date}, ${time}, ${direction}`);
+    const { dispatch } = this.props;
+    const { date, direction, engines, time } = this.state;
     event.preventDefault();
+    dispatch(addEntry({
+      date: formatDateForDB(date),
+      direction,
+      engines: engines.map((engine, index) => (
+        {
+          line: engine.data.line,
+          number: engine.data.number,
+          order: index + 1,
+          location: engine.data.location,
+        }
+      )),
+      id: createEntryId(date, time),
+      time: formatTimeForDB(time),
+    }));
   }
 
   displayForm() {
@@ -83,7 +100,7 @@ class AddEntry extends Component {
       data: {
         line: '',
         number: '',
-        position: '',
+        location: '',
       },
     });
     this.setState({ idIter: id });
@@ -109,7 +126,7 @@ class AddEntry extends Component {
   }
 
   render() {
-    const { isActive } = this.props;
+    const { isActive, trainLineList } = this.props;
     const { date, direction, engines, time } = this.state;
     const errorDisplayClass = 'hidden';
     return (
@@ -128,8 +145,8 @@ class AddEntry extends Component {
             <label className="form-label form-select-label form-label-direction" htmlFor="direction">
               <span>Direction</span>
               <select className="form-select" id="direction" name="direction" value={direction} onChange={this.handleDirectionChange}>
-                <option>North</option>
-                <option>South</option>
+                <option value="north">North</option>
+                <option value="south">South</option>
               </select>
             </label>
           </div>
@@ -139,6 +156,7 @@ class AddEntry extends Component {
                 id={engine.id}
                 key={engine.id}
                 removeEngine={this.removeEngine}
+                trainLineList={trainLineList}
                 updateEngines={this.updateEngines}
               />
             ))
@@ -156,9 +174,21 @@ class AddEntry extends Component {
 }
 
 AddEntry.propTypes = {
+  dispatch: PropTypes.func,
   isActive: PropTypes.bool.isRequired,
   setActiveMenuItem: PropTypes.func.isRequired,
+  trainLineList: PropTypes.arrayOf(PropTypes.object),
 };
 
-export default AddEntry;
+const mapStateToProps = (state) => {
+  const { trainLines } = state;
+  const {
+    items: trainLineList,
+  } = trainLines;
+  return {
+    trainLineList,
+  };
+};
+
+export default connect(mapStateToProps)(AddEntry);
 /* eslint-enable no-console */

@@ -1,6 +1,10 @@
 /* eslint-disable no-console */
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
+export const REQUEST_TRAIN_LINES = 'REQUEST_LINES';
+export const RECEIVE_TRAIN_LINES = 'RECEIVE_LINES';
+export const SUBMIT_ENTRY = 'SUBMIT_ENTRY';
+export const ENTRY_ADDED = 'ENTRY_ADDED';
 export const SHOW_DETAIL = 'SHOW_DETAIL';
 export const HIDE_DETAIL = 'HIDE_DETAIL';
 export const SHOW_MENU = 'SHOW_MENU';
@@ -17,11 +21,36 @@ export const receiveEntries = json => ({
   data: json,
 });
 
+export const requestTrainLines = () => ({
+  type: REQUEST_TRAIN_LINES,
+});
+
+export const receiveTrainLines = json => ({
+  type: RECEIVE_TRAIN_LINES,
+  data: json,
+});
+
+export const submitEntry = () => ({
+  type: SUBMIT_ENTRY,
+});
+
+export const entryAdded = json => ({
+  type: ENTRY_ADDED,
+  data: json,
+});
+
 export const fetchEntries = () => dispatch => { /* eslint-disable-line arrow-parens */
   dispatch(requestEntries());
   return fetch('/getEntries')
     .then(response => response.json())
     .then(json => dispatch(receiveEntries(json)));
+};
+
+export const fetchTrainLines = () => dispatch => { /* eslint-disable-line arrow-parens */
+  dispatch(requestTrainLines());
+  return fetch('/getLines')
+    .then(response => response.json())
+    .then(json => dispatch(receiveTrainLines(json)));
 };
 
 export const showDetail = id => ({
@@ -61,6 +90,25 @@ export const login = ({ user, password }) => dispatch => { /* eslint-disable-lin
   })
     .then(response => response.json())
     .then(json => dispatch(loginAttempt(json)));
+};
+
+export const addEntry = ({ date, direction, engines, time }) => dispatch => { /* eslint-disable-line arrow-parens */
+  dispatch(submitEntry());
+  return fetch('/addEntry', {
+    method: 'POST',
+    headers: new Headers({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      date,
+      time,
+      direction,
+      engines,
+    }),
+  })
+    .then(response => response.json())
+    .then(json => dispatch(entryAdded(json)));
 };
 
 export const logout = () => ({

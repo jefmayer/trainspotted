@@ -36,32 +36,39 @@ express()
         })
         entry.number = index;
       })
-      console.log('Connected successfully to server')
       // res.end(JSON.stringify(yield find(db, 'entries')))
+      // Chronological order... #TODO
       res.end(JSON.stringify(entries.reverse()))
       db.close()
     }).catch(err => console.log(err))
   })
-  .post('/addRecord', function(req, res) {    
+  .get('/getLines', function(req, res) {
+    co(function * () {
+      const db = yield MongoClient.connect(url)
+      const lines= yield find(db, 'trainlines')
+      // Alphabetical order... #TODO
+      res.end(JSON.stringify(lines))
+      db.close()
+    }).catch(err => console.log(err))
+  })
+  .post('/addEntry', function(req, res) {    
     co(function * () {
       const db = yield MongoClient.connect(url)
       var dbo = db.db('trainspotted')
       var doc = {
         date: req.body.date,
-        mobility: req.body.mobility,
-        activity: req.body.activity,
-        appetite: req.body.appetite,
-        pain: req.body.pain,
-        stress: req.body.stress,
-        notes: req.body.notes
+        direction: req.body.direction,
+        engines: req.body.engines,
+        id: req.body.id,
+        time: req.body.time
       }
-      console.log(doc)
       console.log(dbo.collection('entries').updateOne(
         { date: req.body.date },
         { $set: doc },
         { upsert: true }
       ))
-      res.end(JSON.stringify({success: "success"}))
+      const entries = yield find(db, 'entries')
+      res.end(JSON.stringify(entries.reverse()))
       db.close();
     }).catch(err => console.log(err))
   })

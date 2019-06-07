@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchEntries, hideDetail, hideMenu, showMenu } from '../actions';
+import { fetchEntries, fetchTrainLines, hideDetail, hideMenu, showMenu } from '../actions';
 import Chart from '../components/chart/Chart';
 import Detail from '../components/detail/Detail';
 import Menu from '../components/menu/Menu';
@@ -13,6 +13,7 @@ class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchEntries());
+    dispatch(fetchTrainLines());
   }
 
   render() {
