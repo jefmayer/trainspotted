@@ -17,6 +17,15 @@ class AddEngine extends Component {
     this.handleRemove = this.handleRemove.bind(this);
   }
 
+  componentWillReceiveProps(props) {
+    const { line, location, number } = props;
+    this.setState({
+      line,
+      location,
+      number,
+    });
+  }
+
   componentDidUpdate() {
     const { id, updateEngines } = this.props;
     const { line, location, number } = this.state;
@@ -85,6 +94,9 @@ class AddEngine extends Component {
 
 AddEngine.propTypes = {
   id: PropTypes.string.isRequired,
+  line: PropTypes.string,
+  location: PropTypes.string,
+  number: PropTypes.string,
   removeEngine: PropTypes.func.isRequired,
   trainLineList: PropTypes.arrayOf(PropTypes.object),
   updateEngines: PropTypes.func.isRequired,

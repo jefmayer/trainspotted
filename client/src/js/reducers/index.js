@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import { combineReducers } from 'redux';
 import {
+  SUBMIT_TRAIN_LINE,
+  TRAIN_LINE_ADDED,
   REQUEST_ENTRIES,
   RECEIVE_ENTRIES,
   REQUEST_TRAIN_LINES,
@@ -117,11 +119,13 @@ const trainLines = (state = {
 }, action) => {
   switch (action.type) {
     case REQUEST_TRAIN_LINES:
+    case SUBMIT_TRAIN_LINE:
       return {
         ...state,
         isFetching: true,
       };
     case RECEIVE_TRAIN_LINES:
+    case TRAIN_LINE_ADDED:
       return {
         ...state,
         isFetching: false,

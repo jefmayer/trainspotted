@@ -19,11 +19,16 @@ var find = function (db, col) {
   })
 }
 
+var findPreviousSightings = function(line, number, entries) {
+  
+}
+
 var sortedEntries = function(entries, lines) {
   entries.map((entry, index) => {
     entry.engines.map((engine) => {
       const matchedLine = lines.find(line => line.name === engine.line)
       engine.color = matchedLine.color
+      engine.sightings = findPreviousSightings(engine.line, engine.number, entries);
     })
     entry.number = index;
   })

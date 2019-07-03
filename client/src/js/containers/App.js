@@ -55,6 +55,7 @@ class App extends Component {
             <Detail
               onDetailClose={onDetailClose}
               data={getEntryById(detailId)}
+              entries={entries}
             />
           )
         }

@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+export const SUBMIT_TRAIN_LINE = 'SUBMIT_TRAIN_LINE';
+export const TRAIN_LINE_ADDED = 'TRAIN_LINE_ADDED';
 export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
 export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
 export const REQUEST_TRAIN_LINES = 'REQUEST_LINES';
@@ -27,6 +29,15 @@ export const requestTrainLines = () => ({
 
 export const receiveTrainLines = json => ({
   type: RECEIVE_TRAIN_LINES,
+  data: json,
+});
+
+export const submitTrainLine = () => ({
+  type: SUBMIT_TRAIN_LINE,
+});
+
+export const trainLineAdded = json => ({
+  type: TRAIN_LINE_ADDED,
   data: json,
 });
 
@@ -106,6 +117,22 @@ export const addEntry = ({ date, direction, engines, id, time }) => dispatch => 
       direction,
       engines,
       id,
+    }),
+  })
+    .then(response => response.json())
+    .then(json => dispatch(entryAdded(json)));
+};
+
+export const addTrainLine = ({ lineName }) => dispatch => { /* eslint-disable-line arrow-parens */
+  dispatch(submitTrainLine());
+  return fetch('/addTrainLine', {
+    method: 'POST',
+    headers: new Headers({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      lineName,
     }),
   })
     .then(response => response.json())

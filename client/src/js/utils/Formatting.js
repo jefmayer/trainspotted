@@ -32,6 +32,30 @@ export function formatTimeForDB(time) {
   return `${hours}:${timeValues[1]}:00 ${amPm}`;
 }
 
+export function formatDateForSelect(value) {
+  let date = value.getDate().toString();
+  if (date.length === 1) {
+    date = `0${date}`;
+  }
+  let month = (value.getMonth() + 1).toString();
+  if (month.length === 1) {
+    month = `0${month}`;
+  }
+  return `${value.getFullYear()}-${month}-${date}`;
+}
+
+export function formatTimeForSelect(value) {
+  let hours = value.getHours().toString();
+  if (hours.length === 1) {
+    hours = `0${hours}`;
+  }
+  let mins = value.getMinutes().toString();
+  if (mins.length === 1) {
+    mins = `0${mins}`;
+  }
+  return `${hours}:${mins}`;
+}
+
 export function createEntryId(date, time) {
   const dateArr = date.split('-');
   const timeArr = time.split(':');

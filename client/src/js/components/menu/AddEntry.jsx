@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AddEngine from './AddEngine';
 import { addEntry } from '../../actions';
-import { createEntryId, formatDateForDB, formatTimeForDB } from '../../utils/Formatting';
+import { createEntryId, formatDateForDB, formatTimeForDB, formatDateForSelect, formatTimeForSelect } from '../../utils/Formatting';
 
 class AddEntry extends Component {
   constructor(props) {
@@ -27,32 +27,20 @@ class AddEntry extends Component {
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleDirectionChange = this.handleDirectionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
     this.displayForm = this.displayForm.bind(this);
     this.addEngine = this.addEngine.bind(this);
     this.removeEngine = this.removeEngine.bind(this);
     this.updateEngines = this.updateEngines.bind(this);
+    this.reset = this.reset.bind(this);
   }
 
   componentDidMount() {
     const today = new Date();
-    let date = today.getDate().toString();
-    if (date.length === 1) {
-      date = `0${date}`;
-    }
-    let month = (today.getMonth() + 1).toString();
-    if (month.length === 1) {
-      month = `0${month}`;
-    }
-    this.setState({ date: `${today.getFullYear()}-${month}-${date}` });
-    let hours = today.getHours().toString();
-    if (hours.length === 1) {
-      hours = `0${hours}`;
-    }
-    let mins = today.getMinutes().toString();
-    if (mins.length === 1) {
-      mins = `0${mins}`;
-    }
-    this.setState({ time: `${hours}:${mins}` });
+    this.setState({
+      date: formatDateForSelect(today),
+      time: formatTimeForSelect(today),
+    });
   }
 
   handleDateChange(event) {
@@ -92,8 +80,33 @@ class AddEntry extends Component {
         id: createEntryId(date, time),
         time: formatTimeForDB(time),
       }));
+      // Should wait for callback...
+      this.reset();
     }
     this.setState({ isEntryValid: isValid });
+  }
+
+  handleCancel(event) {
+    event.preventDefault();
+    this.reset();
+  }
+
+  reset() {
+    const today = new Date();
+    this.setState({
+      date: formatDateForSelect(today),
+      direction: 'north',
+      idIter: 0,
+      isEntryValid: true,
+      engines: [{
+        id: 'engine-no-0',
+        line: '',
+        number: '',
+        location: '',
+        isValid: false,
+      }],
+      time: formatTimeForSelect(today),
+    });
   }
 
   displayForm() {
@@ -166,6 +179,9 @@ class AddEntry extends Component {
               <AddEngine
                 id={engine.id}
                 key={engine.id}
+                line={engine.line}
+                location={engine.location}
+                number={engine.number}
                 removeEngine={this.removeEngine}
                 trainLineList={trainLineList}
                 updateEngines={this.updateEngines}
@@ -175,7 +191,7 @@ class AddEntry extends Component {
           <button className="text-button add-engine-button" type="button" onClick={this.addEngine}>Add Another Engine</button>
           <div className="form-action-buttons">
             <button className="submit-button add-button" type="submit">Add Entry</button>
-            <button className="cancel-button" type="button" />
+            <button className="cancel-button" type="button" onClick={this.handleCancel} />
           </div>
           <div className={`form-error ${errorDisplayClass}`}>There was an error adding the entry. Please try again.</div>
         </form>

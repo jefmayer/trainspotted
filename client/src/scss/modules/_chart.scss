@@ -84,11 +84,12 @@
   @include san-serif-bold;
   color: $dark;
   font-size: .8rem;
-  left: -1.8rem;
+  left: .7rem;
   position: absolute;
   text-transform: uppercase;
-  top: 0;
+  top: 2.2rem;
   transform: rotate(-90deg) translate(-50%,0);
+  transform-origin: left;
   z-index: 10;
 }
 

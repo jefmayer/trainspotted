@@ -7,6 +7,8 @@ import months from '../../utils/Months';
 
 const Chart = ({ entries }) => {
   const dates = [...new Set(entries.map(entry => entry.date))];
+  let currentMonth = -1;
+  let isMonthLabel = false;
 
   return (
     <div className="train-chart">
@@ -29,20 +31,32 @@ const Chart = ({ entries }) => {
       <div className="time-table">
         <div className="month-bar" />
         {
-          dates.map(date => (
-            <div className="date-line" key={date}>
-              <div className="month-display">
-                <span>{`${months[date.split('/')[0] - 1]} ${date.split('/')[2]}`}</span>
+          dates.map((date) => {
+            if (currentMonth !== date.split('/')[0]) {
+              currentMonth = date.split('/')[0]; /* eslint-disable-line prefer-destructuring */
+              isMonthLabel = true;
+            } else {
+              isMonthLabel = false;
+            }
+            return (
+              <div className="date-line" key={date}>
+                {isMonthLabel
+                  && (
+                    <div className="month-display">
+                      <span>{`${months[date.split('/')[0] - 1]} ${date.split('/')[2]}`}</span>
+                    </div>
+                  )
+                }
+                <div className="date-display">
+                  <span>{date.split('/')[1]}</span>
+                </div>
+                <EntriesForDate
+                  date={date}
+                  entries={entries}
+                />
               </div>
-              <div className="date-display">
-                <span>{date.split('/')[1]}</span>
-              </div>
-              <EntriesForDate
-                date={date}
-                entries={entries}
-              />
-            </div>
-          ))
+            );
+          })
         }
       </div>
     </div>

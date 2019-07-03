@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import months from '../../utils/Months';
 import { formatDate, formatTime } from '../../utils/Formatting';
+import { findMatches } from '../../utils/Lookup';
 
 class Detail extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class Detail extends Component {
   }
 
   render() {
-    const { onDetailClose, data } = this.props;
+    const { onDetailClose, data, entries } = this.props;
     const { loadedClass } = this.state;
 
     return (
@@ -64,7 +65,7 @@ class Detail extends Component {
                           <td><span>{engine.line}</span></td>
                           <td><span>{engine.number}</span></td>
                           <td><span>{engine.location}</span></td>
-                          <td><span>&nbsp;</span></td>
+                          <td><span>{findMatches(engine.line, engine.number, entries)}</span></td>
                         </tr>
                       );
                     })
@@ -87,6 +88,7 @@ Detail.propTypes = {
     time: PropTypes.string.isRequired,
     direction: PropTypes.string.isRequired,
   }),
+  entries: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Detail;
