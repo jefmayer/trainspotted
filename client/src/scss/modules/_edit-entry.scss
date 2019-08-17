@@ -1,0 +1,17 @@
+.edit-entry-button {
+  background: $dark;
+  bottom: -1.5rem;
+  height: 4rem;
+  left: 0;
+  outline: none;
+  padding: 0 3rem;
+  position: absolute;
+  text-align: left;
+  transition: transform .25s ease-in-out;
+  width: 100%;
+  will-change: transform;
+
+  &:hover {
+    transform: translateY(-1rem);
+  }
+}

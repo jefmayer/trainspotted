@@ -71,7 +71,7 @@ class AddLine extends Component {
             <input className="form-input" id="lineName" name="lineName" type="text" value={lineName} onChange={this.handleLineNameChange} />
           </label>
           <div className="form-action-buttons">
-            <button className="submit-button add-button" type="submit">Add Train Line</button>
+            <button className="submit-button add-button" type="submit">Add Line</button>
             <button className="cancel-button" type="button" onClick={this.handleCancel} />
           </div>
           <div className={`form-error ${errorDisplayClass}`}>There was an error signing in. Please recheck.</div>

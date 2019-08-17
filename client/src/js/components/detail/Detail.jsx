@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import EditEntry from './EditEntry';
 import months from '../../utils/Months';
 import { formatDate, formatTime } from '../../utils/Formatting';
 import { findMatches } from '../../utils/Lookup';
@@ -20,8 +22,12 @@ class Detail extends Component {
     }, 250);
   }
 
+  editEntry() {
+    console.log(this);
+  }
+
   render() {
-    const { onDetailClose, data, entries } = this.props;
+    const { onDetailClose, data, entries, isLoggedIn } = this.props;
     const { loadedClass } = this.state;
 
     return (
@@ -75,11 +81,28 @@ class Detail extends Component {
               <div className="detail-subhead">Notes</div>
             </div>
           </div>
+          {isLoggedIn
+            && (
+              <EditEntry
+                entryData={data}
+              />
+            )
+          }
         </div>
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const { userStatus } = state;
+  const {
+    isLoggedIn,
+  } = userStatus;
+  return {
+    isLoggedIn,
+  };
+};
 
 Detail.propTypes = {
   onDetailClose: PropTypes.func.isRequired,
@@ -89,7 +112,8 @@ Detail.propTypes = {
     direction: PropTypes.string.isRequired,
   }),
   entries: PropTypes.arrayOf(PropTypes.object),
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
-export default Detail;
+export default connect(mapStateToProps)(Detail);
 /* eslint-enable no-console */

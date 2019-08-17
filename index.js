@@ -90,13 +90,14 @@ express()
         direction: req.body.direction,
         engines: req.body.engines,
         id: req.body.id,
+        notes: req.body.notes,
         time: req.body.time
       }
-      console.log(dbo.collection('entries').updateOne(
+      dbo.collection('entries').updateOne(
         { id: req.body.id },
         { $set: doc },
         { upsert: true }
-      ))
+      )
       const entries = sortedEntries(
         yield find(db, 'entries'),
         yield find(db, 'trainlines')

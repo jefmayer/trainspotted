@@ -47,6 +47,9 @@ class App extends Component {
             onMenuClick={onMenuClick}
           />
         </header>
+        {
+          // Add in At A Glance
+        }
         <Chart
           entries={entries}
         />

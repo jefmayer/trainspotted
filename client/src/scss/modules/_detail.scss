@@ -24,7 +24,8 @@
   height: auto;
   left: 50%;
   max-width: 45rem;
-  // opacity: .5;
+  overflow: hidden;
+  padding-bottom: 4rem;
   position: fixed;
   transform: translate(-50%,1rem);
   transition: all .15s linear .1s;

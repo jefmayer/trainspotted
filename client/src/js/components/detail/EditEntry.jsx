@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AddEngine from './AddEngine';
+import AddEngine from '../menu/AddEngine';
 import { addEntry } from '../../actions';
 import { createEntryId, formatDateForDB, formatTimeForDB, formatDateForSelect, formatTimeForSelect } from '../../utils/Formatting';
 
-class AddEntry extends Component {
+class EditEntry extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +20,7 @@ class AddEntry extends Component {
         isValid: false,
       }],
       idIter: 0,
+      isActive: false,
       isEntryValid: true,
       notes: '',
       time: '',
@@ -118,8 +119,7 @@ class AddEntry extends Component {
   }
 
   displayForm() {
-    const { setActiveMenuItem } = this.props;
-    setActiveMenuItem('add-entry');
+    this.setState({ isActive: true });
   }
 
   addEngine() {
@@ -155,15 +155,26 @@ class AddEntry extends Component {
   }
 
   render() {
-    const { isActive, trainLineList } = this.props;
-    const { date, direction, engines, isEntryValid, notes, time } = this.state;
+    const { trainLineList, entryData } = this.props;
+    const {
+      date,
+      direction,
+      engines,
+      isActive,
+      isEntryValid,
+      notes,
+      time,
+    } = this.state;
     let errorDisplayClass = 'hidden';
     if (!isEntryValid) {
       errorDisplayClass = '';
     }
+    console.log(entryData);
     return (
       <div>
-        <button className="menu-nav-item menu-nav-button" onClick={this.displayForm} type="button">Add an Entry</button>
+        <button className="edit-entry-button" onClick={this.displayForm} type="button">
+          <span className="text-button">Edit Entry</span>
+        </button>
         <form className={`login-form app-form ${isActive ? '' : 'hidden'}`} onSubmit={this.handleSubmit}>
           <label className="form-label form-label-date" htmlFor="date">
             <span>Date</span>
@@ -212,10 +223,9 @@ class AddEntry extends Component {
   }
 }
 
-AddEntry.propTypes = {
+EditEntry.propTypes = {
   dispatch: PropTypes.func,
-  isActive: PropTypes.bool.isRequired,
-  setActiveMenuItem: PropTypes.func.isRequired,
+  entryData: PropTypes.arrayOf(PropTypes.object),
   trainLineList: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -229,5 +239,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(AddEntry);
+export default connect(mapStateToProps)(EditEntry);
 /* eslint-enable no-console */
