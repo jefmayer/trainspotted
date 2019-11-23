@@ -5,3 +5,17 @@
     text-decoration: none;
   }
 }
+
+.heading-lg {
+  @include display-type;
+  font-size: 1.8rem;
+  line-height: 2rem;
+  text-transform: uppercase;
+}
+
+.page-heading-divider {
+  border-top: .2rem solid $dark-50;
+  margin: 0 3rem 1rem;
+  padding-top: .7rem;
+  text-align: center;
+}

@@ -11,53 +11,58 @@ const Chart = ({ entries }) => {
   let isMonthLabel = false;
 
   return (
-    <div className="train-chart">
-      <div className="x-axis-header clearfix">
-        <ul>
-          <li><span>12 AM</span></li>
-          <li><span>2 AM</span></li>
-          <li><span>4 AM</span></li>
-          <li><span>6 AM</span></li>
-          <li><span>8 AM</span></li>
-          <li><span>10 AM</span></li>
-          <li><span>12 PM</span></li>
-          <li><span>2 PM</span></li>
-          <li><span>4 PM</span></li>
-          <li><span>6 PM</span></li>
-          <li><span>8 PM</span></li>
-          <li><span>10 PM</span></li>
-        </ul>
+    <div>
+      <div className="page-heading-divider">
+        <h2 className="heading-lg">Sightings</h2>
       </div>
-      <div className="time-table">
-        <div className="month-bar" />
-        {
-          dates.map((date) => {
-            if (currentMonth !== date.split('/')[0]) {
-              currentMonth = date.split('/')[0]; /* eslint-disable-line prefer-destructuring */
-              isMonthLabel = true;
-            } else {
-              isMonthLabel = false;
-            }
-            return (
-              <div className="date-line" key={date}>
-                {isMonthLabel
-                  && (
-                    <div className="month-display">
-                      <span>{`${months[date.split('/')[0] - 1]} ${date.split('/')[2]}`}</span>
-                    </div>
-                  )
-                }
-                <div className="date-display">
-                  <span>{date.split('/')[1]}</span>
+      <div className="train-chart">
+        <div className="x-axis-header clearfix">
+          <ul>
+            <li><span>12 AM</span></li>
+            <li><span>2 AM</span></li>
+            <li><span>4 AM</span></li>
+            <li><span>6 AM</span></li>
+            <li><span>8 AM</span></li>
+            <li><span>10 AM</span></li>
+            <li><span>12 PM</span></li>
+            <li><span>2 PM</span></li>
+            <li><span>4 PM</span></li>
+            <li><span>6 PM</span></li>
+            <li><span>8 PM</span></li>
+            <li><span>10 PM</span></li>
+          </ul>
+        </div>
+        <div className="time-table">
+          <div className="month-bar" />
+          {
+            dates.map((date) => {
+              if (currentMonth !== date.split('/')[0]) {
+                currentMonth = date.split('/')[0]; /* eslint-disable-line prefer-destructuring */
+                isMonthLabel = true;
+              } else {
+                isMonthLabel = false;
+              }
+              return (
+                <div className="date-line" key={date}>
+                  {isMonthLabel
+                    && (
+                      <div className="month-display">
+                        <span>{`${months[date.split('/')[0] - 1]} ${date.split('/')[2]}`}</span>
+                      </div>
+                    )
+                  }
+                  <div className="date-display">
+                    <span>{date.split('/')[1]}</span>
+                  </div>
+                  <EntriesForDate
+                    date={date}
+                    entries={entries}
+                  />
                 </div>
-                <EntriesForDate
-                  date={date}
-                  entries={entries}
-                />
-              </div>
-            );
-          })
-        }
+              );
+            })
+          }
+        </div>
       </div>
     </div>
   );

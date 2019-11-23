@@ -103,7 +103,7 @@ export const login = ({ user, password }) => dispatch => { /* eslint-disable-lin
     .then(json => dispatch(loginAttempt(json)));
 };
 
-export const addEntry = ({ date, direction, engines, id, time }) => dispatch => { /* eslint-disable-line arrow-parens */
+export const addEntry = ({ date, direction, engines, id, time, notes }) => dispatch => { /* eslint-disable-line arrow-parens */
   dispatch(submitEntry());
   return fetch('/addEntry', {
     method: 'POST',
@@ -117,13 +117,14 @@ export const addEntry = ({ date, direction, engines, id, time }) => dispatch => 
       direction,
       engines,
       id,
+      notes,
     }),
   })
     .then(response => response.json())
     .then(json => dispatch(entryAdded(json)));
 };
 
-export const addTrainLine = ({ lineName }) => dispatch => { /* eslint-disable-line arrow-parens */
+export const addTrainLine = ({ lineName, lineShortName, lineColor, id }) => dispatch => { /* eslint-disable-line arrow-parens */
   dispatch(submitTrainLine());
   return fetch('/addTrainLine', {
     method: 'POST',
@@ -133,6 +134,9 @@ export const addTrainLine = ({ lineName }) => dispatch => { /* eslint-disable-li
     }),
     body: JSON.stringify({
       lineName,
+      lineShortName,
+      lineColor,
+      id,
     }),
   })
     .then(response => response.json())

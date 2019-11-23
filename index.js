@@ -106,6 +106,28 @@ express()
       db.close();
     }).catch(err => console.log(err))
   })
+  .post('/addTrainLine', function(req, res) {    
+    co(function * () {
+      const db = yield MongoClient.connect(url)
+      var dbo = db.db('trainspotted')
+      var doc = {
+        name: req.body.lineName,
+        id: req.body.id,
+        color: req.body.lineColor,
+        short: req.body.lineShortName
+      }
+      dbo.collection('trainlines').updateOne(
+        { id: req.body.id },
+        { $set: doc },
+        { upsert: true }
+      )
+      const entries = sortedEntries(
+        yield find(db, 'trainlines'),
+      );
+      res.end(JSON.stringify(entries))
+      db.close();
+    }).catch(err => console.log(err))
+  })
   .post('/login', function(req, res) {
     co(function * () {
       const db = yield MongoClient.connect(url)

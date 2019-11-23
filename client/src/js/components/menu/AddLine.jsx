@@ -9,9 +9,13 @@ class AddLine extends Component {
     super(props);
     this.state = {
       lineName: '',
+      lineShortName: '',
+      lineColor: '',
       isEntryValid: true,
     };
     this.handleLineNameChange = this.handleLineNameChange.bind(this);
+    this.handleLineShortNameChange = this.handleLineShortNameChange.bind(this);
+    this.handleLineColorChange = this.handleLineColorChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.displayForm = this.displayForm.bind(this);
   }
@@ -20,9 +24,21 @@ class AddLine extends Component {
     this.setState({ lineName: event.target.value });
   }
 
+  handleLineShortNameChange(event) {
+    this.setState({ lineShortName: event.target.value });
+  }
+
+  handleLineColorChange(event) {
+    this.setState({ lineColor: event.target.value });
+  }
+
   handleSubmit(event) {
     const { dispatch } = this.props;
-    const { lineName } = this.state;
+    const {
+      lineName,
+      lineShortName,
+      lineColor,
+    } = this.state;
     console.log(`${lineName},`);
     let isValid = true;
     event.preventDefault();
@@ -32,6 +48,9 @@ class AddLine extends Component {
     if (isValid) {
       dispatch(addTrainLine({
         lineName,
+        lineShortName,
+        lineColor,
+        id: lineName.toLowerCase().replace(/\s/, '-'),
       }));
       // Should wait for callback...
       this.reset();
@@ -57,7 +76,12 @@ class AddLine extends Component {
 
   render() {
     const { isActive } = this.props;
-    const { lineName, isEntryValid } = this.state;
+    const {
+      lineName,
+      lineShortName,
+      lineColor,
+      isEntryValid,
+    } = this.state;
     let errorDisplayClass = 'hidden';
     if (!isEntryValid) {
       errorDisplayClass = '';
@@ -69,6 +93,14 @@ class AddLine extends Component {
           <label className="form-label form-label-line-name" htmlFor="lineName">
             <span>Name</span>
             <input className="form-input" id="lineName" name="lineName" type="text" value={lineName} onChange={this.handleLineNameChange} />
+          </label>
+          <label className="form-label form-label-line-short-name" htmlFor="lineShortName">
+            <span>Short Name</span>
+            <input className="form-input" id="lineShortName" name="lineShortName" type="text" value={lineShortName} onChange={this.handleLineShortNameChange} />
+          </label>
+          <label className="form-label form-label-line-color" htmlFor="lineColor">
+            <span>Color</span>
+            <input className="form-input" id="lineColor" name="lineColor" type="text" value={lineColor} onChange={this.handleLineColorChange} />
           </label>
           <div className="form-action-buttons">
             <button className="submit-button add-button" type="submit">Add Line</button>

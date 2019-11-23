@@ -79,6 +79,7 @@ class Detail extends Component {
                 </tbody>
               </table>
               <div className="detail-subhead">Notes</div>
+              <p className="detail-notes">{data.notes}</p>
             </div>
           </div>
           {isLoggedIn

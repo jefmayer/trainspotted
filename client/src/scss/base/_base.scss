@@ -28,9 +28,11 @@ html {
 
 body {
   background: $background-color-light;
+  font-family: $body-font;
   -moz-osx-font-smoothing: grayscale; /* stylelint-disable-line property-no-vendor-prefix */
   -webkit-font-smoothing: antialiased; /* stylelint-disable-line property-no-vendor-prefix */
-  font-weight: normal;
+  font-style: normal;
+  font-weight: 400;
   margin: 0;
 }
 

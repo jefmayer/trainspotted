@@ -210,3 +210,9 @@
     visibility: visible;
   }
 }
+
+.detail-notes {
+  @include san-serif-body;
+  font-size: 1.2rem;
+  padding: .3rem 0 .3rem .5rem;
+}

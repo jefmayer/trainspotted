@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchEntries, fetchTrainLines, hideDetail, hideMenu, showMenu } from '../actions';
+import AtAGlance from '../components/ataglance/AtAGlance';
 import Chart from '../components/chart/Chart';
 import Detail from '../components/detail/Detail';
 import Menu from '../components/menu/Menu';
@@ -47,9 +48,7 @@ class App extends Component {
             onMenuClick={onMenuClick}
           />
         </header>
-        {
-          // Add in At A Glance
-        }
+        <AtAGlance />
         <Chart
           entries={entries}
         />
