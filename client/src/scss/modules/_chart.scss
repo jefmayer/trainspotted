@@ -1,31 +1,31 @@
 .train-chart {
   min-width: 76.8rem;
   position: relative;
-}
 
-.x-axis-header {
-
-  ul {
-    margin-left: 6rem;
-
-    li {
-      float: left;
-      text-align: left;
-      width: calc(100% / 12);
-
-      span {
-        @include san-serif-regular;
-        border-bottom: .3rem solid $highlight-color;
-        font-size: .8rem;
-      }
-
-      &::before {
-        border-left: .1rem dotted $dark;
-        content: '';
-        height: 100%;
-        position: absolute;
-        top: 1.5rem;
-        z-index: 3;
+  .x-axis-header {
+  
+    ul {
+      margin-left: 6rem;
+  
+      li {
+        float: left;
+        text-align: left;
+        width: calc(100% / 12);
+  
+        span {
+          @include san-serif-regular;
+          border-bottom: .3rem solid $highlight-color;
+          font-size: .8rem;
+        }
+  
+        &::before {
+          border-left: .1rem dotted $dark;
+          content: '';
+          height: 100%;
+          position: absolute;
+          top: 1.5rem;
+          z-index: 3;
+        }
       }
     }
   }
@@ -87,7 +87,7 @@
   left: .7rem;
   position: absolute;
   text-transform: uppercase;
-  top: 2.2rem;
+  top: 3.2rem;
   transform: rotate(-90deg) translate(-50%,0);
   transform-origin: left;
   z-index: 10;

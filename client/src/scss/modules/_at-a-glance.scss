@@ -1,6 +1,76 @@
 .aggregate-data-visualization-module {
   border-bottom: .1rem solid $dark-25;
   border-top: .1rem solid $dark-25;
-  height: 20rem; // temp
+  display: flex;
+  flex-direction: row;
   margin: 0 3rem .3rem;
+  max-width: calc(144rem - 6rem);
+  width: calc(100% - 6rem);
+}
+
+.data-filters {
+  position: relative;
+  width: 15rem;
+  z-index: 2;
+
+  input {
+    @include display-type;
+    background: transparent;
+    border: 0;
+    font-size: 1rem;
+    outline: none;
+    text-transform: uppercase;
+  }
+}
+
+.data-filters-inner li {
+  margin-bottom: 1rem;
+}
+
+.data-visualization {
+  border-left: .5rem solid $dark-15;
+  padding-left: 3rem;
+  width: calc(100% - 15rem);
+
+  .data-table {
+    margin: 1.5rem 0 1rem;
+  }
+
+  .y-axis-row {
+    margin-bottom: .5rem;
+    width: 100%;
+  }
+
+  .y-axis-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .row-label {
+    text-align: right;
+    width: 10rem;
+  }
+
+  .row-axis {
+    border-bottom: .1rem dotted $dark-15;
+    margin-bottom: .5rem;
+    margin-left: 1rem;
+    width: calc(100% - 20rem);
+  }
+
+  .x-axis {
+    margin-left: 10rem;
+    width: calc(100% - 20rem);
+  }
+
+  .data-set-values {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    li {
+      font-size: .8rem;
+    }
+  }
 }
