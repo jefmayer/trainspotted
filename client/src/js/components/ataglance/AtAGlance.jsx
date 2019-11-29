@@ -34,36 +34,38 @@ class AtAGlance extends Component {
           <h2 className="heading-lg">At A Glance</h2>
         </div>
         <div className="aggregate-data-visualization-module">
-          <div className="data-filters">
-            <ul className="data-filters-inner">
-              {
-                dataSets.map(item => (
-                  <li key={item.label}><input onClick={this.handleDataSetChange} type="button" value={item.label} /></li>
-                ))
-              }
-            </ul>
-          </div>
-          <div className="data-visualization">
-            <div className="data-table">
-              <div className="y-axis">
+          <div className="module-inner">
+            <div className="data-filters">
+              <ul className="data-filters-inner">
                 {
-                  trainLineList.map(trainLine => (
-                    <div className="y-axis-row" key={trainLine.id}>
-                      <div className="row-label">{trainLine.name}</div>
-                      <div className="row-axis" />
-                    </div>
+                  dataSets.map(item => (
+                    <li key={item.label}><input onClick={this.handleDataSetChange} type="button" value={item.label} /></li>
                   ))
                 }
-              </div>
-              <div className="x-axis">
-                <div className="data-set">
-                  <ul className="data-set-values">
-                    {
-                      activeSet.map(item => (
-                        <li key={item}>{item}</li>
-                      ))
-                    }
-                  </ul>
+              </ul>
+            </div>
+            <div className="data-visualization">
+              <div className="data-table">
+                <div className="y-axis">
+                  {
+                    trainLineList.map(trainLine => (
+                      <div className="y-axis-row" key={trainLine.id}>
+                        <div className="row-label">{trainLine.name}</div>
+                        <div className="row-axis" />
+                      </div>
+                    ))
+                  }
+                </div>
+                <div className="x-axis">
+                  <div className="data-set">
+                    <ul className="data-set-values">
+                      {
+                        activeSet.map(item => (
+                          <li key={`${item}-${Math.round(Math.random() * 1000)}`}>{item}</li>
+                        ))
+                      }
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
