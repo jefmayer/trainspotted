@@ -19,18 +19,50 @@
   width: 15rem;
   z-index: 2;
 
-  input {
+  button {
     @include display-type;
     background: transparent;
     border: 0;
     font-size: 1rem;
     outline: none;
+    cursor: pointer;
     text-transform: uppercase;
+
+    span {
+      position: relative;
+      z-index: 3;
+    }
+
+    &::before {
+      background: $highlight-color;
+      content: '';
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: all 0.25s ease-in-out;
+      width: 100%;
+    }
+
+    &:hover::before {
+      transform: scaleX(.1);
+    }
+
+    &.active::before {
+      transform: scaleX(1.08);
+    }
   }
 }
 
-.data-filters-inner li {
-  margin-bottom: 1rem;
+.data-filters-inner {
+  margin-top: 1.5rem;
+
+  li {
+    margin-bottom: 1rem;
+    position: relative;
+  }
 }
 
 .data-visualization {
