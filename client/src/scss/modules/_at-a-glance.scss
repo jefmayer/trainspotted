@@ -42,7 +42,7 @@
       top: 0;
       transform: scaleX(0);
       transform-origin: left;
-      transition: all 0.25s ease-in-out;
+      transition: transform 0.25s ease-in-out;
       width: 100%;
     }
 
@@ -76,6 +76,7 @@
 
   .y-axis-row {
     margin-bottom: .5rem;
+    position: relative;
     width: 100%;
   }
 
@@ -93,12 +94,25 @@
     border-bottom: .1rem dotted $dark-15;
     margin-bottom: .5rem;
     margin-left: 1rem;
-    width: calc(100% - 10rem);
+    width: calc(100% - 21rem);
+  }
+
+  .value-display {
+    bottom: .5rem;
+    content: '';
+    height: .1rem;
+    left: 0;
+    margin-left: 11rem;
+    position: absolute;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease-in-out;
+    width: calc(100% - 21rem);
   }
 
   .x-axis {
-    margin-left: 10rem;
-    width: calc(100% - 20rem);
+    margin-left: 11rem;
+    width: calc(100% - 21rem);
   }
 
   .data-set-values {
