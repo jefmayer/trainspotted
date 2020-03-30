@@ -6,13 +6,13 @@ import { connect } from 'react-redux';
 class TimeValues extends Component {
   constructor(props) {
     super(props);
-    console.log('values');
+    console.log('TimeValues');
   }
 
   render() {
     const { dataSet, trainLineList } = this.props;
     return (
-      <div className="data-table">
+      <div className="data-table time-values-table">
         <div className="y-axis">
           {
             trainLineList.map(trainLine => (

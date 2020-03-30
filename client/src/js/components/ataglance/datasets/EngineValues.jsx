@@ -21,7 +21,7 @@ class EngineValues extends Component {
   render() {
     const { dataSet, trainLineList } = this.props;
     return (
-      <div className="data-table">
+      <div className="data-table engine-values-table">
         <div className="y-axis">
           {
             trainLineList.map((trainLine) => {

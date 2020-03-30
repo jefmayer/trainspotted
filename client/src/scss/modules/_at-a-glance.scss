@@ -97,19 +97,6 @@
     width: calc(100% - 21rem);
   }
 
-  .value-display {
-    bottom: .5rem;
-    content: '';
-    height: .1rem;
-    left: 0;
-    margin-left: 11rem;
-    position: absolute;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.25s ease-in-out;
-    width: calc(100% - 21rem);
-  }
-
   .x-axis {
     margin-left: 11rem;
     width: calc(100% - 21rem);
@@ -125,4 +112,24 @@
       font-size: .8rem;
     }
   }
+}
+
+.engine-values-table {
+
+  .value-display {
+    bottom: .5rem;
+    content: '';
+    height: .1rem;
+    left: 0;
+    margin-left: 11rem;
+    position: absolute;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease-in-out;
+    width: calc(100% - 21rem);
+  }
+}
+
+.time-values-table {
+  //
 }

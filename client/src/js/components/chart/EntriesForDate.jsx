@@ -15,8 +15,7 @@ class EntriesForDate extends Component {
   }
 
   render() {
-    const { date } = this.props;
-    const { entries } = this.props;
+    const { date, entries } = this.props;
 
     return (
       <div className="entries-for-date" ref={this.divRef}>

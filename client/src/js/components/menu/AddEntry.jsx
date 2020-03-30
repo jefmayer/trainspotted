@@ -87,7 +87,6 @@ class AddEntry extends Component {
         notes,
         time: formatTimeForDB(time),
       }));
-      // Should wait for callback...
       this.reset();
     }
     this.setState({ isEntryValid: isValid });
@@ -111,8 +110,8 @@ class AddEntry extends Component {
         line: '',
         location: '',
         number: '',
-        notes: '',
       }],
+      notes: '',
       time: formatTimeForSelect(today),
     });
   }
