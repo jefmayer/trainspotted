@@ -1,24 +1,77 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-underscore-dangle */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getDatesByInterval, getDatePositionInRange } from '../../../utils/DateUtils';
 
 class ResightingValues extends Component {
   constructor(props) {
     super(props);
-    console.log('values');
+    this.initialSightingDate = this.getInitialSightingDate();
+  }
+
+  getInitialSightingDate() {
+    const { entries } = this.props;
+    const dates = entries.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+    return new Date(dates[0].date);
+  }
+
+  // Move to Lookup.js (utils)
+  getResightingsList() {
+    const { entries, trainLineList } = this.props;
+    // Build list of all engines with entry keys, dates, colors?
+    const allEntryEngines = [];
+    entries.forEach(entry => entry.engines.forEach(engine => allEntryEngines.push({
+      engine: `${trainLineList.find(line => engine.line === line.name).short}, ${engine.number}`,
+      entryId: entry._id,
+      date: entry.date,
+      color: trainLineList.find(line => engine.line === line.name).color,
+    })));
+    // Find all engines seen more than once
+    const seen = new Set();
+    const resightings = allEntryEngines
+      .filter(currentObject => seen.size === seen.add(currentObject.engine).size)
+      .map((match) => {
+        // Find all sighting dates
+        const dates = allEntryEngines
+          .filter(entry => match.engine === entry.engine)
+          .map(entry => entry.date)
+          .sort();
+        return {
+          engine: match.engine,
+          dates,
+          entryId: match.entryId,
+          color: match.color,
+        };
+      });
+    return resightings;
   }
 
   render() {
-    const { dataSet, trainLineList } = this.props;
+    const dataSet = getDatesByInterval(12, new Date(this.initialSightingDate), new Date());
     return (
-      <div className="data-table">
+      <div className="data-table resightings-values-table">
         <div className="y-axis">
           {
-            trainLineList.map(trainLine => (
-              <div className="y-axis-row" key={trainLine.id}>
-                <div className="row-label">{trainLine.name}</div>
+            this.getResightingsList().map(entry => (
+              <div className="y-axis-row" key={`${entry.entryId}-${Math.round(Math.random() * 1000)}`}>
+                <div className="row-label">{entry.engine}</div>
                 <div className="row-axis" />
+                {
+                  entry.dates.map((date) => {
+                    const bgStyle = {
+                      backgroundColor: entry.color,
+                      left: `${getDatePositionInRange(new Date(date), new Date(this.initialSightingDate), new Date()) * 100}%`,
+                    };
+                    return (
+                      <div
+                        className="sighting-marker"
+                        key={`marker-${Math.round(Math.random() * 1000)}`}
+                        style={bgStyle}
+                      />
+                    );
+                  })
+                }
               </div>
             ))
           }
@@ -39,24 +92,24 @@ class ResightingValues extends Component {
   }
 }
 
-ResightingValues.defaultProps = {
-  dataSet: ['3/19', '4/19', '5/19', '6/19', '7/19', '8/19', '9/19', '10/19', '11/19'],
-};
-
 ResightingValues.propTypes = {
+  entries: PropTypes.arrayOf(PropTypes.object),
   trainLineList: PropTypes.arrayOf(PropTypes.object),
-  dataSet: PropTypes.arrayOf(PropTypes.string),
 };
 
 const mapStateToProps = (state) => {
-  const { trainLines } = state;
+  const { entryData, trainLines } = state;
+  const {
+    items: entries,
+  } = entryData;
   const {
     items: trainLineList,
   } = trainLines;
   return {
+    entries,
     trainLineList,
   };
 };
 
 export default connect(mapStateToProps)(ResightingValues);
-/* eslint-enable no-console */
+/* eslint-enable no-console, no-underscore-dangle */

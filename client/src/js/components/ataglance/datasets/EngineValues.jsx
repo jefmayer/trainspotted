@@ -4,10 +4,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class EngineValues extends Component {
-  constructor(props) {
+  /* constructor(props) {
     super(props);
-    console.log('EngineValues');
-  }
+  } */
 
   getEngineCountByLine(line) {
     const { entries } = this.props;
@@ -56,6 +55,7 @@ class EngineValues extends Component {
 }
 
 EngineValues.defaultProps = {
+  // Should be dynamic based on max number of line w/ most entries...
   dataSet: ['0', '20', '40', '60', '80', '100', '120', '140', '160', '180', '200'],
 };
 

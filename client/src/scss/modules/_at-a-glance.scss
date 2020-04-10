@@ -67,11 +67,13 @@
 
 .data-visualization {
   border-left: .5rem solid $dark-15;
+  overflow: auto;
   padding-left: 3rem;
   width: calc(100% - 15rem);
 
   .data-table {
-    margin: 1.5rem 0 1rem;
+    margin: 2rem 0;
+    min-width: calc(76.8rem - 18rem);
   }
 
   .y-axis-row {
@@ -132,4 +134,17 @@
 
 .time-values-table {
   //
+}
+
+
+.resightings-values-table {
+
+  .sighting-marker {
+    border-radius: .4rem;
+    height: .8rem;
+    margin-left: 11rem;
+    position: absolute;
+    top: .4rem;
+    width: .8rem;
+  }
 }
