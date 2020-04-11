@@ -66,6 +66,8 @@ class AddLine extends Component {
   reset() {
     this.setState({
       lineName: '',
+      lineShortName: '',
+      lineColor: '',
     });
   }
 

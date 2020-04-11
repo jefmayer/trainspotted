@@ -23,7 +23,7 @@ class Chart extends Component {
     const dates = [...new Set(entries.map(entry => entry.date))];
     let currentMonth = -1;
     let isMonthLabel = false;
-    console.log(monthInFocus);
+    // console.log(monthInFocus);
 
     return (
       <div>

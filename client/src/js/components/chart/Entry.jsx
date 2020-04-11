@@ -20,7 +20,7 @@ class Entry extends Component {
       arr[0] = parseInt(arr[0], 10) + 12;
     }
     // Set 12AM to 0
-    if (entry.time.indexOf('AM') !== -1 && entry.time.indexOf('12:') !== -1) {
+    if (entry.time.indexOf('AM') !== -1 && entry.time.indexOf('12:') === 0) {
       arr[0] = parseInt(arr[0], 10) - 12;
     }
     const pct = ((arr[0] * 3600 + parseInt(arr[1], 10) * 60) / 864).toFixed(2);

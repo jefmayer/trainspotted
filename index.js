@@ -19,30 +19,15 @@ var find = function (db, col) {
   })
 }
 
-var findPreviousSightings = function(line, number, entries) {
-  
-}
-
 var sortedEntries = function(entries, lines) {
   entries.map((entry, index) => {
     entry.engines.map((engine) => {
       const matchedLine = lines.find(line => line.name === engine.line)
       engine.color = matchedLine.color
-      engine.sightings = findPreviousSightings(engine.line, engine.number, entries);
     })
     entry.number = index;
   })
-  return entries.sort(function(a, b) {
-    var dateA = new Date(a.date);
-    var dateB = new Date(b.date);
-    if (dateA < dateB) {
-      return 1;
-    }
-    if (dateA > dateB) {
-      return -1;
-    }
-    return 0;
-  });
+  return entries.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
 express()

@@ -77,14 +77,11 @@
   }
 
   .y-axis-row {
+    display: flex;
+    flex-direction: row;
     margin-bottom: .5rem;
     position: relative;
     width: 100%;
-  }
-
-  .y-axis-row {
-    display: flex;
-    flex-direction: row;
   }
 
   .row-label {
@@ -139,12 +136,51 @@
 
 .resightings-values-table {
 
+  .y-axis-row {
+    cursor: default;
+    position: relative;
+
+    .row-label,
+    .row-axis {
+      position: relative;
+      z-index: 1;
+    }
+
+    &::after {
+      background: $white-50;
+      content: '';
+      height: 1.5rem;
+      left: 0;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      transition: opacity 0.15s ease-in-out;
+      width: 100%;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+
   .sighting-marker {
     border-radius: .4rem;
+    cursor: pointer;
     height: .8rem;
+    left: 0;
     margin-left: 11rem;
     position: absolute;
     top: .4rem;
+    transition: left 0.25s ease-in-out;
     width: .8rem;
+    z-index: 1;
+  }
+
+  .sighting-connector {
+    height: .1rem;
+    margin-left: calc(11rem + .4rem);
+    position: absolute;
+    top: .7rem;
+    z-index: 1;
   }
 }

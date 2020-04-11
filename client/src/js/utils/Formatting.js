@@ -61,3 +61,7 @@ export function createEntryId(date, time) {
   const timeArr = time.split(':');
   return `${dateArr[0]}${dateArr[1]}${dateArr[2]}${timeArr[0]}${timeArr[1]}`;
 }
+
+export function getRandomNumberKey() {
+  return `key-${Math.round(Math.random() * 1000 * Math.random() * 1000 / Math.random() * 1000 + Math.random() * 1000)}`;
+}
