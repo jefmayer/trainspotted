@@ -4,9 +4,16 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class EngineValues extends Component {
-  /* constructor(props) {
+  constructor(props) {
     super(props);
-  } */
+    this.tableRef = React.createRef();
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.tableRef.current.classList.remove('initial-state');
+    }, 100);
+  }
 
   getEngineCountByLine(line) {
     const { entries } = this.props;
@@ -20,13 +27,13 @@ class EngineValues extends Component {
   render() {
     const { dataSet, trainLineList } = this.props;
     return (
-      <div className="data-table engine-values-table">
+      <div className="data-table engine-values-table initial-state" ref={this.tableRef}>
         <div className="y-axis">
           {
             trainLineList.map((trainLine) => {
               const bgStyle = {
                 backgroundColor: trainLine.color,
-                transform: `scaleX(${this.getEngineCountByLine(trainLine.name) / 200})`,
+                transform: `scaleX(${this.getEngineCountByLine(trainLine.name) / 500})`,
               };
               return (
                 <div className="y-axis-row" key={trainLine.id}>
@@ -56,7 +63,7 @@ class EngineValues extends Component {
 
 EngineValues.defaultProps = {
   // Should be dynamic based on max number of line w/ most entries...
-  dataSet: ['0', '20', '40', '60', '80', '100', '120', '140', '160', '180', '200'],
+  dataSet: ['0', '50', '100', '150', '200', '250', '300', '350', '400', '450', '500'],
 };
 
 EngineValues.propTypes = {

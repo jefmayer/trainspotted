@@ -62,7 +62,7 @@ Entry.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = dispatch => { /* eslint-disable-line arrow-parens, arrow-body-style */
+const mapDispatchToProps = (dispatch) => { /* eslint-disable-line arrow-body-style */
   return bindActionCreators(
     {
       showDetail,

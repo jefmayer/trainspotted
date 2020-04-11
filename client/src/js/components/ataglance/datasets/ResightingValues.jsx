@@ -1,14 +1,23 @@
-/* eslint-disable no-console, no-underscore-dangle */
+/* eslint-disable no-console */
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getDatesByInterval, getDatePositionInRange } from '../../../utils/DateUtils';
 import { getRandomNumberKey } from '../../../utils/Formatting';
+import { showDetail } from '../../../actions';
 
 class ResightingValues extends Component {
   constructor(props) {
     super(props);
     this.initialSightingDate = this.getInitialSightingDate();
+    this.tableRef = React.createRef();
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.tableRef.current.classList.remove('initial-state');
+    }, 100);
   }
 
   getInitialSightingDate() {
@@ -24,7 +33,7 @@ class ResightingValues extends Component {
     const allEntryEngines = [];
     entries.forEach(entry => entry.engines.forEach(engine => allEntryEngines.push({
       engine: `${trainLineList.find(line => engine.line === line.name).short}, ${engine.number}`,
-      entryId: entry._id,
+      entryId: entry._id, /* eslint-disable-line no-underscore-dangle */
       date: entry.date,
       color: trainLineList.find(line => engine.line === line.name).color,
     })));
@@ -60,16 +69,23 @@ class ResightingValues extends Component {
   }
 
   render() {
+    const { dispatch } = this.props;
+    const dataSet = getDatesByInterval(12, new Date(this.initialSightingDate), new Date());
     let prevLeft = '';
     let isPrevLeft = false;
-    const dataSet = getDatesByInterval(12, new Date(this.initialSightingDate), new Date());
+
     return (
-      <div className="data-table resightings-values-table">
+      <div className="data-table resightings-values-table initial-state" ref={this.tableRef}>
         <div className="y-axis">
           {
             this.getResightingsList().map((entry) => {
               prevLeft = '';
               isPrevLeft = false;
+
+              function onEntryClick() {
+                dispatch(showDetail(entry.entryId));
+              }
+
               return (
                 <div className="y-axis-row" key={getRandomNumberKey()}>
                   <div className="row-label">{entry.engine}</div>
@@ -92,9 +108,12 @@ class ResightingValues extends Component {
                       prevLeft = left;
                       return (
                         <div key={getRandomNumberKey()}>
-                          <div
+                          <button
                             className="sighting-marker"
+                            onClick={onEntryClick}
+                            onKeyDown={onEntryClick}
                             style={bgStyle}
+                            type="button"
                           />
                           {isPrevLeft
                             && (
@@ -124,6 +143,9 @@ class ResightingValues extends Component {
             </ul>
           </div>
         </div>
+        <div className="scroll-indicator-icon">
+          <div />
+        </div>
       </div>
     );
   }
@@ -132,6 +154,15 @@ class ResightingValues extends Component {
 ResightingValues.propTypes = {
   entries: PropTypes.arrayOf(PropTypes.object),
   trainLineList: PropTypes.arrayOf(PropTypes.object),
+  dispatch: PropTypes.func.isRequired,
+};
+
+// https://react-redux.js.org/using-react-redux/connect-mapdispatch
+const mapDispatchToProps = (dispatch) => { /* eslint-disable-line arrow-body-style */
+  return {
+    dispatch,
+    ...bindActionCreators({ showDetail }, dispatch),
+  };
 };
 
 const mapStateToProps = (state) => {
@@ -148,5 +179,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ResightingValues);
-/* eslint-enable no-console, no-underscore-dangle */
+export default connect(mapStateToProps, mapDispatchToProps)(ResightingValues);
+/* eslint-enable no-console */
