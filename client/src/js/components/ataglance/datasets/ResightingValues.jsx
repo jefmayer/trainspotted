@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { getDatesByInterval, getDatePositionInRange } from '../../../utils/DateUtils';
 import { getRandomNumberKey } from '../../../utils/Formatting';
 import { showDetail } from '../../../actions';
+import { getResightings } from '../../../selectors';
 
 class ResightingValues extends Component {
   constructor(props) {
@@ -35,55 +36,13 @@ class ResightingValues extends Component {
     return new Date(dates[0].date);
   }
 
-  // Move to Lookup.js (utils)
-  getResightingsList() {
-    const { entries, trainLineList } = this.props;
-    // Build list of all engines with entry keys, dates, colors
-    const allEntryEngines = [];
-    entries.forEach(entry => entry.engines.forEach(engine => allEntryEngines.push({
-      engine: `${trainLineList.find(line => engine.line === line.name).short}, ${engine.number}`,
-      entryId: entry._id, /* eslint-disable-line no-underscore-dangle */
-      date: entry.date,
-      color: trainLineList.find(line => engine.line === line.name).color,
-    })));
-    // Find all engines seen more than once
-    const duplicates = new Set();
-    const resightings = allEntryEngines
-      .filter(entry => duplicates.size === duplicates.add(entry.engine).size)
-      // But there can be more than 2 matches... so now need to remove duplicates
-      .reduce((acc, current) => {
-        const match = acc.find(entry => entry.engine === current.engine);
-        // If match is false, then return accumulator w/ match addee
-        if (!match) {
-          return acc.concat([current]);
-        }
-        // If exists, then just return accumulator as is
-        return acc;
-      }, [])
-      .map((match) => {
-        // Find all sighting dates
-        const dates = allEntryEngines
-          .filter(entry => match.engine === entry.engine)
-          .map(entry => entry.date)
-          .sort((a, b) => new Date(a) - new Date(b));
-        return {
-          engine: match.engine,
-          dates,
-          entryId: match.entryId,
-          color: match.color,
-        };
-      })
-      .sort((a, b) => new Date(a.dates[0]) - new Date(b.dates[0]));
-    return resightings;
-  }
-
   handleScroll() {
     this.scrollIndicatorRef.current.classList.add('hidden');
     this.yAxis.removeEventListener('scroll', this.handleScroll);
   }
 
   render() {
-    const { dispatch } = this.props;
+    const { dispatch, resightings } = this.props;
     const dataSet = getDatesByInterval(12, new Date(this.initialSightingDate), new Date());
     let prevLeft = '';
     let isPrevLeft = false;
@@ -92,7 +51,7 @@ class ResightingValues extends Component {
       <div className="data-table resightings-values-table initial-state" ref={this.tableRef}>
         <div className="y-axis">
           {
-            this.getResightingsList().map((entry) => {
+            resightings.map((entry) => {
               prevLeft = '';
               isPrevLeft = false;
 
@@ -166,9 +125,9 @@ class ResightingValues extends Component {
 }
 
 ResightingValues.propTypes = {
-  entries: PropTypes.arrayOf(PropTypes.object),
-  trainLineList: PropTypes.arrayOf(PropTypes.object),
   dispatch: PropTypes.func.isRequired,
+  entries: PropTypes.arrayOf(PropTypes.object),
+  resightings: PropTypes.arrayOf(PropTypes.object),
 };
 
 // https://react-redux.js.org/using-react-redux/connect-mapdispatch
@@ -180,16 +139,14 @@ const mapDispatchToProps = (dispatch) => { /* eslint-disable-line arrow-body-sty
 };
 
 const mapStateToProps = (state) => {
-  const { entryData, trainLines } = state;
+  const { entryData } = state;
   const {
     items: entries,
   } = entryData;
-  const {
-    items: trainLineList,
-  } = trainLines;
+  const resightings = getResightings(state);
   return {
     entries,
-    trainLineList,
+    resightings,
   };
 };
 

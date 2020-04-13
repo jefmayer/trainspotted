@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import EditEntry from './EditEntry';
 import months from '../../utils/Months';
 import { formatDate, formatTime } from '../../utils/Formatting';
-import { findMatches } from '../../utils/Lookup';
 
 class Detail extends Component {
   constructor(props) {
@@ -27,7 +26,7 @@ class Detail extends Component {
   }
 
   render() {
-    const { onDetailClose, data, entries, isLoggedIn } = this.props;
+    const { onDetailClose, data, isLoggedIn } = this.props;
     const { loadedClass } = this.state;
 
     return (
@@ -71,7 +70,7 @@ class Detail extends Component {
                           <td><span>{engine.line}</span></td>
                           <td><span>{engine.number}</span></td>
                           <td><span>{engine.location}</span></td>
-                          <td><span>{findMatches(engine.line, engine.number, entries)}</span></td>
+                          <td><span /></td>
                         </tr>
                       );
                     })
@@ -112,7 +111,6 @@ Detail.propTypes = {
     time: PropTypes.string.isRequired,
     direction: PropTypes.string.isRequired,
   }),
-  entries: PropTypes.arrayOf(PropTypes.object),
   isLoggedIn: PropTypes.bool.isRequired,
 };
 

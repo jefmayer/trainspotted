@@ -6,7 +6,7 @@
     background-color: $background-color-light;
     padding-bottom: .8rem;
     position: relative;
-    z-index: 1000;
+    z-index: 5;
   }
 
   .x-axis-header {
@@ -23,6 +23,7 @@
           @include san-serif-regular;
           border-bottom: .3rem solid $highlight-color;
           font-size: .8rem;
+          padding-left: .5rem;
         }
   
         &::before {
@@ -40,14 +41,16 @@
   &.sticky {
 
     .page-heading-divider {
+      border-top: 0;
+    }
+
+    .x-axis-header {
+      height: 100%;
       left: 0;
       position: fixed;
       top: 0;
       width: 100%;
-    }
-
-    .x-axis-header {
-      //
+      // z-index: 9;
     }
   }
 }

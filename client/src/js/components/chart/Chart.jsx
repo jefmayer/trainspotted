@@ -34,7 +34,6 @@ class Chart extends Component {
     this.setState({ activeMonth: month });
     //
     if (this.chartRef !== null) {
-      console.log(`${this.chartRef.current.getBoundingClientRect().top + scrollTop} / ${window.pageYOffset}`);
       if (this.chartRef.current.getBoundingClientRect().top + scrollTop < window.pageYOffset) {
         this.chartRef.current.classList.add('sticky');
       } else {

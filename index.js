@@ -50,7 +50,6 @@ express()
     co(function * () {
       const db = yield MongoClient.connect(url)
       const lines= yield find(db, 'trainlines')
-      // Alphabetical order... #TODO
       lines.sort(function(a, b) {
         var nameA = a.name.toUpperCase();
         var nameB = b.name.toUpperCase();
