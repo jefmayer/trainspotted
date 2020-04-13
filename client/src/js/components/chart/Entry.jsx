@@ -16,8 +16,10 @@ class Entry extends Component {
     // Look at time to create percentage offset
     // Add 12, not to 12PM
     const arr = entry.time.split(':');
-    if (entry.time.indexOf('PM') !== -1 && entry.time.indexOf('12:') === -1) {
-      arr[0] = parseInt(arr[0], 10) + 12;
+    if (entry.time.indexOf('PM') !== -1) {
+      if (entry.time.indexOf('12:') === -1 || entry.time.indexOf('12:') > 0) {
+        arr[0] = parseInt(arr[0], 10) + 12;
+      }
     }
     // Set 12AM to 0
     if (entry.time.indexOf('AM') !== -1 && entry.time.indexOf('12:') === 0) {

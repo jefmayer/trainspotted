@@ -8,51 +8,24 @@ class DateLine extends Component {
   constructor(props) {
     super(props);
     this.divRef = React.createRef();
-    this.handleScroll = this.handleScroll.bind(this);
-  }
-
-  componentDidMount() {
-    if (this.divRef.current) {
-      window.addEventListener('scroll', this.handleScroll);
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.divRef.current) {
-      window.removeEventListener('scroll', this.handleScroll);
-    }
-  }
-
-  handleScroll() {
-    const {
-      date,
-      setMonthInFocus,
-    } = this.props;
-    const rect = this.divRef.current.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const y = rect.top + scrollTop;
-    if (y < window.pageYOffset) {
-      setMonthInFocus(months[date.split('/')[0] - 1]);
-    }
   }
 
   render() {
     const {
+      activeMonth,
       date,
       entries,
-      isMonthInFocus,
       isMonthLabel,
     } = this.props;
-    let stickyMonthClass = '';
-    if (isMonthInFocus) {
-      stickyMonthClass = 'sticky';
-    }
+    const month = months[date.split('/')[0] - 1];
+    const year = date.split('/')[2];
+
     return (
-      <div className="date-line">
+      <div className="date-line" ref={this.divRef}>
         {isMonthLabel
           && (
-            <div className={`month-display ${stickyMonthClass}`} ref={this.divRef}>
-              <span>{`${months[date.split('/')[0] - 1]} ${date.split('/')[2]}`}</span>
+            <div className={`month-display ${month === activeMonth ? 'sticky' : ''}`} data-month={month}>
+              <span>{`${month} ${year}`}</span>
             </div>
           )
         }
@@ -69,11 +42,10 @@ class DateLine extends Component {
 }
 
 DateLine.propTypes = {
+  activeMonth: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   entries: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isMonthInFocus: PropTypes.bool.isRequired,
   isMonthLabel: PropTypes.bool.isRequired,
-  setMonthInFocus: PropTypes.func.isRequired,
 };
 
 export default DateLine;

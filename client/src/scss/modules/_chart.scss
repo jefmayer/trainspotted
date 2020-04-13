@@ -2,6 +2,13 @@
   min-width: 76.8rem;
   position: relative;
 
+  .page-heading-divider {
+    background-color: $background-color-light;
+    padding-bottom: .8rem;
+    position: relative;
+    z-index: 1000;
+  }
+
   .x-axis-header {
   
     ul {
@@ -27,6 +34,20 @@
           z-index: 3;
         }
       }
+    }
+  }
+
+  &.sticky {
+
+    .page-heading-divider {
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+
+    .x-axis-header {
+      //
     }
   }
 }

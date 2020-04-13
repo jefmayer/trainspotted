@@ -12,12 +12,21 @@ class ResightingValues extends Component {
     super(props);
     this.initialSightingDate = this.getInitialSightingDate();
     this.tableRef = React.createRef();
+    this.yAxis = null;
+    this.scrollIndicatorRef = React.createRef();
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   componentDidMount() {
     setTimeout(() => {
       this.tableRef.current.classList.remove('initial-state');
     }, 100);
+    this.yAxis = this.tableRef.current.querySelector('.y-axis');
+    this.yAxis.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
   }
 
   getInitialSightingDate() {
@@ -66,6 +75,11 @@ class ResightingValues extends Component {
       })
       .sort((a, b) => new Date(a.dates[0]) - new Date(b.dates[0]));
     return resightings;
+  }
+
+  handleScroll() {
+    this.scrollIndicatorRef.current.classList.add('hidden');
+    this.yAxis.removeEventListener('scroll', this.handleScroll);
   }
 
   render() {
@@ -143,7 +157,7 @@ class ResightingValues extends Component {
             </ul>
           </div>
         </div>
-        <div className="scroll-indicator-icon">
+        <div className="scroll-indicator-icon" ref={this.scrollIndicatorRef}>
           <div />
         </div>
       </div>

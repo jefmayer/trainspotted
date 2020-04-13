@@ -2,36 +2,60 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DateLine from './DateLine';
-import months from '../../utils/Months';
 
 class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      monthInFocus: '',
+      activeMonth: '',
     };
-    this.setMonthInFocus = this.setMonthInFocus.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.currentMonth = -1;
+    this.chartRef = React.createRef();
   }
 
-  setMonthInFocus(month) {
-    this.setState({ monthInFocus: month });
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    let month = '';
+    [].map.call(document.querySelectorAll('.month-display'), (item) => {
+      if (item.parentNode.getBoundingClientRect().top + scrollTop < window.pageYOffset) {
+        // Should set the active month to whatever the last item less than scrollTop is...
+        month = item.getAttribute('data-month');
+      }
+    });
+    this.setState({ activeMonth: month });
+    //
+    if (this.chartRef !== null) {
+      console.log(`${this.chartRef.current.getBoundingClientRect().top + scrollTop} / ${window.pageYOffset}`);
+      if (this.chartRef.current.getBoundingClientRect().top + scrollTop < window.pageYOffset) {
+        this.chartRef.current.classList.add('sticky');
+      } else {
+        this.chartRef.current.classList.remove('sticky');
+      }
+    }
   }
 
   render() {
     const { entries } = this.props;
-    const { monthInFocus } = this.state;
+    const { activeMonth } = this.state;
     const dates = [...new Set(entries.map(entry => entry.date))];
-    let currentMonth = -1;
     let isMonthLabel = false;
-    // console.log(monthInFocus);
 
     return (
       <div>
-        <div className="page-heading-divider">
-          <h2 className="heading-lg">Sightings</h2>
-        </div>
-        <div className="train-chart">
+        <div className="train-chart" ref={this.chartRef}>
           <div className="x-axis-header clearfix">
+            <div className="page-heading-divider">
+              <h2 className="heading-lg">Sightings</h2>
+            </div>
             <ul>
               <li><span>12 AM</span></li>
               <li><span>2 AM</span></li>
@@ -51,20 +75,19 @@ class Chart extends Component {
             <div className="month-bar" />
             {
               dates.map((date) => {
-                if (currentMonth !== date.split('/')[0]) {
-                  currentMonth = date.split('/')[0]; /* eslint-disable-line prefer-destructuring */
+                if (this.currentMonth !== date.split('/')[0]) {
+                  this.currentMonth = date.split('/')[0]; /* eslint-disable-line prefer-destructuring */
                   isMonthLabel = true;
                 } else {
                   isMonthLabel = false;
                 }
                 return (
                   <DateLine
+                    activeMonth={activeMonth}
                     key={date.replace(/\//, '')}
                     date={date}
                     entries={entries}
                     isMonthLabel={isMonthLabel}
-                    isMonthInFocus={monthInFocus === months[date.split('/')[0] - 1]}
-                    setMonthInFocus={this.setMonthInFocus}
                   />
                 );
               })
