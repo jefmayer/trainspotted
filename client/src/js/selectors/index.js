@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, arrow-body-style */
 import { createSelector } from 'reselect';
 
 const getEntryData = state => state.entryData.items;
@@ -33,8 +33,8 @@ export const getResightings = createSelector(
         // Find all sighting dates
         const dates = allEntryEngines
           .filter(entry => match.engine === entry.engine)
-          .map(entry => entry.date)
-          .sort((a, b) => new Date(a) - new Date(b));
+          .map(entry => ({ date: entry.date, entryId: entry.entryId }))
+          .sort((a, b) => new Date(a.date) - new Date(b.date));
         return {
           engine: match.engine,
           dates,
@@ -42,10 +42,10 @@ export const getResightings = createSelector(
           color: match.color,
         };
       })
-      .sort((a, b) => new Date(a.dates[0]) - new Date(b.dates[0]));
+      .sort((a, b) => new Date(a.dates[0].date) - new Date(b.dates[0].date));
     return resightings;
   },
 );
 
 export default getResightings;
-/* eslint-enable no-console */
+/* eslint-enable no-console, arrow-body-style */

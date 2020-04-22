@@ -5,9 +5,9 @@ const About = () => (
   <div>
     <div className="menu-nav-item">About the Project</div>
     <p>
-      Trainspotted is my home office, looking out a backyard window at the Milwaukee District North tracks across the alley.
-       During off-peak hours, freight trains are cleared to run along the Metra corridor.
-       Much like my work situation, the trains don&rsquo;t adhere to a schedule. This is an exercise in applying structure to the chaos surrounding this new phase of my life.
+      The Milwaukee District North tracks sit just beyond the alley in my backyard.
+       During off-peak hours, freight trains are cleared to run along this stretch of the Metra corridor.
+       They rumble past my home office window at seemingly random intervals while I work and attempt to apply structure to this new phase of my career.
     </p>
     <p>
       This project also brought me up to speed with React/Redux and was developed using the full MERN stack.

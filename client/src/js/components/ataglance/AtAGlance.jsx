@@ -88,6 +88,9 @@ class AtAGlance extends Component {
 AtAGlance.defaultProps = {
   dataSets: [
     {
+      label: 'Overview',
+    },
+    {
       label: 'Engines',
     },
     {

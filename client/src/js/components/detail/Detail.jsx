@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import EditEntry from './EditEntry';
 import months from '../../utils/Months';
 import { formatDate, formatTime } from '../../utils/Formatting';
+import { getResightings } from '../../selectors';
 
 class Detail extends Component {
   constructor(props) {
@@ -23,6 +24,16 @@ class Detail extends Component {
 
   editEntry() {
     console.log(this);
+  }
+
+  findMatches(trainline, number) {
+    const { resightings, trainLineList } = this.props;
+    const engine = `${trainLineList.find(line => trainline === line.name).short}, ${number}`;
+    const sighting = resightings.find(entry => entry.engine === engine);
+    if (sighting) {
+      return sighting.dates.length;
+    }
+    return 1;
   }
 
   render() {
@@ -70,7 +81,7 @@ class Detail extends Component {
                           <td><span>{engine.line}</span></td>
                           <td><span>{engine.number}</span></td>
                           <td><span>{engine.location}</span></td>
-                          <td><span /></td>
+                          <td><span>{this.findMatches(engine.line, engine.number)}</span></td>
                         </tr>
                       );
                     })
@@ -95,12 +106,18 @@ class Detail extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { userStatus } = state;
+  const { trainLines, userStatus } = state;
+  const {
+    items: trainLineList,
+  } = trainLines;
   const {
     isLoggedIn,
   } = userStatus;
+  const resightings = getResightings(state);
   return {
     isLoggedIn,
+    resightings,
+    trainLineList,
   };
 };
 
@@ -112,6 +129,8 @@ Detail.propTypes = {
     direction: PropTypes.string.isRequired,
   }),
   isLoggedIn: PropTypes.bool.isRequired,
+  resightings: PropTypes.arrayOf(PropTypes.object),
+  trainLineList: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default connect(mapStateToProps)(Detail);

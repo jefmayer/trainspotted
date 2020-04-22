@@ -50,14 +50,13 @@ class ResightingValues extends Component {
     return (
       <div className="data-table resightings-values-table initial-state" ref={this.tableRef}>
         <div className="y-axis">
+          <div className="y-axis-header">
+            <p className="body-copy">Resightings are the engines I&rsquo;ve observed on multiple occasions. It&rsquo;s entirely possible, more so likely, that these and others have passed back and forth at off hours. Some other observations:</p>
+          </div>
           {
             resightings.map((entry) => {
               prevLeft = '';
               isPrevLeft = false;
-
-              function onEntryClick() {
-                dispatch(showDetail(entry.entryId));
-              }
 
               return (
                 <div className="y-axis-row" key={getRandomNumberKey()}>
@@ -65,7 +64,10 @@ class ResightingValues extends Component {
                   <div className="row-axis" />
                   {
                     entry.dates.map((date) => {
-                      const left = `${getDatePositionInRange(new Date(date), new Date(this.initialSightingDate), new Date()) * 100}%`;
+                      function onEntryClick() {
+                        dispatch(showDetail(date.entryId));
+                      }
+                      const left = `${getDatePositionInRange(new Date(date.date), new Date(this.initialSightingDate), new Date()) * 100}%`;
                       const bgStyle = {
                         backgroundColor: entry.color,
                         left,
@@ -87,7 +89,9 @@ class ResightingValues extends Component {
                             onKeyDown={onEntryClick}
                             style={bgStyle}
                             type="button"
-                          />
+                          >
+                            <span className="hidden">{entry.engine.substr(entry.engine.indexOf(',') + 2)}</span>
+                          </button>
                           {isPrevLeft
                             && (
                               <div
@@ -131,12 +135,10 @@ ResightingValues.propTypes = {
 };
 
 // https://react-redux.js.org/using-react-redux/connect-mapdispatch
-const mapDispatchToProps = (dispatch) => { /* eslint-disable-line arrow-body-style */
-  return {
-    dispatch,
-    ...bindActionCreators({ showDetail }, dispatch),
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+  ...bindActionCreators({ showDetail }, dispatch),
+});
 
 const mapStateToProps = (state) => {
   const { entryData } = state;

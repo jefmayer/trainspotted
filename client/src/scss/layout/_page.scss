@@ -19,3 +19,9 @@
   padding-top: .8rem;
   text-align: center;
 }
+
+.body-copy {
+  @include san-serif-body;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
