@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { getRandomNumberKey } from '../../../utils/Formatting';
 
 class EngineValues extends Component {
   constructor(props) {
@@ -17,11 +18,7 @@ class EngineValues extends Component {
 
   getEngineCountByLine(line) {
     const { entries } = this.props;
-    let ct = 0;
-    entries.forEach((item) => {
-      ct += item.engines.filter(engine => engine.line === line).length;
-    });
-    return ct;
+    return entries.reduce((a, b) => (a + b.engines.filter(engine => engine.line === line).length), 0);
   }
 
   render() {
@@ -50,7 +47,7 @@ class EngineValues extends Component {
             <ul className="data-set-values">
               {
                 dataSet.map(item => (
-                  <li key={`${item}-${Math.round(Math.random() * 1000)}`}>{item}</li>
+                  <li key={getRandomNumberKey()}>{item}</li>
                 ))
               }
             </ul>

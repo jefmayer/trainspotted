@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DataFilter from './DataFilter';
 import EngineValues from './datasets/EngineValues';
+import OverviewValues from './datasets/OverviewValues';
 import ResightingValues from './datasets/ResightingValues';
 import TimeValues from './datasets/TimeValues';
 import WeekdayValues from './datasets/WeekdayValues';
@@ -57,14 +58,19 @@ class AtAGlance extends Component {
               </ul>
             </div>
             <div className="data-visualization">
-              {activeSet.label === 'Engines'
+              {activeSet.label === 'Overview'
                 && (
-                  <EngineValues />
+                  <OverviewValues />
                 )
               }
               {activeSet.label === 'Resightings'
                 && (
                   <ResightingValues />
+                )
+              }
+              {activeSet.label === 'Engines'
+                && (
+                  <EngineValues />
                 )
               }
               {activeSet.label === 'Time'
@@ -91,6 +97,9 @@ AtAGlance.defaultProps = {
       label: 'Overview',
     },
     {
+      label: 'Resightings',
+    },
+    {
       label: 'Engines',
     },
     {
@@ -98,9 +107,6 @@ AtAGlance.defaultProps = {
     },
     {
       label: 'Weekday',
-    },
-    {
-      label: 'Resightings',
     },
   ],
 };

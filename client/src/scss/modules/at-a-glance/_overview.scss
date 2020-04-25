@@ -1,0 +1,28 @@
+.table-values-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .table-value {
+    margin-bottom: 2rem;
+    width: 20%;
+
+    div:nth-child(1) {
+      margin-right: 20%;
+      position: relative;
+
+      &::before {
+        border-bottom: .3rem solid $highlight-color;
+        bottom: .3rem;
+        content: '';
+        position: absolute;
+        width: 100%;
+      }
+    }
+
+    div:nth-child(2) {
+      max-width: 9rem;
+      width: 100%;
+    }
+  }
+}

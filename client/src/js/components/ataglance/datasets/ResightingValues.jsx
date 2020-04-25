@@ -19,9 +19,9 @@ class ResightingValues extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
+    /* setTimeout(() => {
       this.tableRef.current.classList.remove('initial-state');
-    }, 100);
+    }, 100); */
     this.yAxis = this.tableRef.current.querySelector('.y-axis');
     this.yAxis.addEventListener('scroll', this.handleScroll);
   }
@@ -43,16 +43,13 @@ class ResightingValues extends Component {
 
   render() {
     const { dispatch, resightings } = this.props;
-    const dataSet = getDatesByInterval(12, new Date(this.initialSightingDate), new Date());
+    const dataSet = getDatesByInterval(10, new Date(this.initialSightingDate), new Date());
     let prevLeft = '';
     let isPrevLeft = false;
 
     return (
-      <div className="data-table resightings-values-table initial-state" ref={this.tableRef}>
+      <div className="data-table resightings-values-table" ref={this.tableRef}>
         <div className="y-axis">
-          <div className="y-axis-header">
-            <p className="body-copy">Resightings are the engines I&rsquo;ve observed on multiple occasions. It&rsquo;s entirely possible, more so likely, that these and others have passed back and forth at off hours. Some other observations:</p>
-          </div>
           {
             resightings.map((entry) => {
               prevLeft = '';
@@ -61,49 +58,50 @@ class ResightingValues extends Component {
               return (
                 <div className="y-axis-row" key={getRandomNumberKey()}>
                   <div className="row-label">{entry.engine}</div>
-                  <div className="row-axis" />
-                  {
-                    entry.dates.map((date) => {
-                      function onEntryClick() {
-                        dispatch(showDetail(date.entryId));
-                      }
-                      const left = `${getDatePositionInRange(new Date(date.date), new Date(this.initialSightingDate), new Date()) * 100}%`;
-                      const bgStyle = {
-                        backgroundColor: entry.color,
-                        left,
-                      };
-                      const lineStyle = {
-                        backgroundColor: entry.color,
-                        left: prevLeft,
-                        width: `calc(${left} - ${prevLeft})`,
-                      };
-                      if (prevLeft !== '') {
-                        isPrevLeft = true;
-                      }
-                      prevLeft = left;
-                      return (
-                        <div key={getRandomNumberKey()}>
-                          <button
-                            className="sighting-marker"
-                            onClick={onEntryClick}
-                            onKeyDown={onEntryClick}
-                            style={bgStyle}
-                            type="button"
-                          >
-                            <span className="hidden">{entry.engine.substr(entry.engine.indexOf(',') + 2)}</span>
-                          </button>
-                          {isPrevLeft
-                            && (
-                              <div
-                                className="sighting-connector"
-                                style={lineStyle}
-                              />
-                            )
-                          }
-                        </div>
-                      );
-                    })
-                  }
+                  <div className="row-axis">
+                    {
+                      entry.dates.map((date) => {
+                        function onEntryClick() {
+                          dispatch(showDetail(date.entryId));
+                        }
+                        const left = `${getDatePositionInRange(new Date(date.date), new Date(this.initialSightingDate), new Date()) * 100}%`;
+                        const bgStyle = {
+                          backgroundColor: entry.color,
+                          left,
+                        };
+                        const lineStyle = {
+                          backgroundColor: entry.color,
+                          left: prevLeft,
+                          width: `calc(${left} - ${prevLeft})`,
+                        };
+                        if (prevLeft !== '') {
+                          isPrevLeft = true;
+                        }
+                        prevLeft = left;
+                        return (
+                          <div key={getRandomNumberKey()}>
+                            <button
+                              className="sighting-marker"
+                              onClick={onEntryClick}
+                              onKeyDown={onEntryClick}
+                              style={bgStyle}
+                              type="button"
+                            >
+                              <span className="hidden">{entry.engine.substr(entry.engine.indexOf(',') + 2)}</span>
+                            </button>
+                            {isPrevLeft
+                              && (
+                                <div
+                                  className="sighting-connector"
+                                  style={lineStyle}
+                                />
+                              )
+                            }
+                          </div>
+                        );
+                      })
+                    }
+                  </div>
                 </div>
               );
             })

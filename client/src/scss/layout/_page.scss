@@ -6,6 +6,12 @@
   }
 }
 
+.heading-xl {
+  @include san-serif-light;
+  font-size: 5rem;
+  letter-spacing: -.05em;
+}
+
 .heading-lg {
   @include display-type;
   font-size: 1.8rem;
@@ -23,5 +29,11 @@
 .body-copy {
   @include san-serif-body;
   font-size: 1.2rem;
-  line-height: 1.6;
+  line-height: 1.5;
+}
+
+.body-xsmall {
+  @include san-serif-body;
+  font-size: .9rem;
+  line-height: 1.2;
 }
