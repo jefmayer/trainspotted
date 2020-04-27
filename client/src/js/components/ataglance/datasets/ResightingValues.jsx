@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getDatesByInterval, getDatePositionInRange } from '../../../utils/DateUtils';
+import { getDatePositionInRange, getMonthsByInterval, getRoundedEndDate } from '../../../utils/DateUtils';
 import { getRandomNumberKey } from '../../../utils/Formatting';
 import { showDetail } from '../../../actions';
 import { getResightings } from '../../../selectors';
@@ -16,24 +16,30 @@ class ResightingValues extends Component {
     this.yAxis = null;
     this.scrollIndicatorRef = React.createRef();
     this.handleScroll = this.handleScroll.bind(this);
+    this.scrollIndicatorTimer = null;
   }
 
   componentDidMount() {
-    /* setTimeout(() => {
-      this.tableRef.current.classList.remove('initial-state');
-    }, 100); */
+    this.scrollIndicatorTimer = setTimeout(() => {
+      this.scrollIndicatorRef.current.classList.add('hidden');
+      this.yAxis.removeEventListener('scroll', this.handleScroll);
+    }, 6000);
     this.yAxis = this.tableRef.current.querySelector('.y-axis');
     this.yAxis.addEventListener('scroll', this.handleScroll);
   }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
+    clearInterval(this.scrollIndicatorTimer);
   }
 
   getInitialSightingDate() {
     const { entries } = this.props;
     const dates = entries.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
-    return new Date(dates[0].date);
+    // Get 1st day of the start month
+    const initial = new Date(dates[0].date);
+    // return initial;
+    return `${initial.getMonth() + 1}/1/${initial.getFullYear()}`;
   }
 
   handleScroll() {
@@ -43,7 +49,8 @@ class ResightingValues extends Component {
 
   render() {
     const { dispatch, resightings } = this.props;
-    const dataSet = getDatesByInterval(10, new Date(this.initialSightingDate), new Date());
+    const endDate = getRoundedEndDate(new Date(this.initialSightingDate), new Date());
+    const dataSet = getMonthsByInterval(new Date(this.initialSightingDate), endDate);
     let prevLeft = '';
     let isPrevLeft = false;
 
@@ -64,7 +71,7 @@ class ResightingValues extends Component {
                         function onEntryClick() {
                           dispatch(showDetail(date.entryId));
                         }
-                        const left = `${getDatePositionInRange(new Date(date.date), new Date(this.initialSightingDate), new Date()) * 100}%`;
+                        const left = `${getDatePositionInRange(new Date(date.date), new Date(this.initialSightingDate), endDate) * 100}%`;
                         const bgStyle = {
                           backgroundColor: entry.color,
                           left,
@@ -87,7 +94,7 @@ class ResightingValues extends Component {
                               style={bgStyle}
                               type="button"
                             >
-                              <span className="hidden">{entry.engine.substr(entry.engine.indexOf(',') + 2)}</span>
+                              <span>{entry.engine.substr(entry.engine.indexOf(',') + 2)}</span>
                             </button>
                             {isPrevLeft
                               && (

@@ -24,7 +24,7 @@ class DateLine extends Component {
       <div className="date-line" ref={this.divRef}>
         {isMonthLabel
           && (
-            <div className={`month-display ${month === activeMonth ? 'sticky' : ''}`} data-month={month}>
+            <div className={`month-display ${`${month}-${year}` === activeMonth ? 'sticky' : ''}`} data-month={`${month}-${year}`}>
               <span>{`${month} ${year}`}</span>
             </div>
           )

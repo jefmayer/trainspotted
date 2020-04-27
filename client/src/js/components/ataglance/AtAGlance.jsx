@@ -73,14 +73,14 @@ class AtAGlance extends Component {
                   <EngineValues />
                 )
               }
-              {activeSet.label === 'Time'
-                && (
-                  <TimeValues />
-                )
-              }
               {activeSet.label === 'Weekday'
                 && (
                   <WeekdayValues />
+                )
+              }
+              {activeSet.label === 'Time'
+                && (
+                  <TimeValues />
                 )
               }
             </div>
@@ -103,10 +103,10 @@ AtAGlance.defaultProps = {
       label: 'Engines',
     },
     {
-      label: 'Time',
+      label: 'Weekday',
     },
     {
-      label: 'Weekday',
+      label: 'Time',
     },
   ],
 };

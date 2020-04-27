@@ -36,14 +36,14 @@
     cursor: pointer;
     height: .8rem;
     left: 0;
-    margin-left: 1rem;
+    margin-left: -.4rem;
     outline: none;
     padding: 0;
     position: absolute;
     top: .4rem;
     transition: left 0.5s ease-in-out;
     width: .8rem;
-    z-index: 1;
+    z-index: 2;
 
     &::after {
       background: inherit;
@@ -60,14 +60,32 @@
       will-change: transform;
     }
 
+    span {
+      @include san-serif-regular;
+      color: $white;
+      display: none;
+      left: calc(-50% - 1.2rem);
+      position: relative;
+      text-align: center;
+      top: -.1rem;
+      width: 4rem;
+      z-index: 1;
+    }
+
     &:hover::after {
       transform: scale(1);
+    }
+
+    &:hover {
+      span {
+        display: block;
+      }
     }
   }
 
   .sighting-connector {
     height: .1rem;
-    margin-left: calc(1rem + .4rem);
+    margin-left: .4rem;
     position: absolute;
     top: .7rem;
     transition: all 0.5s ease-in-out;

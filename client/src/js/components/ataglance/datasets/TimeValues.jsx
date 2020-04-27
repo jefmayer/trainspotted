@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, no-useless-constructor, react/prefer-stateless-function */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 class TimeValues extends Component {
   constructor(props) {
     super(props);
-    console.log('TimeValues');
   }
 
   render() {
@@ -59,4 +58,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(TimeValues);
-/* eslint-enable no-console */
+/* eslint-enable no-console, no-useless-constructor, react/prefer-stateless-function */

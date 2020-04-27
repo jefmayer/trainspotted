@@ -1,10 +1,11 @@
 /* eslint-disable no-console, arrow-body-style */
 import { createSelector } from 'reselect';
+import weekdays from '../utils/Weekdays';
 
 const getEntryData = state => state.entryData.items;
 const getTrainlines = state => state.trainLines.items;
 
-export const getResightings = createSelector(
+const getResightings = createSelector(
   [getEntryData, getTrainlines],
   (entryData, trainLines) => {
     // Build list of all engines with entry keys, dates, colors
@@ -47,5 +48,38 @@ export const getResightings = createSelector(
   },
 );
 
-export default getResightings;
+const getLineWithMostSightings = createSelector(
+  [getEntryData, getTrainlines],
+  (entryData, trainLines) => {
+    return trainLines
+      .map(line => ({
+        name: line.name,
+        value: entryData.reduce((a, b) => (a + b.engines.filter(engine => engine.line === line.name).length), 0),
+      }))
+      .sort((a, b) => b.value - a.value)[0];
+  },
+);
+
+const getLinesByDayOfWeek = createSelector(
+  [getEntryData, getTrainlines],
+  (entryData, trainLines) => {
+    return trainLines
+      .map(line => ({
+        name: line.name,
+        days: weekdays
+          .map(day => ({
+            full: day.full,
+            short: day.short,
+            index: day.index,
+            value: entryData.reduce((a, b) => (a + b.engines.filter(engine => engine.line === line.name && new Date(b.date).getDay() === day.index).length), 0),
+          })),
+      }));
+  },
+);
+
+export {
+  getLinesByDayOfWeek,
+  getLineWithMostSightings,
+  getResightings,
+};
 /* eslint-enable no-console, arrow-body-style */
