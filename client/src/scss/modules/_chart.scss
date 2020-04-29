@@ -1,6 +1,4 @@
-.train-chart {
-  min-width: 76.8rem;
-  position: relative;
+.train-chart-wrapper {
 
   .page-heading-divider {
     background-color: $background-color-light;
@@ -9,9 +7,40 @@
     z-index: 5;
   }
 
+  .fixed-page-heading-divider {
+    border-top: 0;
+    display: none;
+    left: 0;
+    margin-left: 0;
+    margin-right: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 6;
+  }
+
+  &.sticky {
+
+    .fixed-page-heading-divider {
+      display: block;
+    }
+
+    .x-axis-header > ul span {
+      position: fixed;
+      top: 4rem;
+      z-index: 10;
+    }
+  }
+}
+
+.train-chart {
+  min-width: 76.8rem;
+  position: relative;
+
   .x-axis-header {
   
     ul {
+      display: flex;
       margin-left: 6rem;
   
       li {
@@ -35,22 +64,6 @@
           z-index: 3;
         }
       }
-    }
-  }
-
-  &.sticky {
-
-    .page-heading-divider {
-      border-top: 0;
-    }
-
-    .x-axis-header {
-      height: 100%;
-      left: 0;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      // z-index: 9;
     }
   }
 }

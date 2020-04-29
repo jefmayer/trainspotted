@@ -45,11 +45,20 @@ export function formatDateForSelect(value) {
 }
 
 export function formatTimeForSelect(value) {
-  let hours = value.getHours().toString();
+  let hours = '';
+  let mins = '';
+  if (typeof value === 'string') {
+    const arr = value.split(':');
+    const [arrHours, arrMins] = arr;
+    hours = arrHours;
+    mins = arrMins;
+  } else {
+    hours = value.getHours().toString();
+    mins = value.getMinutes().toString();
+  }
   if (hours.length === 1) {
     hours = `0${hours}`;
   }
-  let mins = value.getMinutes().toString();
   if (mins.length === 1) {
     mins = `0${mins}`;
   }

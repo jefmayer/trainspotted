@@ -20,13 +20,15 @@
 .detail-panel {
   background: $background-color-lighter;
   box-shadow: $base-shadow;
-  top: 9.8rem;
   height: auto;
   left: 50%;
+  max-height: calc(100% - 11.8rem);
   max-width: 45rem;
-  overflow: hidden;
-  padding-bottom: 4rem;
+  // overflow: hidden;
+  overflow: auto;
+  // padding-bottom: 4rem;
   position: fixed;
+  top: 9.8rem;
   transform: translate(-50%,1rem);
   transition: all .15s linear .1s;
   visibility: hidden;

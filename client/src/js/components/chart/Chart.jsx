@@ -11,7 +11,7 @@ class Chart extends Component {
     };
     this.handleScroll = this.handleScroll.bind(this);
     this.currentMonth = -1;
-    this.chartRef = React.createRef();
+    this.chartWrapperRef = React.createRef();
   }
 
   componentDidMount() {
@@ -33,11 +33,11 @@ class Chart extends Component {
     });
     this.setState({ activeMonth: month });
     //
-    if (this.chartRef !== null) {
-      if (this.chartRef.current.getBoundingClientRect().top + scrollTop < window.pageYOffset) {
-        this.chartRef.current.classList.add('sticky');
+    if (this.chartWrapperRef !== null) {
+      if (this.chartWrapperRef.current.getBoundingClientRect().top + scrollTop < window.pageYOffset) {
+        this.chartWrapperRef.current.classList.add('sticky');
       } else {
-        this.chartRef.current.classList.remove('sticky');
+        this.chartWrapperRef.current.classList.remove('sticky');
       }
     }
   }
@@ -49,8 +49,11 @@ class Chart extends Component {
     let isMonthLabel = false;
 
     return (
-      <div>
-        <div className="train-chart" ref={this.chartRef}>
+      <div className="train-chart-wrapper" ref={this.chartWrapperRef}>
+        <div className="page-heading-divider fixed-page-heading-divider">
+          <h2 className="heading-lg">Sightings</h2>
+        </div>
+        <div className="train-chart">
           <div className="x-axis-header clearfix">
             <div className="page-heading-divider">
               <h2 className="heading-lg">Sightings</h2>

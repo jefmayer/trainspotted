@@ -24,7 +24,6 @@ function getMonthsByInterval(startDate, now) {
   let months = (now.getFullYear() - startDate.getFullYear()) * 12;
   months -= startDate.getMonth();
   months += now.getMonth() + 1;
-  console.log(months);
   const arr = [];
   let i = 0;
   let date = startDate;
@@ -45,7 +44,19 @@ function getDatePositionInRange(date, startDate, now) {
   return ((date - startDate) / (now - startDate));
 }
 
+function convertTimeToMinutesElapsed(time) {
+  const timeVals = time.split(':');
+  let mins = parseInt(timeVals[1], 10);
+  if (timeVals[2].indexOf('PM') !== -1 && timeVals[0] !== '12') {
+    mins += (parseInt(timeVals[0], 10) + 12) * 60;
+  } else {
+    mins += parseInt(timeVals[0], 10) * 60;
+  }
+  return mins;
+}
+
 export {
+  convertTimeToMinutesElapsed,
   getRoundedEndDate,
   getMonthsByInterval,
   getDaysBetweenDates,

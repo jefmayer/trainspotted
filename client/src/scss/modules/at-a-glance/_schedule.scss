@@ -1,0 +1,43 @@
+.schedule-values-table {
+  position: relative;
+
+  .y-axis {
+    max-height: none;
+  }
+
+  .y-axis-row {
+    height: 4rem;
+    margin-bottom: 0;
+
+    .row-label {
+      padding-top: .8rem;
+    }
+  }
+
+  .scatterplot {
+    height: 100%;
+    left: 0;
+    margin-left: 11rem;
+    position: absolute;
+    top: 0;
+    width: calc(100% - 21rem);
+  }
+
+  .sighting-marker {
+    -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    border: 0;
+    // border-radius: .4rem;
+    height: .4rem;
+    left: 0;
+    // margin-left: -.4rem;
+    // margin-top: .4rem;
+    outline: none;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    transition: left 0.5s ease-in-out;
+    width: .4rem;
+    z-index: 2;
+  }
+}

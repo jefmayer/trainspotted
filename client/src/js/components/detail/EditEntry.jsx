@@ -9,21 +9,19 @@ import { createEntryId, formatDateForDB, formatTimeForDB, formatDateForSelect, f
 class EditEntry extends Component {
   constructor(props) {
     super(props);
+    const { entryData } = this.props;
+    // Map id property to engine objects
+    entryData.engines = entryData.engines.map((engine, index) => ({ ...engine, id: `engine-no-${index}` }));
+    // State defaults
     this.state = {
-      date: '',
-      direction: 'north',
-      engines: [{
-        id: 'engine-no-0',
-        line: '',
-        number: '',
-        location: '',
-        isValid: false,
-      }],
-      idIter: 0,
+      date: formatDateForSelect(new Date(entryData.date)),
+      direction: entryData.direction,
+      engines: entryData.engines,
+      idIter: entryData.engines.length,
       isActive: false,
       isEntryValid: true,
-      notes: '',
-      time: '',
+      notes: entryData.notes,
+      time: formatTimeForSelect(entryData.time),
     };
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
@@ -31,19 +29,11 @@ class EditEntry extends Component {
     this.handleNotesChange = this.handleNotesChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
-    this.displayForm = this.displayForm.bind(this);
+    this.showForm = this.showForm.bind(this);
+    this.hideForm = this.hideForm.bind(this);
     this.addEngine = this.addEngine.bind(this);
     this.removeEngine = this.removeEngine.bind(this);
     this.updateEngines = this.updateEngines.bind(this);
-    this.reset = this.reset.bind(this);
-  }
-
-  componentDidMount() {
-    const today = new Date();
-    this.setState({
-      date: formatDateForSelect(today),
-      time: formatTimeForSelect(today),
-    });
   }
 
   handleDateChange(event) {
@@ -88,38 +78,22 @@ class EditEntry extends Component {
         notes,
         time: formatTimeForDB(time),
       }));
-      // Should wait for callback...
-      this.reset();
+      this.hideForm();
     }
     this.setState({ isEntryValid: isValid });
   }
 
   handleCancel(event) {
     event.preventDefault();
-    this.reset();
+    this.hideForm();
   }
 
-  reset() {
-    const today = new Date();
-    this.setState({
-      date: formatDateForSelect(today),
-      direction: 'north',
-      idIter: 0,
-      isEntryValid: true,
-      engines: [{
-        id: 'engine-no-0',
-        isValid: false,
-        line: '',
-        location: '',
-        number: '',
-        notes: '',
-      }],
-      time: formatTimeForSelect(today),
-    });
-  }
-
-  displayForm() {
+  showForm() {
     this.setState({ isActive: true });
+  }
+
+  hideForm() {
+    this.setState({ isActive: false });
   }
 
   addEngine() {
@@ -155,7 +129,7 @@ class EditEntry extends Component {
   }
 
   render() {
-    const { trainLineList, entryData } = this.props;
+    const { trainLineList } = this.props;
     const {
       date,
       direction,
@@ -165,16 +139,25 @@ class EditEntry extends Component {
       notes,
       time,
     } = this.state;
+
     let errorDisplayClass = 'hidden';
     if (!isEntryValid) {
       errorDisplayClass = '';
     }
-    console.log(entryData);
     return (
-      <div>
-        <button className="edit-entry-button" onClick={this.displayForm} type="button">
-          <span className="text-button">Edit Entry</span>
-        </button>
+      <div className="form-wrapper">
+        {
+          isActive
+            ? (
+              <button className="edit-entry-button" onClick={this.hideForm} type="button">
+                <span className="text-button">Close Edit</span>
+              </button>
+            ) : (
+              <button className="edit-entry-button" onClick={this.showForm} type="button">
+                <span className="text-button">Edit Entry</span>
+              </button>
+            )
+        }
         <form className={`login-form app-form ${isActive ? '' : 'hidden'}`} onSubmit={this.handleSubmit}>
           <label className="form-label form-label-date" htmlFor="date">
             <span>Date</span>
@@ -213,7 +196,7 @@ class EditEntry extends Component {
             <textarea className="form-textarea" id="notes" name="notes" value={notes} onChange={this.handleNotesChange} />
           </label>
           <div className="form-action-buttons">
-            <button className="submit-button add-button" type="submit">Add Entry</button>
+            <button className="submit-button" type="submit">Update Entry</button>
             <button className="cancel-button" type="button" onClick={this.handleCancel} />
           </div>
           <div className={`form-error ${errorDisplayClass}`}>There was an error adding the entry. Please try again.</div>
@@ -225,7 +208,16 @@ class EditEntry extends Component {
 
 EditEntry.propTypes = {
   dispatch: PropTypes.func,
-  entryData: PropTypes.arrayOf(PropTypes.object),
+  entryData: PropTypes.shape({
+    date: PropTypes.string,
+    direction: PropTypes.string,
+    engines: PropTypes.arrayOf(PropTypes.object),
+    id: PropTypes.string,
+    notes: PropTypes.string,
+    number: PropTypes.number,
+    time: PropTypes.string,
+    _id: PropTypes.string,
+  }),
   trainLineList: PropTypes.arrayOf(PropTypes.object),
 };
 

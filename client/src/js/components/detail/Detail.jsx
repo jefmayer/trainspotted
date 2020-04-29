@@ -39,7 +39,6 @@ class Detail extends Component {
   render() {
     const { onDetailClose, data, isLoggedIn } = this.props;
     const { loadedClass } = this.state;
-
     return (
       <div className={`detail-overlay ${loadedClass}`}>
         <div className="detail-bg" role="none" onClick={onDetailClose} />

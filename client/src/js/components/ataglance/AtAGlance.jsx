@@ -5,8 +5,7 @@ import DataFilter from './DataFilter';
 import EngineValues from './datasets/EngineValues';
 import OverviewValues from './datasets/OverviewValues';
 import ResightingValues from './datasets/ResightingValues';
-import TimeValues from './datasets/TimeValues';
-import WeekdayValues from './datasets/WeekdayValues';
+import ScheduleValues from './datasets/ScheduleValues';
 
 class AtAGlance extends Component {
   constructor(props) {
@@ -73,14 +72,9 @@ class AtAGlance extends Component {
                   <EngineValues />
                 )
               }
-              {activeSet.label === 'Weekday'
+              {activeSet.label === 'Schedule'
                 && (
-                  <WeekdayValues />
-                )
-              }
-              {activeSet.label === 'Time'
-                && (
-                  <TimeValues />
+                  <ScheduleValues />
                 )
               }
             </div>
@@ -103,10 +97,7 @@ AtAGlance.defaultProps = {
       label: 'Engines',
     },
     {
-      label: 'Weekday',
-    },
-    {
-      label: 'Time',
+      label: 'Schedule',
     },
   ],
 };

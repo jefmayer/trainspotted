@@ -5,6 +5,25 @@ import weekdays from '../utils/Weekdays';
 const getEntryData = state => state.entryData.items;
 const getTrainlines = state => state.trainLines.items;
 
+const getAllEntriesWithDayAndTime = createSelector(
+  [getEntryData, getTrainlines],
+  (entryData, trainLines) => {
+    console.log(trainLines);
+    // Build list of all engines with entry keys, dates, colors
+    const arr = [];
+    entryData.forEach(entry => entry.engines.forEach(engine => arr.push({
+      engine: `${trainLines.find(line => engine.line === line.name).short}, ${engine.number}`,
+      entryId: entry._id, /* eslint-disable-line no-underscore-dangle */
+      // date: entry.date,
+      day: new Date(entry.date).getDay(),
+      time: entry.time,
+      color: trainLines.find(line => engine.line === line.name).color,
+      offset: trainLines.findIndex(line => engine.line === line.name),
+    })));
+    return arr;
+  },
+);
+
 const getResightings = createSelector(
   [getEntryData, getTrainlines],
   (entryData, trainLines) => {
@@ -78,6 +97,7 @@ const getLinesByDayOfWeek = createSelector(
 );
 
 export {
+  getAllEntriesWithDayAndTime,
   getLinesByDayOfWeek,
   getLineWithMostSightings,
   getResightings,

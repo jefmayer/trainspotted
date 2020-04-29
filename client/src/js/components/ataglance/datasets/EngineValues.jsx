@@ -34,7 +34,7 @@ class EngineValues extends Component {
       ct += xAxisInterval;
       dataSet.push(ct);
     }
-    while (ct <= maxEngineCt);
+    while (ct < maxEngineCt);
     return (
       <div className="data-table engine-values-table initial-state" ref={this.tableRef}>
         <div className="y-axis">
