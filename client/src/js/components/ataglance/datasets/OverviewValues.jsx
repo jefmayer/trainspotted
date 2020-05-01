@@ -42,11 +42,11 @@ class OveviewValues extends Component {
   }
 
   render() {
-    const { trainLineList, entries, lineWithMostSightings } = this.props;
+    const { trainLineList, entries, lineWithMostSightings, resightings } = this.props;
     const distinctResightings = this.getDistinctResightings();
-    let sightingLeader = lineWithMostSightings;
-    if (!sightingLeader) {
-      sightingLeader = {
+    let mostSightingsByLine = lineWithMostSightings;
+    if (!mostSightingsByLine) {
+      mostSightingsByLine = {
         name: '',
         value: '...',
       };
@@ -59,8 +59,22 @@ class OveviewValues extends Component {
     if (minResightingDays === Infinity) {
       minResightingDays = 0;
     }
+    let mostSightingsByEngine = resightings.sort((a, b) => b.dates.length - a.dates.length)[0];
+    let sightingEngine = {
+      line: '',
+      number: '',
+    };
+    let sightingCt = 0;
+    if (mostSightingsByEngine) {
+      sightingEngine = mostSightingsByEngine.engine;
+      sightingCt = mostSightingsByEngine.dates.length;
+      mostSightingsByEngine = entries.find(entry => entry._id === mostSightingsByEngine.entryId); /* eslint-disable-line no-underscore-dangle */
+      sightingEngine = mostSightingsByEngine.engines.find(engine => sightingEngine.indexOf(engine.number) !== -1);
+    }
+
     return (
       <div className="data-table">
+        <div className="table-title" />
         <div className="table-values-grid">
           <div className="table-value">
             <div className="heading-xl">{ trainLineList.length }</div>
@@ -75,9 +89,9 @@ class OveviewValues extends Component {
             <div className="body-copy">Number of Diesel Engines</div>
           </div>
           <div className="table-value">
-            <div className="heading-xl">{ sightingLeader.value }</div>
+            <div className="heading-xl">{ mostSightingsByLine.value }</div>
             <div className="body-copy">
-              { sightingLeader.name }
+              { mostSightingsByLine.name }
               &nbsp;is Observed Most Often
             </div>
           </div>
@@ -102,8 +116,13 @@ class OveviewValues extends Component {
             <div className="body-copy">Most Days Between a Resighting</div>
           </div>
           <div className="table-value">
-            <div className="heading-xl">...</div>
-            <div className="body-copy">Diesel Engine Number With the Most Resightings</div>
+            <div className="heading-xl">{ sightingCt }</div>
+            <div className="body-copy">
+              {sightingEngine.line}
+              &nbsp;
+              {sightingEngine.number}
+              &nbsp;Has the Most Resightings
+            </div>
           </div>
         </div>
         <div className="table-notes">

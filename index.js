@@ -3,32 +3,34 @@ const path = require('path')
 const bodyParser = require("body-parser")
 const PORT = process.env.PORT || 5000
 
-var MongoClient = require('mongodb').MongoClient,
+const mongo = require('mongodb');
+
+var MongoClient = mongo.MongoClient,
     co = require('co'),
     assert = require('assert')
   
 var url = process.env.MONGOLAB_URI
 
-var find = function (db, col) {
+const find = function (db, col) {
   return co(function * () {
     // Get the documents collection
-    const dbo = db.db('trainspotted')
-    const collection = dbo.collection(col)
-    const docs = yield collection.find({}).toArray()
-    return docs
+    const dbo = db.db('trainspotted');
+    const collection = dbo.collection(col);
+    const docs = yield collection.find({}).toArray();
+    return docs;
   })
-}
+};
 
-var sortedEntries = function(entries, lines) {
+const sortedEntries = function(entries, lines) {
   entries.map((entry, index) => {
     entry.engines.map((engine) => {
-      const matchedLine = lines.find(line => line.name === engine.line)
-      engine.color = matchedLine.color
+      const matchedLine = lines.find(line => line.name === engine.line);
+      engine.color = matchedLine.color;
     })
     entry.number = index;
   })
   return entries.sort((a, b) => new Date(b.date) - new Date(a.date));
-}
+};
 
 express()
   .use(express.static(path.join(__dirname, 'client/build')))
@@ -90,7 +92,22 @@ express()
       db.close();
     }).catch(err => console.log(err))
   })
-  .post('/addTrainLine', function(req, res) {    
+  .post('/deleteEntry', function(req, res) {
+    co(function * () {
+      const db = yield MongoClient.connect(url);
+      let dbo = db.db('trainspotted');
+      dbo.collection('entries').deleteOne(
+        { _id: new mongo.ObjectId(req.body.id) },
+      );
+      const entries = sortedEntries(
+        yield find(db, 'entries'),
+        yield find(db, 'trainlines')
+      );
+      res.end(JSON.stringify(entries));
+      db.close();
+    }).catch(err => console.log(err));
+  })
+  .post('/addTrainLine', function(req, res) {
     co(function * () {
       const db = yield MongoClient.connect(url)
       var dbo = db.db('trainspotted')

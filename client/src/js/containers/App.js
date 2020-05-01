@@ -52,7 +52,7 @@ class App extends Component {
         <Chart
           entries={entries}
         />
-        {isDetailOpen
+        {isDetailOpen && getEntryById(detailId)
           && (
             <Detail
               onDetailClose={onDetailClose}

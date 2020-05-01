@@ -22,10 +22,6 @@ class Detail extends Component {
     }, 250);
   }
 
-  editEntry() {
-    console.log(this);
-  }
-
   findMatches(trainline, number) {
     const { resightings, trainLineList } = this.props;
     const engine = `${trainLineList.find(line => trainline === line.name).short}, ${number}`;
@@ -39,6 +35,7 @@ class Detail extends Component {
   render() {
     const { onDetailClose, data, isLoggedIn } = this.props;
     const { loadedClass } = this.state;
+
     return (
       <div className={`detail-overlay ${loadedClass}`}>
         <div className="detail-bg" role="none" onClick={onDetailClose} />

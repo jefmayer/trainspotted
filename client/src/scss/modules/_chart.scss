@@ -119,6 +119,7 @@
 
 .month-display {
   @include san-serif-bold;
+  background: $highlight-color;
   color: $dark;
   font-size: .8rem;
   left: .7rem;

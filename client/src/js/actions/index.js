@@ -7,6 +7,8 @@ export const REQUEST_TRAIN_LINES = 'REQUEST_LINES';
 export const RECEIVE_TRAIN_LINES = 'RECEIVE_LINES';
 export const SUBMIT_ENTRY = 'SUBMIT_ENTRY';
 export const ENTRY_ADDED = 'ENTRY_ADDED';
+export const DELETE_ENTRY = 'DELETE_ENTRY';
+export const ENTRY_DELETED = 'ENTRY_DELETED';
 export const SHOW_DETAIL = 'SHOW_DETAIL';
 export const HIDE_DETAIL = 'HIDE_DETAIL';
 export const SHOW_MENU = 'SHOW_MENU';
@@ -47,6 +49,15 @@ export const submitEntry = () => ({
 
 export const entryAdded = json => ({
   type: ENTRY_ADDED,
+  data: json,
+});
+
+export const deleteEntry = () => ({
+  type: DELETE_ENTRY,
+});
+
+export const entryDeleted = json => ({
+  type: ENTRY_DELETED,
   data: json,
 });
 
@@ -122,6 +133,22 @@ export const addEntry = ({ date, direction, engines, id, time, notes }) => dispa
   })
     .then(response => response.json())
     .then(json => dispatch(entryAdded(json)));
+};
+
+export const removeEntry = ({ id }) => dispatch => { /* eslint-disable-line arrow-parens */
+  dispatch(deleteEntry());
+  return fetch('/deleteEntry', {
+    method: 'POST',
+    headers: new Headers({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      id,
+    }),
+  })
+    .then(response => response.json())
+    .then(json => dispatch(entryDeleted(json)));
 };
 
 export const addTrainLine = ({ lineName, lineShortName, lineColor, id }) => dispatch => { /* eslint-disable-line arrow-parens */

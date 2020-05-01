@@ -46,12 +46,36 @@
       width: 100%;
     }
 
+    &::after {
+      border-bottom: .7rem solid transparent;
+      border-left: .7rem solid $highlight-color;
+      border-top: .7rem solid transparent;
+      content: '';
+      height: 0;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transition: transform 0.25s ease-in-out;
+      visibility: hidden;
+      width: 0;
+    }
+
     &:hover::before {
       transform: scaleX(.1);
     }
 
+    &:hover::after {
+      transform: translateX(1.5rem);
+      visibility: visible;
+    }
+
     &.active::before {
       transform: scaleX(1.08);
+    }
+
+    &.active::after {
+      transform: translateX(16.2rem);
+      visibility: visible;
     }
   }
 }

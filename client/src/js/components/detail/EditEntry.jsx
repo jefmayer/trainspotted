@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AddEngine from '../menu/AddEngine';
-import { addEntry } from '../../actions';
+import { addEntry, removeEntry } from '../../actions';
 import { createEntryId, formatDateForDB, formatTimeForDB, formatDateForSelect, formatTimeForSelect } from '../../utils/Formatting';
 
 class EditEntry extends Component {
@@ -29,6 +29,7 @@ class EditEntry extends Component {
     this.handleNotesChange = this.handleNotesChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
     this.showForm = this.showForm.bind(this);
     this.hideForm = this.hideForm.bind(this);
     this.addEngine = this.addEngine.bind(this);
@@ -83,9 +84,16 @@ class EditEntry extends Component {
     this.setState({ isEntryValid: isValid });
   }
 
-  handleCancel(event) {
-    event.preventDefault();
+  handleCancel() {
     this.hideForm();
+  }
+
+  handleRemove() {
+    const { dispatch, entryData } = this.props;
+    this.hideForm();
+    dispatch(removeEntry({
+      id: entryData._id, /* eslint-disable-line no-underscore-dangle */
+    }));
   }
 
   showForm() {
@@ -150,11 +158,15 @@ class EditEntry extends Component {
           isActive
             ? (
               <button className="edit-entry-button" onClick={this.hideForm} type="button">
-                <span className="text-button">Close Edit</span>
+                <div>
+                  <span className="text-button">Close Edit</span>
+                </div>
               </button>
             ) : (
               <button className="edit-entry-button" onClick={this.showForm} type="button">
-                <span className="text-button">Edit Entry</span>
+                <div>
+                  <span className="text-button">Edit Entry</span>
+                </div>
               </button>
             )
         }
@@ -197,9 +209,9 @@ class EditEntry extends Component {
           </label>
           <div className="form-action-buttons">
             <button className="submit-button" type="submit">Update Entry</button>
-            <button className="cancel-button" type="button" onClick={this.handleCancel} />
+            <button className="urgent-button" type="button" onClick={this.handleRemove}>Remove Entry</button>
           </div>
-          <div className={`form-error ${errorDisplayClass}`}>There was an error adding the entry. Please try again.</div>
+          <div className={`form-error ${errorDisplayClass}`}>There was an error updating the entry. Please try again.</div>
         </form>
       </div>
     );

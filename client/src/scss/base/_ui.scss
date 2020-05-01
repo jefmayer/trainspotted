@@ -1,4 +1,5 @@
-.submit-button {
+.submit-button,
+.urgent-button {
   @include san-serif-bold;
   -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
   -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
@@ -18,6 +19,15 @@
   &:hover {
     color: $dark;
     background: $highlight-color;
+  }
+}
+
+.urgent-button {
+  border-color: $error;
+  color: $error;
+  
+  &:hover {
+    background: $error;
   }
 }
 

@@ -9,6 +9,8 @@ import {
   RECEIVE_TRAIN_LINES,
   SUBMIT_ENTRY,
   ENTRY_ADDED,
+  DELETE_ENTRY,
+  ENTRY_DELETED,
   SHOW_DETAIL,
   HIDE_DETAIL,
   SHOW_MENU,
@@ -25,12 +27,14 @@ const entryData = (state = {
   switch (action.type) {
     case REQUEST_ENTRIES:
     case SUBMIT_ENTRY:
+    case DELETE_ENTRY:
       return {
         ...state,
         isFetching: true,
       };
     case RECEIVE_ENTRIES:
     case ENTRY_ADDED:
+    case ENTRY_DELETED:
       return {
         ...state,
         isFetching: false,

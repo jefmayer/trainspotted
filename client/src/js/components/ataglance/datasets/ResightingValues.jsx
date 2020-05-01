@@ -53,9 +53,11 @@ class ResightingValues extends Component {
     const dataSet = getMonthsByInterval(new Date(this.initialSightingDate), endDate);
     let prevLeft = '';
     let isPrevLeft = false;
+    console.log(resightings);
 
     return (
       <div className="data-table resightings-values-table" ref={this.tableRef}>
+        <div className="table-title" />
         <div className="y-axis">
           {
             resightings.map((entry) => {

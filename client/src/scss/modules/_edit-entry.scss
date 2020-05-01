@@ -7,19 +7,37 @@
     .edit-entry-button {
       background: $dark;
       border: 0;
-      // bottom: -1.5rem;
+      cursor: pointer;
       height: 3rem;
-      // left: 0;
       outline: none;
-      padding: 0 3rem;
-      // position: absolute;
+      padding: 0;
       text-align: left;
-      transition: transform .25s ease-in-out;
       width: 100%;
-      will-change: transform;
-    
+
+      div {
+        background: $dark;
+        padding: .7rem 3rem 1.3rem;
+        transition: transform .25s ease-in-out;
+        width: 100%;
+        will-change: transform;
+      }
+
       &:hover {
-        transform: translateY(-1rem);
+
+        div {
+          transform: translateY(-1rem);
+        }
+
+        .text-button {
+          border-bottom-color: transparent;
+        }
+      }
+
+      &:active {
+
+        div {
+          transform: translateY(0);
+        }
       }
     }
 
