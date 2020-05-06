@@ -19,25 +19,36 @@
     left: 0;
     margin-left: 11rem;
     position: absolute;
-    top: 0;
+    top: 2.2rem;
     width: calc(100% - 21rem);
   }
 
-  .sighting-marker {
+  .line-group {
     -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
     -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
     border: 0;
-    // border-radius: .4rem;
-    height: .4rem;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    height: 4rem;
     left: 0;
-    // margin-left: -.4rem;
-    // margin-top: .4rem;
     outline: none;
+    overflow: hidden;
     padding: 0;
     position: absolute;
     top: 0;
-    transition: left 0.5s ease-in-out;
-    width: .4rem;
+    transform-origin: center;
+    transition: transform 0.25s ease-in-out;
+    width: 1%;
+    will-change: transform;
     z-index: 2;
+
+    &:hover {
+      transform: scale(1.35);
+    }
+  }
+  
+  .line-group-item {
+    width: 100%;
   }
 }

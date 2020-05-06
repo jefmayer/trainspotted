@@ -6,12 +6,11 @@ import { connect } from 'react-redux';
 import { getDatePositionInRange, getMonthsByInterval, getRoundedEndDate } from '../../../utils/DateUtils';
 import { getRandomNumberKey } from '../../../utils/Formatting';
 import { showDetail } from '../../../actions';
-import { getResightings } from '../../../selectors';
+import { getResightings, getInitialSightingDate, getInitialSightingMonthStart } from '../../../selectors';
 
 class ResightingValues extends Component {
   constructor(props) {
     super(props);
-    this.initialSightingDate = this.getInitialSightingDate();
     this.tableRef = React.createRef();
     this.yAxis = null;
     this.scrollIndicatorRef = React.createRef();
@@ -23,7 +22,7 @@ class ResightingValues extends Component {
     this.scrollIndicatorTimer = setTimeout(() => {
       this.scrollIndicatorRef.current.classList.add('hidden');
       this.yAxis.removeEventListener('scroll', this.handleScroll);
-    }, 6000);
+    }, 3000);
     this.yAxis = this.tableRef.current.querySelector('.y-axis');
     this.yAxis.addEventListener('scroll', this.handleScroll);
   }
@@ -33,31 +32,29 @@ class ResightingValues extends Component {
     clearInterval(this.scrollIndicatorTimer);
   }
 
-  getInitialSightingDate() {
-    const { entries } = this.props;
-    const dates = entries.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
-    // Get 1st day of the start month
-    const initial = new Date(dates[0].date);
-    // return initial;
-    return `${initial.getMonth() + 1}/1/${initial.getFullYear()}`;
-  }
-
   handleScroll() {
     this.scrollIndicatorRef.current.classList.add('hidden');
     this.yAxis.removeEventListener('scroll', this.handleScroll);
   }
 
   render() {
-    const { dispatch, resightings } = this.props;
-    const endDate = getRoundedEndDate(new Date(this.initialSightingDate), new Date());
-    const dataSet = getMonthsByInterval(new Date(this.initialSightingDate), endDate);
+    const { dispatch, initialSightingDate, initialSightingMonthStart, resightings } = this.props;
+    const endDate = getRoundedEndDate(new Date(initialSightingMonthStart), new Date());
+    const dataSet = getMonthsByInterval(new Date(initialSightingMonthStart), endDate);
     let prevLeft = '';
     let isPrevLeft = false;
-    console.log(resightings);
 
     return (
       <div className="data-table resightings-values-table" ref={this.tableRef}>
-        <div className="table-title" />
+        <div className="table-title">
+          <h3>
+            { resightings.reduce((a, b) => (a + (b.dates.length - 1)), 0) }
+            &nbsp;repeated sightings of&nbsp;
+            { resightings.length }
+            &nbsp;engines since&nbsp;
+            { initialSightingDate }
+          </h3>
+        </div>
         <div className="y-axis">
           {
             resightings.map((entry) => {
@@ -73,7 +70,7 @@ class ResightingValues extends Component {
                         function onEntryClick() {
                           dispatch(showDetail(date.entryId));
                         }
-                        const left = `${getDatePositionInRange(new Date(date.date), new Date(this.initialSightingDate), endDate) * 100}%`;
+                        const left = `${getDatePositionInRange(new Date(date.date), new Date(initialSightingMonthStart), endDate) * 100}%`;
                         const bgStyle = {
                           backgroundColor: entry.color,
                           left,
@@ -137,7 +134,8 @@ class ResightingValues extends Component {
 
 ResightingValues.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  entries: PropTypes.arrayOf(PropTypes.object),
+  initialSightingDate: PropTypes.string.isRequired,
+  initialSightingMonthStart: PropTypes.string.isRequired,
   resightings: PropTypes.arrayOf(PropTypes.object),
 };
 
@@ -148,13 +146,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = (state) => {
-  const { entryData } = state;
-  const {
-    items: entries,
-  } = entryData;
   const resightings = getResightings(state);
+  const initialSightingDate = getInitialSightingDate(state);
+  const initialSightingMonthStart = getInitialSightingMonthStart(state);
   return {
-    entries,
+    initialSightingDate,
+    initialSightingMonthStart,
     resightings,
   };
 };

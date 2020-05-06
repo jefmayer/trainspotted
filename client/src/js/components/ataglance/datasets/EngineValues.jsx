@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getRandomNumberKey } from '../../../utils/Formatting';
-import { getLineWithMostSightings } from '../../../selectors';
+import { getInitialSightingDate, getLineWithMostSightings } from '../../../selectors';
 
 class EngineValues extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ class EngineValues extends Component {
   }
 
   render() {
-    const { lineWithMostSightings, trainLineList } = this.props;
+    const { entries, initialSightingDate, lineWithMostSightings, trainLineList } = this.props;
     // Get line w/ max number of entries, round to nearest 100
     // Divide by 10 (start at 0)
     const maxEngineCt = Math.ceil(lineWithMostSightings.value / 100) * 100;
@@ -37,6 +37,13 @@ class EngineValues extends Component {
     while (ct < maxEngineCt);
     return (
       <div className="data-table engine-values-table initial-state" ref={this.tableRef}>
+        <div className="table-title">
+          <h3>
+            { entries.reduce((a, b) => (a + b.engines.length), 0) }
+            &nbsp;diesel engines have been observed since&nbsp;
+            { initialSightingDate }
+          </h3>
+        </div>
         <div className="y-axis">
           {
             trainLineList.map((trainLine) => {
@@ -72,6 +79,7 @@ class EngineValues extends Component {
 
 EngineValues.propTypes = {
   entries: PropTypes.arrayOf(PropTypes.object),
+  initialSightingDate: PropTypes.string.isRequired,
   lineWithMostSightings: PropTypes.shape({
     name: PropTypes.string,
     value: PropTypes.number,
@@ -87,9 +95,11 @@ const mapStateToProps = (state) => {
   const {
     items: trainLineList,
   } = trainLines;
+  const initialSightingDate = getInitialSightingDate(state);
   const lineWithMostSightings = getLineWithMostSightings(state);
   return {
     entries,
+    initialSightingDate,
     lineWithMostSightings,
     trainLineList,
   };

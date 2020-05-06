@@ -39,7 +39,6 @@ class AddLine extends Component {
       lineShortName,
       lineColor,
     } = this.state;
-    console.log(`${lineName},`);
     let isValid = true;
     event.preventDefault();
     if (lineName === '') {

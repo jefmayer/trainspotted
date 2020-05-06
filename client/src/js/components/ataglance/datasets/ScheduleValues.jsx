@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import weekdays from '../../../utils/Weekdays';
 import { getRandomNumberKey } from '../../../utils/Formatting';
-import { convertTimeToMinutesElapsed } from '../../../utils/DateUtils';
-import { getAllEntriesWithDayAndTime } from '../../../selectors';
+import { groupAllEntriesByDayAndTime } from '../../../selectors';
 
 class ScheduleValues extends Component {
   constructor(props) {
@@ -14,9 +13,11 @@ class ScheduleValues extends Component {
 
   render() {
     const { dataSet, entries } = this.props;
-    console.log(entries[0]);
     return (
       <div className="data-table schedule-values-table">
+        <div className="table-title">
+          <h3>Times during the week when the various freight train lines have been observed</h3>
+        </div>
         <div className="y-axis">
           {
             weekdays.map(day => (
@@ -41,25 +42,32 @@ class ScheduleValues extends Component {
         <div className="scatterplot">
           {
             entries.map((entry) => {
-              /* function onEntryClick() {
-                dispatch(showDetail(entry.entryId));
-              } */
-              // console.log(`${Math.round(convertTimeToMinutesElapsed(entry.time))}/1440`);
-              const bgStyle = {
-                backgroundColor: entry.color,
-                left: `${Math.round(convertTimeToMinutesElapsed(entry.time) / 14.4)}%`,
-                top: `${38 * entry.day}px`,
-                marginTop: `${entry.offset * 3}px`,
+              const groupStyle = {
+                left: entry.time,
+                top: `${40 * entry.day}px`,
               };
               return (
                 <div
-                  className="sighting-marker"
-                  // onClick={onEntryClick}
-                  // onKeyDown={onEntryClick}
+                  className="line-group"
                   key={getRandomNumberKey()}
-                  style={bgStyle}
-                  type="button"
-                />
+                  style={groupStyle}
+                >
+                  {
+                    entry.values.map((line) => {
+                      const itemStyle = {
+                        backgroundColor: line.color,
+                        height: line.occurance,
+                      };
+                      return (
+                        <div
+                          className="line-group-item"
+                          key={getRandomNumberKey()}
+                          style={itemStyle}
+                        />
+                      );
+                    })
+                  }
+                </div>
               );
             })
           }
@@ -79,7 +87,7 @@ ScheduleValues.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const entries = getAllEntriesWithDayAndTime(state);
+  const entries = groupAllEntriesByDayAndTime(state);
   return {
     entries,
   };

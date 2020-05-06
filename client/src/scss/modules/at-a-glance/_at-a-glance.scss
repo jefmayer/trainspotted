@@ -14,6 +14,48 @@
   }
 }
 
+.data-table {
+
+  .table-title {
+    margin-bottom: 1.5rem;
+    margin-top: -.4rem;
+    position: relative;
+
+    h3 {
+      @include san-serif-regular;
+      background: $background-color-light;
+      display: inline-block;
+      font-size: .8rem;
+      letter-spacing: .05em;
+      margin-left: .5rem;
+      margin-top: .2rem;
+      padding: 0 .5rem;
+      position: relative;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    &::after {
+      background: $dark;
+      content: '';
+      height: .3rem;
+      left: 0;
+      position: absolute;
+      top: .6rem;
+      width: calc(100% - 3rem);
+      z-index: 1;
+    }
+  }
+
+  .table-values-grid {
+    clear: both;
+  }
+
+  .y-axis {
+    clear: both;
+  }
+}
+
 .data-filters {
   position: relative;
   width: 15rem;

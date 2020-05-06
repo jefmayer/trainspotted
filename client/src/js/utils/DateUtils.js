@@ -9,10 +9,10 @@ function addMonths(date, months) {
 }
 
 function getRoundedEndDate(startDate, now) {
-  let months = (now.getFullYear() - startDate.getFullYear()) * 12;
+  let endDate = addMonths(now, 1);
+  let months = (endDate.getFullYear() - startDate.getFullYear()) * 12;
   months -= startDate.getMonth();
-  months += now.getMonth() + 2;
-  let endDate = now;
+  months += endDate.getMonth() + 2;
   if (months % 2 !== 0) {
     endDate = addMonths(now, 1);
   }

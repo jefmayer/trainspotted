@@ -59,7 +59,7 @@ class OveviewValues extends Component {
     if (minResightingDays === Infinity) {
       minResightingDays = 0;
     }
-    let mostSightingsByEngine = resightings.sort((a, b) => b.dates.length - a.dates.length)[0];
+    let mostSightingsByEngine = [...resightings].sort((a, b) => b.dates.length - a.dates.length)[0];
     let sightingEngine = {
       line: '',
       number: '',
@@ -74,7 +74,9 @@ class OveviewValues extends Component {
 
     return (
       <div className="data-table">
-        <div className="table-title" />
+        <div className="table-title">
+          <h3>Overview of findings based on observational train data</h3>
+        </div>
         <div className="table-values-grid">
           <div className="table-value">
             <div className="heading-xl">{ trainLineList.length }</div>

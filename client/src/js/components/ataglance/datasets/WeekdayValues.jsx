@@ -20,7 +20,6 @@ class EngineValues extends Component {
             trainLineList.map((trainLine) => {
               const lineWeek = linesByDayOfWeek.find(line => line.name === trainLine.name).days;
               const maxDiscSize = lineWeek.reduce((a, b) => Math.max(a, b.value), 0);
-              console.log(maxDiscSize);
               return (
                 <div className="y-axis-row" key={trainLine.id}>
                   <div className="row-label">{trainLine.name}</div>
