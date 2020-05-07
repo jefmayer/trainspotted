@@ -69,7 +69,7 @@ class EntryDetail extends Component {
                     <th>Ord.</th>
                     <th>Line</th>
                     <th>No.</th>
-                    <th>Pos.</th>
+                    <th>Loc.</th>
                     <th>Sightings</th>
                   </tr>
                 </thead>

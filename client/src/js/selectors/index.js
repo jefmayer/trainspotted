@@ -60,6 +60,8 @@ const getResightings = createSelector(
     const allEntryEngines = [];
     entryData.forEach(entry => entry.engines.forEach(engine => allEntryEngines.push({
       engine: `${trainLines.find(line => engine.line === line.name).short}, ${engine.number}`,
+      line: engine.line,
+      number: engine.number,
       entryId: entry._id, /* eslint-disable-line no-underscore-dangle */
       date: entry.date,
       color: trainLines.find(line => engine.line === line.name).color,
@@ -86,6 +88,8 @@ const getResightings = createSelector(
           .sort((a, b) => new Date(a.date) - new Date(b.date));
         return {
           engine: match.engine,
+          line: match.line,
+          number: match.number,
           dates,
           entryId: match.entryId,
           color: match.color,

@@ -38,12 +38,11 @@ class ResightingValues extends Component {
   }
 
   render() {
-    const { dispatch, entries, initialSightingDate, initialSightingMonthStart, resightings } = this.props;
+    const { dispatch, initialSightingDate, initialSightingMonthStart, resightings } = this.props;
     const endDate = getRoundedEndDate(new Date(initialSightingMonthStart), new Date());
     const dataSet = getMonthsByInterval(new Date(initialSightingMonthStart), endDate);
     let prevLeft = '';
     let isPrevLeft = false;
-
     return (
       <div className="data-table resightings-values-table" ref={this.tableRef}>
         <div className="table-title">
@@ -60,7 +59,6 @@ class ResightingValues extends Component {
             resightings.map((entry) => {
               prevLeft = '';
               isPrevLeft = false;
-
               return (
                 <div className="y-axis-row" key={getRandomNumberKey()}>
                   <div className="row-label">{entry.engine}</div>
@@ -68,7 +66,7 @@ class ResightingValues extends Component {
                     {
                       entry.dates.map((date) => {
                         function onEntryClick() {
-                          dispatch(showDetail(entries.find(e => e._id === date.entryId), 'entry')); /* eslint-disable-line no-underscore-dangle */
+                          dispatch(showDetail({ line: entry.line, number: entry.number, engines: entry.dates }, 'resighting'));
                         }
                         const left = `${getDatePositionInRange(new Date(date.date), new Date(initialSightingMonthStart), endDate) * 100}%`;
                         const bgStyle = {
@@ -89,7 +87,6 @@ class ResightingValues extends Component {
                             <button
                               className="sighting-marker"
                               onClick={onEntryClick}
-                              onKeyDown={onEntryClick}
                               style={bgStyle}
                               type="button"
                             >
@@ -134,7 +131,6 @@ class ResightingValues extends Component {
 
 ResightingValues.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  entries: PropTypes.arrayOf(PropTypes.object),
   initialSightingDate: PropTypes.string.isRequired,
   initialSightingMonthStart: PropTypes.string.isRequired,
   resightings: PropTypes.arrayOf(PropTypes.object),
@@ -147,15 +143,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = (state) => {
-  const { entryData } = state;
-  const {
-    items: entries,
-  } = entryData;
   const resightings = getResightings(state);
   const initialSightingDate = getInitialSightingDate(state);
   const initialSightingMonthStart = getInitialSightingMonthStart(state);
   return {
-    entries,
     initialSightingDate,
     initialSightingMonthStart,
     resightings,

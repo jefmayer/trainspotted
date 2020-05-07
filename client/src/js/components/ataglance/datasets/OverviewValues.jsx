@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-useless-constructor */
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,10 +6,6 @@ import { getDaysBetweenDates } from '../../../utils/DateUtils';
 import { getLineWithMostSightings, getResightings } from '../../../selectors';
 
 class OveviewValues extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   getDirectionPercentage() {
     const { entries } = this.props;
     const north = entries.filter(entry => entry.direction === 'north');
@@ -165,4 +161,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(OveviewValues);
-/* eslint-enable no-console, no-useless-constructor */
+/* eslint-enable no-console */
