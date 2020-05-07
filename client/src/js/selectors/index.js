@@ -53,24 +53,6 @@ const groupAllEntriesByDayAndTime = createSelector(
   },
 );
 
-const getAllEntriesWithDayAndTime = createSelector(
-  [getEntryData, getTrainlines],
-  (entryData, trainLines) => {
-    // Build list of all engines with entry keys, dates, colors
-    const arr = [];
-    entryData.map(entry => entry.engines.map(engine => arr.push({
-      engine: `${trainLines.find(line => engine.line === line.name).short}, ${engine.number}`,
-      entryId: entry._id, /* eslint-disable-line no-underscore-dangle */
-      // date: entry.date,
-      day: new Date(entry.date).getDay(),
-      time: entry.time,
-      color: trainLines.find(line => engine.line === line.name).color,
-      offset: trainLines.findIndex(line => engine.line === line.name),
-    })));
-    return arr;
-  },
-);
-
 const getResightings = createSelector(
   [getEntryData, getTrainlines],
   (entryData, trainLines) => {
@@ -166,7 +148,6 @@ const getInitialSightingDate = createSelector(
 );
 
 export {
-  getAllEntriesWithDayAndTime,
   getInitialSightingDate,
   getInitialSightingMonthStart,
   getLinesByDayOfWeek,

@@ -9,6 +9,7 @@ class Entry extends Component {
   constructor(props) {
     super(props);
     this.divRef = React.createRef();
+    this.onEntryClick = this.onEntryClick.bind(this);
   }
 
   componentDidMount() {
@@ -29,15 +30,20 @@ class Entry extends Component {
     this.divRef.current.setAttribute('style', `left:${pct}%;`);
   }
 
-  render() {
+  onEntryClick() {
     const { entry, dispatch } = this.props;
+    dispatch(showDetail(entry, 'entry')); /* eslint-disable-line no-underscore-dangle */
+  }
 
-    function onEntryClick() {
-      dispatch(showDetail(entry._id)); /* eslint-disable-line no-underscore-dangle */
-    }
-
+  render() {
+    const { entry } = this.props;
     return (
-      <button className="engine-manifest" ref={this.divRef} type="button" onClick={onEntryClick} onKeyDown={onEntryClick}>
+      <button
+        className="engine-manifest"
+        ref={this.divRef}
+        type="button"
+        onClick={this.onEntryClick}
+      >
         {
           entry.engines.map((engine) => {
             const bgStyle = {

@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { fetchEntries, fetchTrainLines, hideDetail, hideMenu, showMenu } from '../actions';
 import AtAGlance from '../components/ataglance/AtAGlance';
 import Chart from '../components/chart/Chart';
-import Detail from '../components/detail/Detail';
+import EntryDetail from '../components/detail/EntryDetail';
+import ResightingDetail from '../components/detail/ResightingDetail';
 import Menu from '../components/menu/Menu';
 import logo from '../../img/trainspotted-logo.svg';
 import '../../scss/App.scss';
@@ -18,7 +19,7 @@ class App extends Component {
   }
 
   render() {
-    const { detailId, dispatch, entries, isDetailOpen, isMenuOpen } = this.props;
+    const { detailContentType, detailData, dispatch, entries, isDetailOpen, isMenuOpen } = this.props;
 
     function onDetailClose() {
       dispatch(hideDetail());
@@ -30,10 +31,6 @@ class App extends Component {
       } else {
         dispatch(hideMenu());
       }
-    }
-
-    function getEntryById(id) {
-      return entries.find(entry => entry._id === id); /* eslint-disable-line no-underscore-dangle */
     }
 
     return (
@@ -52,12 +49,19 @@ class App extends Component {
         <Chart
           entries={entries}
         />
-        {isDetailOpen && getEntryById(detailId)
+        {isDetailOpen && detailContentType === 'entry'
           && (
-            <Detail
+            <EntryDetail
               onDetailClose={onDetailClose}
-              data={getEntryById(detailId)}
-              entries={entries}
+              data={detailData}
+            />
+          )
+        }
+        {isDetailOpen && detailContentType === 'resighting'
+          && (
+            <ResightingDetail
+              onDetailClose={onDetailClose}
+              data={detailData}
             />
           )
         }
@@ -67,7 +71,8 @@ class App extends Component {
 }
 
 App.propTypes = {
-  detailId: PropTypes.string,
+  detailContentType: PropTypes.string,
+  detailData: PropTypes.shape(),
   dispatch: PropTypes.func.isRequired,
   entries: PropTypes.arrayOf(PropTypes.object),
   isDetailOpen: PropTypes.bool,
@@ -75,19 +80,21 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  const { entryData, entryDetail, menu } = state;
+  const { entryData, detail, menu } = state;
   const {
     items: entries,
   } = entryData;
   const {
-    id: detailId,
+    contentType: detailContentType,
+    data: detailData,
     isOpen: isDetailOpen,
-  } = entryDetail;
+  } = detail;
   const {
     isOpen: isMenuOpen,
   } = menu;
   return {
-    detailId,
+    detailData,
+    detailContentType,
     entries,
     isDetailOpen,
     isMenuOpen,

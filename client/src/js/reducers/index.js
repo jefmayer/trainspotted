@@ -23,6 +23,8 @@ import {
 const entryData = (state = {
   isFetching: false,
   items: [],
+  detail: {},
+  id: '',
 }, action) => {
   switch (action.type) {
     case REQUEST_ENTRIES:
@@ -45,22 +47,25 @@ const entryData = (state = {
   }
 };
 
-const entryDetail = (state = {
+const detail = (state = {
   isOpen: false,
-  id: '',
+  data: {},
+  contentType: '',
 }, action) => {
   switch (action.type) {
     case SHOW_DETAIL:
       return {
         ...state,
         isOpen: true,
-        id: action.data,
+        data: action.data,
+        contentType: action.contentType,
       };
     case HIDE_DETAIL:
       return {
         ...state,
         isOpen: false,
-        id: action.data,
+        data: action.data,
+        contentType: action.contentType,
       };
     default:
       return state;
@@ -142,7 +147,7 @@ const trainLines = (state = {
 
 const rootReducer = combineReducers({
   entryData,
-  entryDetail,
+  detail,
   menu,
   trainLines,
   userStatus,

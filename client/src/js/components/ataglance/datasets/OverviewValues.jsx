@@ -102,8 +102,8 @@ class OveviewValues extends Component {
             <div className="body-copy">Percentage of Trains Headed North</div>
           </div>
           <div className="table-value">
-            <div className="heading-xl">{ distinctResightings.length }</div>
-            <div className="body-copy">Number of Resightings*</div>
+            <div className="heading-xl">{ resightings.reduce((a, b) => a + b.dates.length - 1, 0) }</div>
+            <div className="body-copy">Number of Engine Resightings*</div>
           </div>
           <div className="table-value">
             <div className="heading-xl">{ avgResightingDays }</div>

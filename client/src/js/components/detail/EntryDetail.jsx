@@ -1,18 +1,21 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import EditEntry from './EditEntry';
 import months from '../../utils/Months';
+import { showDetail } from '../../actions';
 import { formatDate, formatTime } from '../../utils/Formatting';
 import { getResightings } from '../../selectors';
 
-class Detail extends Component {
+class EntryDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loadedClass: '',
     };
+    this.onResightingClick = this.onResightingClick.bind(this);
   }
 
   componentDidMount() {
@@ -22,14 +25,19 @@ class Detail extends Component {
     }, 250);
   }
 
+  onResightingClick(line, number, engines) {
+    const { dispatch } = this.props;
+    dispatch(showDetail({ line, number, engines }, 'resighting'));
+  }
+
   findMatches(trainline, number) {
     const { resightings, trainLineList } = this.props;
     const engine = `${trainLineList.find(line => trainline === line.name).short}, ${number}`;
     const sighting = resightings.find(entry => entry.engine === engine);
     if (sighting) {
-      return sighting.dates.length;
+      return sighting.dates;
     }
-    return 1;
+    return null;
   }
 
   render() {
@@ -42,7 +50,7 @@ class Detail extends Component {
         <div className="detail-panel">
           <div className="detail-header">
             <div className="detail-header-inner">
-              <span className="entry-number">
+              <span className="header-title">
                 Entry No.&nbsp;
                 {data.number}
               </span>
@@ -71,13 +79,19 @@ class Detail extends Component {
                       const bgStyle = {
                         backgroundColor: engine.color,
                       };
+                      const matches = this.findMatches(engine.line, engine.number);
                       return (
                         <tr key={engine.number}>
                           <td><span className="engine-color-indicator" style={bgStyle}>{engine.order}</span></td>
                           <td><span>{engine.line}</span></td>
                           <td><span>{engine.number}</span></td>
                           <td><span>{engine.location}</span></td>
-                          <td><span>{this.findMatches(engine.line, engine.number)}</span></td>
+                          <td>
+                            {matches
+                              ? <button className="simple-text-button" type="button" onClick={() => this.onResightingClick(engine.line, engine.number, matches)}>{matches.length}</button>
+                              : <span>1</span>
+                            }
+                          </td>
                         </tr>
                       );
                     })
@@ -101,6 +115,25 @@ class Detail extends Component {
   }
 }
 
+EntryDetail.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  onDetailClose: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    date: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired,
+    direction: PropTypes.string.isRequired,
+  }),
+  isLoggedIn: PropTypes.bool.isRequired,
+  resightings: PropTypes.arrayOf(PropTypes.object),
+  trainLineList: PropTypes.arrayOf(PropTypes.object),
+};
+
+// https://react-redux.js.org/using-react-redux/connect-mapdispatch
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+  ...bindActionCreators({ showDetail }, dispatch),
+});
+
 const mapStateToProps = (state) => {
   const { trainLines, userStatus } = state;
   const {
@@ -117,17 +150,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-Detail.propTypes = {
-  onDetailClose: PropTypes.func.isRequired,
-  data: PropTypes.shape({
-    date: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    direction: PropTypes.string.isRequired,
-  }),
-  isLoggedIn: PropTypes.bool.isRequired,
-  resightings: PropTypes.arrayOf(PropTypes.object),
-  trainLineList: PropTypes.arrayOf(PropTypes.object),
-};
-
-export default connect(mapStateToProps)(Detail);
+export default connect(mapStateToProps, mapDispatchToProps)(EntryDetail);
 /* eslint-enable no-console */

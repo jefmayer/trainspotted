@@ -38,7 +38,7 @@ class ResightingValues extends Component {
   }
 
   render() {
-    const { dispatch, initialSightingDate, initialSightingMonthStart, resightings } = this.props;
+    const { dispatch, entries, initialSightingDate, initialSightingMonthStart, resightings } = this.props;
     const endDate = getRoundedEndDate(new Date(initialSightingMonthStart), new Date());
     const dataSet = getMonthsByInterval(new Date(initialSightingMonthStart), endDate);
     let prevLeft = '';
@@ -48,7 +48,7 @@ class ResightingValues extends Component {
       <div className="data-table resightings-values-table" ref={this.tableRef}>
         <div className="table-title">
           <h3>
-            { resightings.reduce((a, b) => (a + (b.dates.length - 1)), 0) }
+            { resightings.reduce((a, b) => a + b.dates.length - 1, 0) }
             &nbsp;repeated sightings of&nbsp;
             { resightings.length }
             &nbsp;engines since&nbsp;
@@ -68,7 +68,7 @@ class ResightingValues extends Component {
                     {
                       entry.dates.map((date) => {
                         function onEntryClick() {
-                          dispatch(showDetail(date.entryId));
+                          dispatch(showDetail(entries.find(e => e._id === date.entryId), 'entry')); /* eslint-disable-line no-underscore-dangle */
                         }
                         const left = `${getDatePositionInRange(new Date(date.date), new Date(initialSightingMonthStart), endDate) * 100}%`;
                         const bgStyle = {
@@ -134,6 +134,7 @@ class ResightingValues extends Component {
 
 ResightingValues.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  entries: PropTypes.arrayOf(PropTypes.object),
   initialSightingDate: PropTypes.string.isRequired,
   initialSightingMonthStart: PropTypes.string.isRequired,
   resightings: PropTypes.arrayOf(PropTypes.object),
@@ -146,10 +147,15 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = (state) => {
+  const { entryData } = state;
+  const {
+    items: entries,
+  } = entryData;
   const resightings = getResightings(state);
   const initialSightingDate = getInitialSightingDate(state);
   const initialSightingMonthStart = getInitialSightingMonthStart(state);
   return {
+    entries,
     initialSightingDate,
     initialSightingMonthStart,
     resightings,

@@ -47,10 +47,11 @@ class ScheduleValues extends Component {
                 top: `${40 * entry.day}px`,
               };
               return (
-                <div
+                <button
                   className="line-group"
                   key={getRandomNumberKey()}
                   style={groupStyle}
+                  type="button"
                 >
                   {
                     entry.values.map((line) => {
@@ -67,7 +68,7 @@ class ScheduleValues extends Component {
                       );
                     })
                   }
-                </div>
+                </button>
               );
             })
           }
@@ -78,7 +79,7 @@ class ScheduleValues extends Component {
 }
 
 ScheduleValues.defaultProps = {
-  dataSet: ['12 AM', '2 AM', '4AM', '6 AM', '8 AM', ' 10 AM', '12 PM', '2 PM', '4 PM', '6 PM', '8 PM', '10 PM'],
+  dataSet: ['12 AM', '2 AM', '4AM', '6 AM', '8 AM', ' 10 AM', '12 PM', '2 PM', '4 PM', '6 PM', '8 PM', '10 PM', '12 AM'],
 };
 
 ScheduleValues.propTypes = {

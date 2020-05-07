@@ -75,8 +75,19 @@
   }
 }
 
-.add-button {
-  // 
+.simple-text-button {
+  -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+  -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  text-decoration: underline;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .flex-row {

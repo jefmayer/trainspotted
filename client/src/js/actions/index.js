@@ -75,9 +75,10 @@ export const fetchTrainLines = () => dispatch => { /* eslint-disable-line arrow-
     .then(json => dispatch(receiveTrainLines(json)));
 };
 
-export const showDetail = id => ({
+export const showDetail = (data, contentType) => ({
   type: SHOW_DETAIL,
-  data: id,
+  data,
+  contentType,
 });
 
 export const hideDetail = () => ({
@@ -113,6 +114,10 @@ export const login = ({ user, password }) => dispatch => { /* eslint-disable-lin
     .then(response => response.json())
     .then(json => dispatch(loginAttempt(json)));
 };
+
+export const logout = () => ({
+  type: LOG_OUT,
+});
 
 export const addEntry = ({ date, direction, engines, id, time, notes }) => dispatch => { /* eslint-disable-line arrow-parens */
   dispatch(submitEntry());
@@ -169,8 +174,4 @@ export const addTrainLine = ({ lineName, lineShortName, lineColor, id }) => disp
     .then(response => response.json())
     .then(json => dispatch(entryAdded(json)));
 };
-
-export const logout = () => ({
-  type: LOG_OUT,
-});
 /* eslint-enable no-console */
