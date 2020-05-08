@@ -1,9 +1,12 @@
 /* eslint-disable no-console, no-useless-constructor, react/prefer-stateless-function */
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import weekdays from '../../../utils/Weekdays';
+import { getTimeFromPercentage } from '../../../utils/DateUtils';
 import { getRandomNumberKey } from '../../../utils/Formatting';
+import { showDetail } from '../../../actions';
 import { groupAllEntriesByDayAndTime } from '../../../selectors';
 
 class ScheduleValues extends Component {
@@ -12,7 +15,8 @@ class ScheduleValues extends Component {
   }
 
   render() {
-    const { dataSet, entries } = this.props;
+    const { dataSet, dispatch, entries } = this.props;
+    console.log(entries);
     return (
       <div className="data-table schedule-values-table">
         <div className="table-title">
@@ -42,13 +46,17 @@ class ScheduleValues extends Component {
         <div className="scatterplot">
           {
             entries.map((entry) => {
+              function onEntryClick() {
+                dispatch(showDetail({ day: weekdays.find(day => day.index === entry.day).full, startTime: getTimeFromPercentage(`${parseInt(entry.percentTime, 10) - 0.5}%`), endTime: getTimeFromPercentage(`${parseInt(entry.percentTime, 10) + 0.5}%`), engines: entry.engines }, 'engine'));
+              }
               const groupStyle = {
-                left: entry.time,
+                left: entry.percentTime,
                 top: `${40 * entry.day}px`,
               };
               return (
                 <button
                   className="line-group"
+                  onClick={onEntryClick}
                   key={getRandomNumberKey()}
                   style={groupStyle}
                   type="button"
@@ -83,9 +91,15 @@ ScheduleValues.defaultProps = {
 };
 
 ScheduleValues.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   dataSet: PropTypes.arrayOf(PropTypes.string),
   entries: PropTypes.arrayOf(PropTypes.object),
 };
+
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+  ...bindActionCreators({ showDetail }, dispatch),
+});
 
 const mapStateToProps = (state) => {
   const entries = groupAllEntriesByDayAndTime(state);
@@ -94,5 +108,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(ScheduleValues);
+export default connect(mapStateToProps, mapDispatchToProps)(ScheduleValues);
 /* eslint-enable no-console, no-useless-constructor, react/prefer-stateless-function */

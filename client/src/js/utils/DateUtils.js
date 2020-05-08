@@ -55,11 +55,26 @@ function convertTimeToMinutesElapsed(time) {
   return mins;
 }
 
+function getTimeFromPercentage(perc) {
+  const totalMins = Math.ceil(14.4 * parseFloat(perc, 10));
+  let hrs = Math.floor(totalMins / 60);
+  if (hrs > 12) {
+    hrs -= 12;
+  }
+  let mins = totalMins % 60;
+  if (mins < 10) {
+    mins = `0${mins}`;
+  }
+  const ampm = totalMins >= 720 ? 'PM' : 'AM';
+  return `${hrs}:${mins} ${ampm}`;
+}
+
 export {
   convertTimeToMinutesElapsed,
   getRoundedEndDate,
   getMonthsByInterval,
   getDaysBetweenDates,
   getDatePositionInRange,
+  getTimeFromPercentage,
 };
 /* eslint-enable no-console */

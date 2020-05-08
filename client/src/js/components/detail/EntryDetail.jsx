@@ -74,6 +74,9 @@ class EntryDetail extends Component {
                   </tr>
                 </thead>
                 <tbody>
+                  <tr className="row-spacer">
+                    <td colSpan="5" />
+                  </tr>
                   {
                     data.engines.map((engine) => {
                       const bgStyle = {
@@ -88,7 +91,7 @@ class EntryDetail extends Component {
                           <td><span>{engine.location}</span></td>
                           <td>
                             {matches
-                              ? <button className="simple-text-button" type="button" onClick={() => this.onResightingClick(engine.line, engine.number, matches)}>{matches.length}</button>
+                              ? <button className="engine-details-button" type="button" onClick={() => this.onResightingClick(engine.line, engine.number, matches)}>{`${matches.length}`}</button>
                               : <span>1</span>
                             }
                           </td>

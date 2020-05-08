@@ -49,23 +49,24 @@ class ResightingDetail extends Component {
                   <tr>
                     <th>Date</th>
                     <th>Time</th>
+                    <th>Dir.</th>
                     <th>Pos.</th>
                     <th>Loc.</th>
                   </tr>
                 </thead>
                 <tbody>
+                  <tr className="row-spacer">
+                    <td colSpan="5" />
+                  </tr>
                   {
                     data.engines.map((engine) => {
                       const entry = entries.find(e => e._id === engine.entryId); /* eslint-disable-line no-underscore-dangle */
                       const engineData = entry.engines.find(e => e.line === data.line && e.number === data.number);
                       return (
-                        <tr key={getRandomNumberKey()}>
-                          <td>
-                            <span>
-                              <button className="simple-text-button" type="button" onClick={() => this.onDateClick(engine.entryId)}>{engine.date}</button>
-                            </span>
-                          </td>
+                        <tr className="clickable-data-row" key={getRandomNumberKey()} onClick={() => this.onDateClick(engine.entryId)}>
+                          <td><span>{engine.date}</span></td>
                           <td><span>{entry.time.replace(':00 ', ' ')}</span></td>
+                          <td><span>{entry.direction}</span></td>
                           <td><span>{`${engineData.order}/${entry.engines.length}`}</span></td>
                           <td><span>{engineData.location}</span></td>
                         </tr>
@@ -75,6 +76,7 @@ class ResightingDetail extends Component {
                 </tbody>
               </table>
             </div>
+            <div className="detail-subhead" />
           </div>
         </div>
       </div>

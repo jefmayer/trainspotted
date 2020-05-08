@@ -130,6 +130,47 @@
 .detail-body {
   clear: both;
   padding: .5rem 3rem 3rem;
+
+  .engine-details-button {
+    -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    -moz-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+
+    &::after {
+      @include san-serif-regular;
+      background: $dark;
+      border-radius: 1rem;
+      clear: both;
+      color: $white;
+      content: '...';
+      float: right;
+      margin-left: .5rem;
+      margin-top: 0;
+      padding: 0 .6rem .1rem;
+      text-align: center;
+      transform: scale(.8);
+      transition: transform .15s ease-in-out .1s, background .15s linear;
+      will-change: transform;
+    }
+
+    &:hover::after {
+      background: $highlight-color;
+      transform: scale(1);
+    }
+  }
+
+  .clickable-data-row {
+    cursor: pointer;
+    transition: background .1s linear;
+
+    &:hover {
+      background: $highlight-color !important;
+    }
+  }
 }
 
 .detail-headline {
@@ -189,8 +230,12 @@
     tr:first-child {
 
       td {
-        padding-top: 1.4rem;
+        padding-top: .5rem;
       }
+    }
+
+    tr:nth-child(odd):not(.row-spacer) {
+      background: $background-color-light;
     }
   }
 }

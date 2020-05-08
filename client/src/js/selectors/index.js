@@ -14,13 +14,17 @@ const groupAllEntriesByDayAndTime = createSelector(
     const groups = [];
     entryData.map(entry => entry.engines.map(engine => groups.push({
       line: engine.line,
+      number: engine.number,
+      date: entry.date,
       day: new Date(entry.date).getDay(),
-      time: `${Math.round(convertTimeToMinutesElapsed(entry.time) / 14.4)}%`,
+      time: entry.time,
+      percentTime: `${Math.round(convertTimeToMinutesElapsed(entry.time) / 14.4)}%`,
       color: trainLines.find(line => engine.line === line.name).color,
+      id: entry._id, /* eslint-disable-line no-underscore-dangle */
     })));
     return groups
       .reduce((acc, current) => {
-        const match = acc.find(entry => entry.day === current.day && entry.time === current.time);
+        const match = acc.find(entry => entry.day === current.day && entry.percentTime === current.percentTime);
         // If match is false, then return accumulator w/ match addeed
         if (!match) {
           return acc.concat([current]);
@@ -31,11 +35,11 @@ const groupAllEntriesByDayAndTime = createSelector(
       .map(groupItem => ({
         ...groupItem,
         values: groups
-          .filter(entry => entry.day === groupItem.day && entry.time === groupItem.time)
+          .filter(entry => entry.day === groupItem.day && entry.percentTime === groupItem.percentTime)
           // Add number of engines w/ same line to property in each group item
           .map(entry => ({
             ...entry,
-            occurance: `${groups.filter(g => entry.day === g.day && entry.time === g.time && g.line === entry.line).length / groups.filter(g => entry.day === g.day && entry.time === g.time).length * 100}%`,
+            occurance: `${groups.filter(g => entry.day === g.day && entry.percentTime === g.percentTime && g.line === entry.line).length / groups.filter(g => entry.day === g.day && entry.percentTime === g.percentTime).length * 100}%`,
           }))
           // Remove duplicate lines
           .reduce((acc, current) => {
@@ -48,8 +52,33 @@ const groupAllEntriesByDayAndTime = createSelector(
             return acc;
           }, [])
           // Sort alphabetically
-          .sort((a, b) => a.line.localeCompare(b.line)),
-      }));
+          .sort((a, b) => a.line.localeCompare(b.line))
+          .map(({
+            day,
+            date,
+            id,
+            line,
+            number,
+            percentTime,
+            time,
+            ...arr
+          }) => arr),
+        // All engines from this percentTime period
+        engines: groups
+          .filter(entry => entry.day === groupItem.day && entry.percentTime === groupItem.percentTime)
+          .sort((a, b) => a.time.localeCompare(b.time)),
+      }))
+      // Remove unneeded props
+      .map(({
+        color,
+        date,
+        id,
+        line,
+        number,
+        occurance,
+        time,
+        ...arr
+      }) => arr);
   },
 );
 

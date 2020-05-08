@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { fetchEntries, fetchTrainLines, hideDetail, hideMenu, showMenu } from '../actions';
 import AtAGlance from '../components/ataglance/AtAGlance';
 import Chart from '../components/chart/Chart';
+import EngineDetail from '../components/detail/EngineDetail';
 import EntryDetail from '../components/detail/EntryDetail';
 import ResightingDetail from '../components/detail/ResightingDetail';
 import Menu from '../components/menu/Menu';
@@ -60,6 +61,14 @@ class App extends Component {
         {isDetailOpen && detailContentType === 'resighting'
           && (
             <ResightingDetail
+              onDetailClose={onDetailClose}
+              data={detailData}
+            />
+          )
+        }
+        {isDetailOpen && detailContentType === 'engine'
+          && (
+            <EngineDetail
               onDetailClose={onDetailClose}
               data={detailData}
             />
