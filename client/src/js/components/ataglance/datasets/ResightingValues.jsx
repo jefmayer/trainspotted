@@ -15,6 +15,7 @@ class ResightingValues extends Component {
     this.yAxis = null;
     this.scrollIndicatorRef = React.createRef();
     this.handleScroll = this.handleScroll.bind(this);
+    this.onEntryClick = this.onEntryClick.bind(this);
     this.scrollIndicatorTimer = null;
   }
 
@@ -32,17 +33,21 @@ class ResightingValues extends Component {
     clearInterval(this.scrollIndicatorTimer);
   }
 
+  onEntryClick(entry) {
+    const { dispatch } = this.props;
+    dispatch(showDetail({ line: entry.line, number: entry.number, engines: entry.dates }, 'resighting'));
+  }
+
   handleScroll() {
     this.scrollIndicatorRef.current.classList.add('hidden');
     this.yAxis.removeEventListener('scroll', this.handleScroll);
   }
 
   render() {
-    const { dispatch, initialSightingDate, initialSightingMonthStart, resightings } = this.props;
+    const { initialSightingDate, initialSightingMonthStart, resightings } = this.props;
     const endDate = getRoundedEndDate(new Date(initialSightingMonthStart), new Date());
     const dataSet = getMonthsByInterval(new Date(initialSightingMonthStart), endDate);
     let prevLeft = '';
-    let isPrevLeft = false;
     return (
       <div className="data-table resightings-values-table" ref={this.tableRef}>
         <div className="table-title">
@@ -58,16 +63,12 @@ class ResightingValues extends Component {
           {
             resightings.map((entry) => {
               prevLeft = '';
-              isPrevLeft = false;
               return (
                 <div className="y-axis-row" key={getRandomNumberKey()}>
                   <div className="row-label">{entry.engine}</div>
                   <div className="row-axis">
                     {
                       entry.dates.map((date) => {
-                        function onEntryClick() {
-                          dispatch(showDetail({ line: entry.line, number: entry.number, engines: entry.dates }, 'resighting'));
-                        }
                         const left = `${getDatePositionInRange(new Date(date.date), new Date(initialSightingMonthStart), endDate) * 100}%`;
                         const bgStyle = {
                           backgroundColor: entry.color,
@@ -78,21 +79,18 @@ class ResightingValues extends Component {
                           left: prevLeft,
                           width: `calc(${left} - ${prevLeft})`,
                         };
-                        if (prevLeft !== '') {
-                          isPrevLeft = true;
-                        }
                         prevLeft = left;
                         return (
                           <div key={getRandomNumberKey()}>
                             <button
                               className="sighting-marker"
-                              onClick={onEntryClick}
+                              onClick={() => this.onEntryClick(entry)}
                               style={bgStyle}
                               type="button"
                             >
                               <span>{entry.engine.substr(entry.engine.indexOf(',') + 2)}</span>
                             </button>
-                            {isPrevLeft
+                            {(prevLeft !== '')
                               && (
                                 <div
                                   className="sighting-connector"

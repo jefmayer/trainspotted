@@ -1,4 +1,4 @@
-/* eslint-disable no-console, no-useless-constructor, react/prefer-stateless-function */
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -12,11 +12,21 @@ import { groupAllEntriesByDayAndTime } from '../../../selectors';
 class ScheduleValues extends Component {
   constructor(props) {
     super(props);
+    this.onEntryClick = this.onEntryClick.bind(this);
+  }
+
+  onEntryClick(entry) {
+    const { dispatch } = this.props;
+    dispatch(showDetail({
+      day: weekdays.find(day => day.index === entry.day).full,
+      startTime: getTimeFromPercentage(`${parseInt(entry.percentTime, 10) - 0.5}%`),
+      endTime: getTimeFromPercentage(`${parseInt(entry.percentTime, 10) + 0.5}%`),
+      engines: entry.engines,
+    }, 'engine'));
   }
 
   render() {
-    const { dataSet, dispatch, entries } = this.props;
-    console.log(entries);
+    const { dataSet, entries } = this.props;
     return (
       <div className="data-table schedule-values-table">
         <div className="table-title">
@@ -46,9 +56,6 @@ class ScheduleValues extends Component {
         <div className="scatterplot">
           {
             entries.map((entry) => {
-              function onEntryClick() {
-                dispatch(showDetail({ day: weekdays.find(day => day.index === entry.day).full, startTime: getTimeFromPercentage(`${parseInt(entry.percentTime, 10) - 0.5}%`), endTime: getTimeFromPercentage(`${parseInt(entry.percentTime, 10) + 0.5}%`), engines: entry.engines }, 'engine'));
-              }
               const groupStyle = {
                 left: entry.percentTime,
                 top: `${40 * entry.day}px`,
@@ -56,7 +63,7 @@ class ScheduleValues extends Component {
               return (
                 <button
                   className="line-group"
-                  onClick={onEntryClick}
+                  onClick={() => this.onEntryClick(entry)}
                   key={getRandomNumberKey()}
                   style={groupStyle}
                   type="button"
@@ -109,4 +116,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ScheduleValues);
-/* eslint-enable no-console, no-useless-constructor, react/prefer-stateless-function */
+/* eslint-enable no-console */
