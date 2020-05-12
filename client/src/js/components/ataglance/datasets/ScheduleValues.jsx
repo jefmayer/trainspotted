@@ -72,7 +72,7 @@ class ScheduleValues extends Component {
                     entry.values.map((line) => {
                       const itemStyle = {
                         backgroundColor: line.color,
-                        height: line.occurance,
+                        flex: line.occurance,
                       };
                       return (
                         <div
