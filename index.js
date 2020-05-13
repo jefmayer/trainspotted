@@ -39,7 +39,7 @@ express()
   .get('/', (req, res) => res.render('client/build/index.html'))
   .get('/getEntries', function(req, res) {
     co(function * () {
-      const db = yield MongoClient.connect(url)
+      const db = yield MongoClient.connect(url, { useNewUrlParser: true })
       const entries = sortedEntries(
         yield find(db, 'entries'),
         yield find(db, 'trainlines')
