@@ -123,6 +123,9 @@ EntryDetail.propTypes = {
   onDetailClose: PropTypes.func.isRequired,
   data: PropTypes.shape({
     date: PropTypes.string.isRequired,
+    engines: PropTypes.shape(),
+    notes: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
     direction: PropTypes.string.isRequired,
   }),

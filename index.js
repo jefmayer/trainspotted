@@ -50,7 +50,7 @@ express()
   })
   .get('/getLines', function(req, res) {
     co(function * () {
-      const db = yield MongoClient.connect(url)
+      const db = yield MongoClient.connect(url, { useNewUrlParser: true })
       const lines= yield find(db, 'trainlines')
       lines.sort(function(a, b) {
         var nameA = a.name.toUpperCase();
@@ -69,7 +69,7 @@ express()
   })
   .post('/addEntry', function(req, res) {    
     co(function * () {
-      const db = yield MongoClient.connect(url)
+      const db = yield MongoClient.connect(url, { useNewUrlParser: true })
       var dbo = db.db('trainspotted')
       var doc = {
         date: req.body.date,
@@ -94,7 +94,7 @@ express()
   })
   .post('/deleteEntry', function(req, res) {
     co(function * () {
-      const db = yield MongoClient.connect(url);
+      const db = yield MongoClient.connect(url, { useNewUrlParser: true });
       let dbo = db.db('trainspotted');
       dbo.collection('entries').deleteOne(
         { _id: new mongo.ObjectId(req.body.id) },
@@ -109,7 +109,7 @@ express()
   })
   .post('/addTrainLine', function(req, res) {
     co(function * () {
-      const db = yield MongoClient.connect(url)
+      const db = yield MongoClient.connect(url, { useNewUrlParser: true })
       var dbo = db.db('trainspotted')
       var doc = {
         name: req.body.lineName,
@@ -131,7 +131,7 @@ express()
   })
   .post('/login', function(req, res) {
     co(function * () {
-      const db = yield MongoClient.connect(url)
+      const db = yield MongoClient.connect(url, { useNewUrlParser: true })
       const arr = yield find(db, 'users')
       for (var i = 0; i <arr.length; i++) {
         if (arr[i].user === req.body.user && arr[i].password === req.body.password) {

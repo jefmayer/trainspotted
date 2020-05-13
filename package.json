@@ -19,5 +19,9 @@
     "express": "^4.16.4",
     "mongodb": "^3.2.4",
     "reselect": "^4.0.0"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/jefmayer/trainspotted"
   }
 }
