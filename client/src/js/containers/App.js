@@ -110,5 +110,6 @@ const mapStateToProps = (state) => {
   };
 };
 
+
 export default connect(mapStateToProps)(App);
 /* eslint-enable no-console */

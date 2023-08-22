@@ -1,14 +1,17 @@
 const express = require('express')
 const path = require('path')
 const bodyParser = require("body-parser")
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 6000
 
 const mongo = require('mongodb');
 
 var MongoClient = mongo.MongoClient,
     co = require('co'),
-    assert = require('assert')
-  
+    assert = require('assert'),
+    env = require('dotenv')
+
+env.config()
+
 var url = process.env.MONGOLAB_URI
 
 const find = function (db, col) {
@@ -39,6 +42,7 @@ express()
   .get('/', (req, res) => res.render('client/build/index.html'))
   .get('/getEntries', function(req, res) {
     co(function * () {
+      console.log(url);
       const db = yield MongoClient.connect(url, { useNewUrlParser: true })
       const entries = sortedEntries(
         yield find(db, 'entries'),
