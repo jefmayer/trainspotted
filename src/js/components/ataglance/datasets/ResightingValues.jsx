@@ -45,7 +45,7 @@ class ResightingValues extends Component {
 
   render() {
     const { initialSightingDate, initialSightingMonthStart, resightings } = this.props;
-    const endDate = getRoundedEndDate(new Date(initialSightingMonthStart), new Date());
+    const endDate = getRoundedEndDate(new Date(initialSightingMonthStart), new Date('08-01-2020'));
     const dataSet = getMonthsByInterval(new Date(initialSightingMonthStart), endDate);
     let prevLeft = '';
     return (

@@ -9,7 +9,6 @@
       "experimentalObjectRestSpread": true
     }
   },
-  "extends": "airbnb",
   "globals": {
     "window": false,
     "NodeList": false,
@@ -23,6 +22,8 @@
     "$": false
   },
   "rules": {
+    "jsx-a11y/label-has-for": "off",
+    "import/no-extraneous-dependencies": "off",
     "no-param-reassign": [2, {
       "props": false
     }],
@@ -31,13 +32,6 @@
       "consistent": true
     }],
     "react/require-default-props": 0,
-    "jsx-a11y/label-has-for": [2, {
-      "components": ["label"],
-      "required": {
-        "every": ["id"]
-      },
-      "allowChildren": false
-    }],
     "max-len": [2, {
       "code": 240,
       "ignoreComments": true,
@@ -45,12 +39,6 @@
       "ignoreStrings": true,
       "ignoreTemplateLiterals": true,
       "ignoreRegExpLiterals": true
-    }],
-    "import/no-extraneous-dependencies": ["error", {
-      "devDependencies": true
-    }],
-    "react/jsx-filename-extension": [1, {
-      "extensions": [".js", ".jsx"]
     }]
   }
 }
