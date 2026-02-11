@@ -25,7 +25,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/server ./server
 COPY --from=builder /app/src ./src
-COPY --from=builder /app/.eslintrc.js ./
+COPY --from=builder /app/.eslintrc ./
 COPY --from=builder /app/.stylelintrc.json ./
 COPY --from=builder /app/package.json ./package.json
 
